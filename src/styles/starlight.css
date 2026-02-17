@@ -1,7 +1,7 @@
 /* Starlight theme: map the site palette onto Starlight's custom properties. */
 :root {
-  --sl-font: 'Inter Variable', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
-  --sl-font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, Consolas, monospace;
+  --sl-font: 'Geist Variable', 'Geist Fallback', ui-sans-serif, system-ui, sans-serif;
+  --sl-font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, Consolas, monospace;
   --sl-color-accent-low: #1e1538;
   --sl-color-accent: #8b5cf6;
   --sl-color-accent-high: #ddd6fe;
