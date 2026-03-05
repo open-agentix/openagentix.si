@@ -1,0 +1,175 @@
+---
+import LangSwitch from './LangSwitch.astro';
+import logo from '../assets/logo-mark.svg?raw';
+import pkg from '../../package.json';
+import type { Locale } from '../i18n/config';
+import { pathFor, type PageId } from '../i18n/routes';
+import { format, getDictionary } from '../i18n/translate';
+import { repos } from '../project';
+
+interface Props {
+  locale: Locale;
+  page: PageId | null;
+}
+
+const { locale, page } = Astro.props;
+const t = getDictionary(locale);
+const docs = locale === 'de' ? '/de/docs/' : '/docs/';
+const columns = [
+  {
+    title: t.common.footer.product,
+    links: [
+      { href: docs, label: t.common.nav.docs },
+      { href: '/docs/start/getting-started/', label: t.common.footer.gettingStarted },
+      { href: pathFor('demo', locale), label: t.common.nav.demo },
+      { href: '/docs/project/roadmap/', label: t.common.footer.roadmap },
+    ],
+  },
+  {
+    title: t.common.footer.project,
+    links: [
+      { href: repos.platform.url, label: repos.platform.name },
+      { href: repos.helm.url, label: repos.helm.name },
+      { href: repos.website.url, label: repos.website.name },
+      { href: '/docs/project/contributing/', label: t.common.footer.contributing },
+      { href: `${repos.website.url}/security/policy`, label: t.common.footer.security },
+    ],
+  },
+  {
+    title: t.common.footer.legal,
+    links: [
+      { href: pathFor('imprint', locale), label: t.common.footer.imprint },
+      { href: pathFor('privacy', locale), label: t.common.footer.privacy },
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="container grid">
+    <div class="about">
+      <a class="brand" href={pathFor('home', locale)} aria-label={t.common.nav.home}>
+        <span class="mark" set:html={logo} />
+        <span>openagentix</span>
+      </a>
+      <p class="tagline"><strong>{t.common.ownerTagline.lead}</strong> {t.common.ownerTagline.rest}</p>
+      <p class="fine">{t.common.transparency}</p>
+      <p class="fine">{t.common.footer.noTracking}</p>
+      <LangSwitch locale={locale} page={page} />
+    </div>
+    {
+      columns.map((c) => (
+        <nav aria-label={c.title}>
+          <h2>{c.title}</h2>
+          <ul>
+            {c.links.map((l) => (
+              <li>
+                <a href={l.href}>{l.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))
+    }
+  </div>
+  <div class="container bottom">
+    <span>{t.common.footer.built}</span>
+    <span>{t.common.footer.license}</span>
+    <span>{format(t.common.footer.version, { version: pkg.version })}</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding-block: 4rem 2rem;
+    background: var(--bg-soft);
+    font-size: 0.9375rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(3, 1fr);
+    gap: 2.5rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+
+  .mark :global(svg) {
+    width: 28px;
+    height: 28px;
+  }
+
+  .about p {
+    color: var(--text-muted);
+    max-width: 26rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .about .tagline strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .about .fine {
+    font-size: 0.875rem;
+    color: var(--text-faint);
+  }
+
+  h2 {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-faint);
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    color: var(--text);
+    text-decoration: underline;
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    justify-content: space-between;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-faint);
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .about {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

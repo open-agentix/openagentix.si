@@ -1,0 +1,87 @@
+---
+import '../styles/global.css';
+import fontLatin from '../assets/fonts/geist-latin-wght-normal.woff2?url';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { defaultLocale, localeInfo, type Locale } from '../i18n/config';
+import { alternatesFor, pathFor, type PageId } from '../i18n/routes';
+import { getDictionary } from '../i18n/translate';
+import { SITE_URL } from '../project';
+
+interface Props {
+  locale: Locale;
+  page: PageId | null;
+  title: string;
+  description: string;
+  /** Skip the browser-language redirect (e.g. on the 404 page). */
+  detectLanguage?: boolean;
+}
+
+const { locale, page, title, description, detectLanguage = true } = Astro.props;
+const t = getDictionary(locale);
+const site = Astro.site ?? new URL(SITE_URL);
+const alternates = page ? alternatesFor(page, site) : [];
+const canonical = page ? new URL(pathFor(page, locale), site).href : undefined;
+const xDefault = page ? new URL(pathFor(page, defaultLocale), site).href : undefined;
+---
+
+<!doctype html>
+<html lang={localeInfo[locale].bcp47} dir="ltr" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="openagentix" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:locale" content={localeInfo[locale].dateLocale.replace('-', '_')} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#06070c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfbfe" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href={fontLatin} as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      // Apply the stored or system colour theme before first paint (shared key with the docs).
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem('starlight-theme'); } catch (e) {}
+        if (t !== 'light' && t !== 'dark') {
+          t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        }
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+    {
+      detectLanguage && (
+        <script>
+          import { runLanguageRedirect } from '../scripts/lang-redirect';
+          runLanguageRedirect(window);
+        </script>
+      )
+    }
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.common.skipToContent}</a>
+    <Header locale={locale} page={page} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer locale={locale} page={page} />
+    <script>
+      import { initLanguageSwitchers } from '../scripts/switcher';
+      import { initMenu, initThemeToggle } from '../scripts/theme';
+      initLanguageSwitchers(document, window);
+      initThemeToggle(document, window);
+      initMenu(document, window);
+    </script>
+  </body>
+</html>
