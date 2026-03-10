@@ -1,0 +1,340 @@
+---
+import FlowDiagram from './FlowDiagram.astro';
+import Icon from '../Icon.astro';
+import type { Locale } from '../../i18n/config';
+import { pathFor } from '../../i18n/routes';
+import { getDictionary } from '../../i18n/translate';
+import { scenarios } from '../../lib/scenarios';
+import { GITHUB_ORG } from '../../project';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
+const h = t.landing.hero;
+const d = t.landing.diagram;
+const docs = locale === 'de' ? '/de/docs/' : '/docs/';
+const names = Object.fromEntries(
+  scenarios.map((s) => [s.id, (d.scenarios as Record<string, { agents: Record<string, string> }>)[s.id]?.agents ?? {}]),
+);
+const captions = d.scenarios as Record<string, { caption: string }>;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="backdrop" aria-hidden="true">
+    <div class="orb orb--a" data-parallax="0.12"></div>
+    <div class="orb orb--b" data-parallax="0.22"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <div class="container intro">
+    <p class="pill"><span class="dot"></span>{h.eyebrow}</p>
+    <h1 id="hero-title" class="title">
+      <span class="line">{h.titleA}</span>
+      <span class="line gradient-text">{h.titleB}</span>
+    </h1>
+    <p class="lead">{h.lead}</p>
+    <div class="ctas">
+      <a class="btn btn--primary btn--island" href={docs}>
+        {h.ctaDocs}
+        <span class="island"><Icon name="arrow" size={16} /></span>
+      </a>
+      <a class="btn btn--ghost" href={GITHUB_ORG}><Icon name="github" size={18} />{h.ctaGithub}</a>
+      <a class="btn btn--muted" href={pathFor('demo', locale)}>{h.ctaDemo}</a>
+    </div>
+    <a class="built-by" href="#built-by">
+      <strong>{t.common.ownerTagline.lead}</strong>
+      <span>{t.common.ownerTagline.rest}</span>
+    </a>
+  </div>
+
+  <figure class="container stage" data-hero aria-labelledby="flow-title" aria-describedby="flow-desc">
+    <div class="bezel">
+      <div class="bezel-core">
+        <FlowDiagram locale={locale} orientation="horizontal" idPrefix="hero-h" />
+        <FlowDiagram locale={locale} orientation="vertical" idPrefix="hero-v" />
+      </div>
+    </div>
+    <figcaption class="caption-bar">
+      <span id="flow-title" class="visually-hidden">{d.title}</span>
+      <span id="flow-desc" class="visually-hidden">{d.description}</span>
+      <button
+        class="toggle"
+        type="button"
+        data-hero-toggle
+        aria-pressed="false"
+        aria-label={d.pause}
+        data-label-pause={d.pause}
+        data-label-play={d.play}
+      >
+        <Icon name="pause" class="i-pause" size={16} />
+        <Icon name="play" class="i-play" size={16} />
+      </button>
+      <span class="captions">
+        {scenarios.map((s, i) => <span data-caption={s.id} hidden={i !== 0}>{captions[s.id]?.caption}</span>)}
+      </span>
+    </figcaption>
+    <script type="application/json" data-hero-data set:html={JSON.stringify({ names })} />
+  </figure>
+</section>
+
+<script>
+  import { createHero } from '../../scripts/hero';
+  const root = document.querySelector<HTMLElement>('[data-hero]');
+  if (root) createHero(root, window);
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(4rem, 10vw, 8rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+    isolation: isolate;
+  }
+
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+
+  .orb--a {
+    width: 70rem;
+    height: 70rem;
+    left: 50%;
+    top: -38rem;
+    margin-left: -35rem;
+    background: radial-gradient(closest-side, var(--glow-a), transparent);
+  }
+
+  .orb--b {
+    width: 46rem;
+    height: 46rem;
+    right: -16rem;
+    top: 18rem;
+    background: radial-gradient(closest-side, var(--glow-b), transparent);
+  }
+
+  .grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 55% at 50% 30%, #000 30%, transparent 75%);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .orb--a {
+        animation: drift-a linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 120vh;
+      }
+
+      .orb--b {
+        animation: drift-b linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 120vh;
+      }
+    }
+  }
+
+  @keyframes drift-a {
+    to {
+      transform: translate3d(0, 14rem, 0) scale(1.1);
+    }
+  }
+
+  @keyframes drift-b {
+    to {
+      transform: translate3d(-6rem, 22rem, 0);
+    }
+  }
+
+  .intro {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgb(127 127 127 / 0.06);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .dot {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 4px rgb(52 211 153 / 0.18);
+  }
+
+  .title {
+    margin-top: 1.75rem;
+    font-size: clamp(2.6rem, 7.2vw, 6.5rem);
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    line-height: 0.98;
+  }
+
+  .line {
+    display: block;
+  }
+
+  .intro .lead {
+    margin-top: 1.75rem;
+    max-width: 44rem;
+  }
+
+  @media (min-width: 1100px) {
+    .line {
+      white-space: nowrap;
+    }
+  }
+
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
+  }
+
+  .btn--island {
+    padding-right: 0.45rem;
+  }
+
+  .island {
+    display: inline-grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    background: rgb(127 127 127 / 0.18);
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .btn--island:hover .island {
+    transform: translate(2px, -1px) scale(1.05);
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  .built-by {
+    margin-top: 2rem;
+    max-width: 40rem;
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    line-height: 1.5;
+  }
+
+  .built-by strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .built-by:hover span {
+    text-decoration: underline;
+  }
+
+  .stage {
+    margin-top: clamp(3rem, 7vw, 5rem);
+  }
+
+  .bezel {
+    padding: 0.5rem;
+    border-radius: var(--radius-xl);
+    background: rgb(127 127 127 / 0.06);
+    border: 1px solid var(--border);
+    box-shadow: 0 40px 120px -40px rgb(99 102 241 / 0.35);
+  }
+
+  .bezel-core {
+    padding: clamp(0.75rem, 2vw, 1.75rem);
+    border-radius: calc(var(--radius-xl) - 0.5rem);
+    background: var(--bg-soft);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  }
+
+  .bezel-core :global(.flow--vertical) {
+    display: none;
+  }
+
+  @media (max-width: 759.98px) {
+    .bezel-core :global(.flow--horizontal) {
+      display: none;
+    }
+
+    .bezel-core :global(.flow--vertical) {
+      display: block;
+    }
+  }
+
+  .caption-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: 1rem;
+    padding-inline: 0.5rem;
+    min-height: 3rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .toggle {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .toggle:hover {
+    background: rgb(127 127 127 / 0.12);
+  }
+
+  .toggle[aria-pressed='true'] .i-pause,
+  .toggle[aria-pressed='false'] .i-play {
+    display: none;
+  }
+
+  :global([data-static='true']) .toggle {
+    display: none;
+  }
+
+  .captions {
+    min-height: 1.5em;
+  }
+</style>
