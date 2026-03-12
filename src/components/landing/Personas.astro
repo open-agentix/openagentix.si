@@ -1,0 +1,117 @@
+---
+import Icon from '../Icon.astro';
+import type { IconName } from '../../lib/icons';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const p = getDictionary(Astro.props.locale).landing.personas;
+const icons: IconName[] = ['chat', 'plug', 'sliders', 'shield'];
+---
+
+<section class="section personas" aria-labelledby="personas-title">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">{p.eyebrow}</p>
+      <h2 id="personas-title" class="display">{p.title}</h2>
+    </header>
+    <ol class="flow">
+      {
+        p.items.map((item, i) => (
+          <li class="persona" data-reveal style={`--i: ${i}`}>
+            <span class="icon-wrap"><Icon name={icons[i]!} size={22} /></span>
+            <p class="role">{item.role}</p>
+            <h3>{item.title}</h3>
+            <p class="body">{item.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .flow {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    counter-reset: persona;
+  }
+
+  .persona {
+    position: relative;
+    padding: 1.75rem;
+    border-radius: var(--radius-l);
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .persona:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 3rem;
+    right: -0.75rem;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--border-strong);
+  }
+
+  .icon-wrap {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.9rem;
+    background: rgb(139 92 246 / 0.12);
+    color: var(--accent);
+  }
+
+  .persona:last-child .icon-wrap {
+    background: rgb(34 211 238 / 0.12);
+    color: var(--cyan);
+  }
+
+  .role {
+    margin-top: 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  h3 {
+    margin-top: 0.4rem;
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .body {
+    margin-top: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.975rem;
+  }
+
+  @media (max-width: 1000px) {
+    .flow {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .persona::after {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .flow {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
