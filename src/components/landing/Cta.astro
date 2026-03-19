@@ -1,0 +1,64 @@
+---
+import Icon from '../Icon.astro';
+import type { Locale } from '../../i18n/config';
+import { pathFor } from '../../i18n/routes';
+import { getDictionary } from '../../i18n/translate';
+import { GITHUB_ORG } from '../../project';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const c = getDictionary(locale).landing.cta;
+---
+
+<section class="section cta" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="panel" data-reveal>
+      <div class="glow" aria-hidden="true" data-parallax="0.08"></div>
+      <h2 id="cta-title" class="display gradient-text">{c.title}</h2>
+      <p class="lead">{c.lead}</p>
+      <div class="actions">
+        <a class="btn btn--primary" href="/docs/start/getting-started/">{c.primary} <Icon name="arrow" size={16} /></a>
+        <a class="btn btn--ghost" href={GITHUB_ORG}><Icon name="github" size={18} />{c.secondary}</a>
+        <a class="btn btn--muted" href={pathFor('demo', locale)}>{c.demo}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .panel {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: clamp(3rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    background: var(--bg-soft);
+    isolation: isolate;
+  }
+
+  .glow {
+    position: absolute;
+    inset: -40% -10% auto;
+    height: 120%;
+    z-index: -1;
+    background:
+      radial-gradient(40% 50% at 30% 50%, var(--glow-a), transparent 70%),
+      radial-gradient(40% 50% at 70% 50%, var(--glow-b), transparent 70%);
+  }
+
+  .lead {
+    margin: 1.5rem auto 0;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2.25rem;
+  }
+</style>
