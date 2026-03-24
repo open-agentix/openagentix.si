@@ -133,7 +133,7 @@ describe('createHero', () => {
     const svg = root.querySelector('svg[data-orientation="horizontal"]')!;
     expect(svg.querySelector('[data-agent="0"] [data-agent-name]')!.textContent).toBe('CVE triage');
     expect(svg.querySelector('[data-agent="2"] [data-agent-name]')!.textContent).toBe('fixer');
-    expect(svg.querySelector('[data-tool="0"] [data-tool-name]')!.textContent).toBe('trivy.scan_image');
+    expect(svg.querySelector('[data-tool="0"] [data-tool-name]')!.textContent).toBe('trivy.scan');
     expect(svg.querySelector('[data-agent="1"]')!.classList.contains('is-idle')).toBe(true);
     expect(animations.length).toBeGreaterThan(10);
     const packet = animations.find((a) => a.el.getAttribute('data-packet') === '0')!;
