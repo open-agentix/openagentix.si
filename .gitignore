@@ -1,7 +1,7 @@
 node_modules/
-dist/
+/dist/
 .astro/
-coverage/
+/coverage/
 .lighthouseci/
 *.log
 .DS_Store
