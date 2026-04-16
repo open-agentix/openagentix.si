@@ -26,7 +26,8 @@ export function canonical(seq: number, prev: string, e: AuditInput): string {
 export function buildChain(inputs: readonly AuditInput[], hash: HashFn): AuditEntry[] {
   const out: AuditEntry[] = [];
   let prev = GENESIS;
-  inputs.forEach((e, seq) => {
+  inputs.forEach((e, i) => {
+    const seq = i + 1; // sequence numbers start at 1, as in the platform
     const h = hash(canonical(seq, prev, e));
     out.push({ ...e, seq, prev, hash: h });
     prev = h;
@@ -49,8 +50,8 @@ export const shortHash = (h: string) => `${h.slice(0, 6)}…${h.slice(-4)}`;
 /** Sample entries shown on the landing page. */
 export const sampleAudit: AuditInput[] = [
   { actor: 'webhook:github', action: 'event.received', target: 'run/4821', at: '2026-10-03T03:00:00Z' },
-  { actor: 'agent:cve-triage', action: 'tool.allowed', target: 'trivy.scan', at: '2026-10-03T03:00:07Z' },
-  { actor: 'agent:fixer', action: 'tool.allowed', target: 'github.open_pr', at: '2026-10-03T03:00:31Z' },
-  { actor: 'agent:fixer', action: 'tool.blocked', target: 'github.merge', at: '2026-10-03T03:00:33Z' },
-  { actor: 'worker', action: 'run.succeeded', target: 'run/4821', at: '2026-10-03T03:00:41Z' },
+  { actor: 'agent:triage', action: 'policy.decision', target: 'cve-db/lookup_cve allow', at: '2026-10-03T03:00:07Z' },
+  { actor: 'agent:triage', action: 'step.tool_call', target: 'cve-db/lookup_cve', at: '2026-10-03T03:00:08Z' },
+  { actor: 'agent:notify', action: 'policy.decision', target: 'tickets/delete_ticket deny', at: '2026-10-03T03:00:31Z' },
+  { actor: 'worker', action: 'run.completed', target: 'run/4821', at: '2026-10-03T03:00:41Z' },
 ];
