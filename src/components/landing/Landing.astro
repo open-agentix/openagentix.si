@@ -41,6 +41,7 @@ const meta = getDictionary(locale).landing.meta;
 </Base>
 
 <script>
-  import { initScrollFx } from '../../scripts/scroll-fx';
-  initScrollFx(document, window);
+  // Animation and scroll effects start once the page is idle; the static page is complete without them.
+  import { whenIdle } from '../../scripts/defer';
+  whenIdle(window, () => void import('../../scripts/landing-init').then((m) => m.initLanding(document, window)));
 </script>
