@@ -12,7 +12,7 @@ const p = getDictionary(Astro.props.locale).landing.personas;
 const icons: IconName[] = ['chat', 'plug', 'sliders', 'shield'];
 ---
 
-<section class="section personas" aria-labelledby="personas-title">
+<section class="section lazy-render personas" aria-labelledby="personas-title">
   <div class="container">
     <header class="section-head" data-reveal>
       <p class="eyebrow">{p.eyebrow}</p>
