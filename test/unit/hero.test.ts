@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { beatAnimation, createHero } from '../../src/scripts/hero';
 import { scenarios } from '../../src/lib/scenarios';
 import type { Beat } from '../../src/lib/timeline';
