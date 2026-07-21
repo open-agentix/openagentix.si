@@ -44,3 +44,18 @@ export function storyCameras(orientation: Orientation): Camera[] {
   ];
   return focus.map((p, i) => cameraFor(p, l.width, l.height, zoom[i]!));
 }
+
+/** Vertical focus (in % of the diagram height) for each story step on narrow screens. */
+export function tallStoryFocus(): number[] {
+  const l = flowLayout('vertical');
+  const span = (boxes: { y: number; h: number }[]) =>
+    (Math.min(...boxes.map((b) => b.y)) + Math.max(...boxes.map((b) => b.y + b.h))) / 2;
+  const ys = [
+    span(Object.values(l.sources)),
+    (l.gates[1]!.y + l.tools[1]!.y + l.tools[1]!.h) / 2,
+    l.agents[1]!.y,
+    l.control.y + l.control.h,
+    span(Object.values(l.outputs)),
+  ];
+  return ys.map((y) => Math.round((y / l.height) * 1000) / 10);
+}
