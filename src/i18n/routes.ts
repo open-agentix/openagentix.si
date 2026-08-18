@@ -24,6 +24,12 @@ export function pathFor(page: PageId, locale: Locale): string {
   return `${prefix}/${slug ? `${slug}/` : ''}`;
 }
 
+/** The live demo runs on its own host; the German demo page lives under /de/. */
+export const demoHost = 'https://demo.openagentix.si';
+export function demoUrl(locale: Locale): string {
+  return locale === defaultLocale ? `${demoHost}/` : `${demoHost}/${locale}/`;
+}
+
 export interface Alternate {
   locale: Locale;
   hreflang: string;

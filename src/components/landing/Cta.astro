@@ -1,7 +1,7 @@
 ---
 import Icon from '../Icon.astro';
 import type { Locale } from '../../i18n/config';
-import { pathFor } from '../../i18n/routes';
+import { pathFor, demoUrl } from '../../i18n/routes';
 import { getDictionary } from '../../i18n/translate';
 import { GITHUB_ORG } from '../../project';
 
@@ -22,7 +22,7 @@ const c = getDictionary(locale).landing.cta;
       <div class="actions">
         <a class="btn btn--primary" href="/docs/start/getting-started/">{c.primary} <Icon name="arrow" size={16} /></a>
         <a class="btn btn--ghost" href={GITHUB_ORG}><Icon name="github" size={18} />{c.secondary}</a>
-        <a class="btn btn--muted" href={pathFor('demo', locale)}>{c.demo}</a>
+        <a class="btn btn--muted" href={demoUrl(locale)}>{c.demo}</a>
       </div>
     </div>
   </div>
