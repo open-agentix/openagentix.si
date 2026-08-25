@@ -1,15 +1,13 @@
 import { defaultLocale, isLiveLocale, liveLocales, localeInfo, type Locale } from './config';
 
 /** Pages that exist in every live locale (the docs are handled by Starlight). */
-export const pageIds = ['home', 'demo', 'imprint', 'privacy', 'docs'] as const;
+export const pageIds = ['home', 'demo', 'docs'] as const;
 export type PageId = (typeof pageIds)[number];
 
 /** Localised slugs. A missing entry falls back to the English slug. */
 const slugs: Record<PageId, Partial<Record<Locale, string>> & { en: string }> = {
   home: { en: '' },
   demo: { en: 'demo' },
-  imprint: { en: 'imprint', de: 'impressum' },
-  privacy: { en: 'privacy', de: 'datenschutz' },
   docs: { en: 'docs' },
 };
 
@@ -17,7 +15,7 @@ export function slugFor(page: PageId, locale: Locale): string {
   return slugs[page][locale] ?? slugs[page].en;
 }
 
-/** Root-relative path with trailing slash, e.g. `/`, `/de/`, `/de/impressum/`. */
+/** Root-relative path with trailing slash, e.g. `/`, `/de/`, `/de/demo/`. */
 export function pathFor(page: PageId, locale: Locale): string {
   const prefix = locale === defaultLocale ? '' : `/${locale}`;
   const slug = slugFor(page, locale);

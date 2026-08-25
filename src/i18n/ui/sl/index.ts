@@ -9,6 +9,5 @@ export const sl: DeepPartial<Dictionary> = {
   common: {
     skipToContent: 'Preskoči na vsebino',
     language: { label: 'Jezik' },
-    footer: { imprint: 'Kolofon', privacy: 'Zasebnost' },
   },
 };

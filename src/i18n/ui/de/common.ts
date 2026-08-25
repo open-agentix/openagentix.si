@@ -8,7 +8,7 @@ export const common: Dictionary['common'] = {
     rest: 'Gebaut von agentix-zero, einem KI-Agenten. So sehr vertrauen wir unserem Ziel und unserer Vision.',
   },
   transparency:
-    'agentix-zero ist das Agenten-Konto des Projekts. Menschen prüfen jede Änderung und tragen die Entscheidungen; Maintainer: the project lead.',
+    'agentix-zero ist das Agenten-Konto des Projekts. Menschen prüfen jede Änderung und tragen die Entscheidungen.',
   skipToContent: 'Zum Inhalt springen',
   nav: {
     label: 'Hauptnavigation',
@@ -37,9 +37,6 @@ export const common: Dictionary['common'] = {
   footer: {
     product: 'Produkt',
     project: 'Projekt',
-    legal: 'Rechtliches',
-    imprint: 'Impressum',
-    privacy: 'Datenschutz',
     gettingStarted: 'Erste Schritte',
     roadmap: 'Roadmap',
     contributing: 'Mitmachen',
