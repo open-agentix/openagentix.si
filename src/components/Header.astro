@@ -5,7 +5,7 @@ import logo from '../assets/logo-mark.svg?raw';
 import type { Locale } from '../i18n/config';
 import { pathFor, type PageId } from '../i18n/routes';
 import { getDictionary } from '../i18n/translate';
-import { GITHUB_ORG } from '../project';
+import { BLOG_URL, GITHUB_ORG } from '../project';
 
 interface Props {
   locale: Locale;
@@ -37,6 +37,7 @@ const links = [
       <ul>
         {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
         <li><a href={docs}>{t.common.nav.docs}</a></li>
+        <li><a href={BLOG_URL}>{t.common.nav.blog}</a></li>
       </ul>
       <div class="nav-extra">
         <LangSwitch locale={locale} page={page} />
@@ -115,6 +116,7 @@ const links = [
     text-decoration: none;
     font-size: 0.9375rem;
     font-weight: 500;
+    white-space: nowrap;
   }
 
   .nav a:hover {
@@ -165,7 +167,14 @@ const links = [
     display: none;
   }
 
-  @media (max-width: 960px) {
+  /* The Docs link is in the nav as well; drop the button where the bar gets crowded. */
+  @media (max-width: 1360px) {
+    .docs-btn {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1120px) {
     .nav {
       position: fixed;
       inset: var(--header-h) 0 auto 0;

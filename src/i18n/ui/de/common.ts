@@ -21,6 +21,7 @@ export const common: Dictionary['common'] = {
     openSource: 'Open Source',
     docs: 'Doku',
     demo: 'Demo',
+    blog: 'Blog',
     github: 'openagentix auf GitHub',
     home: 'openagentix Startseite',
   },
