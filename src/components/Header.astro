@@ -28,9 +28,12 @@ const links = [
 
 <header class="site-header">
   <div class="bar container">
-    <a class="brand" href={home} aria-label={t.common.nav.home}>
+    <a class="brand" href={home} aria-label={t.common.siteName}>
       <span class="mark" set:html={logo} />
-      <span class="word">openagentix</span>
+      <span class="word" aria-hidden="true">
+        <span class="name">open<span class="blue">agentix</span></span>
+        <span class="sub">{t.common.superIntelligence}</span>
+      </span>
     </a>
 
     <nav class="nav" id="site-nav" aria-label={t.common.nav.label} data-open="false">
@@ -94,6 +97,25 @@ const links = [
   .mark :global(svg) {
     width: 30px;
     height: 30px;
+  }
+
+  .word {
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+
+  .blue {
+    color: var(--brand-blue);
+  }
+
+  /* Understated tagline under the name: small, muted purple, never louder than the nav. */
+  .sub {
+    margin-top: 0.15rem;
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--brand-muted-purple);
   }
 
   .nav {
