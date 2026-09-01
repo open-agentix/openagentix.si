@@ -448,4 +448,7 @@ export const landing = {
     secondary: 'Star on GitHub',
     demo: 'Live demo coming soon',
   },
+  closing: {
+    line: 'We trust in SI - super intelligence.',
+  },
 };

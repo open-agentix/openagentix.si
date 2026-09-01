@@ -44,10 +44,6 @@ const captions = d.scenarios as Record<string, { caption: string }>;
       <a class="btn btn--ghost" href={GITHUB_ORG}><Icon name="github" size={18} />{h.ctaGithub}</a>
       <a class="btn btn--muted" href={demoUrl(locale)}>{h.ctaDemo}</a>
     </div>
-    <a class="built-by" href="#built-by">
-      <strong>{t.common.ownerTagline.lead}</strong>
-      <span>{t.common.ownerTagline.rest}</span>
-    </a>
   </div>
 
   <figure class="container stage" data-hero aria-labelledby="flow-title" aria-describedby="flow-desc">
@@ -239,24 +235,6 @@ const captions = d.scenarios as Record<string, { caption: string }>;
 
   .btn:active {
     transform: scale(0.98);
-  }
-
-  .built-by {
-    margin-top: 2rem;
-    max-width: 40rem;
-    font-size: 0.9375rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    line-height: 1.5;
-  }
-
-  .built-by strong {
-    color: var(--text);
-    font-weight: 600;
-  }
-
-  .built-by:hover span {
-    text-decoration: underline;
   }
 
   .stage {
