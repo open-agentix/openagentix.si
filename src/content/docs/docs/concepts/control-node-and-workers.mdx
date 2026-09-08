@@ -53,13 +53,13 @@ signed and scanned.
 
 | Piece | Status |
 | --- | --- |
-| Control node with the same interfaces as later releases | <Badge text="Available in MVP" variant="success" /> |
-| In-process and local workers | <Badge text="Available in MVP" variant="success" /> |
+| Control node with the same interfaces as later releases | <Badge text="Available in 0.1" variant="success" /> |
+| In-process and local workers | <Badge text="Available in 0.1" variant="success" /> |
 | Spawned workers in containers and Kubernetes Jobs (incl. EKS) with toolbox images | <Badge text="Roadmap 0.2" variant="caution" /> |
 | AWS Lambda and CI workers | <Badge text="Roadmap 0.3" variant="caution" /> |
 
 <Aside>
-  The MVP already uses the run token and the gate protocol between worker and control node, even
+  Release 0.1 already uses the run token and the gate protocol between worker and control node, even
   when the worker runs in the same process. Moving to spawned workers changes where the code runs,
   not what it is allowed to do.
 </Aside>

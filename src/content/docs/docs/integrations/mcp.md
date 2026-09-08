@@ -67,3 +67,11 @@ tools:
 openagentix can expose an MCP server named `openagentix-gate` that offers only an agent's granted
 tools and runs each call through the gate, audit and cost tracking. External harnesses are pointed
 at this server instead of the real tools; see [External harnesses](/docs/integrations/harnesses/).
+
+## Bring your own MCP
+
+<span class="oax-badge oax-badge--roadmap">Roadmap</span> MCP servers are registered **per tenant**,
+either as a remote endpoint or as a container that the platform starts. Each agent gets a tool
+allowlist and argument constraints; a catalog with review states decides which servers a tenant
+may register at all. Your own servers are first-class: the same gate, audit and cost tracking
+apply as to any other tool.

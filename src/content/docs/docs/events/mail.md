@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-In the MVP, mail arrives as JSON through a signed [webhook](/docs/events/webhook/). A small
+In 0.1, mail arrives as JSON through a signed [webhook](/docs/events/webhook/). A small
 forwarder, such as a Cloudflare Email Routing worker or an IMAP bridge, posts each message:
 
 ```json

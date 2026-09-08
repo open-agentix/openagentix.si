@@ -11,10 +11,10 @@ interface Props {
 const t = getDictionary(Astro.props.locale);
 const r = t.landing.runners;
 type Key = keyof typeof r.items;
-// Availability follows SPEC.md: in-process + local in the MVP, the rest on the roadmap.
-const runners: { key: Key; icon: IconName; status: 'mvp' | 'roadmap' }[] = [
-  { key: 'inProcess', icon: 'cpu', status: 'mvp' },
-  { key: 'local', icon: 'terminal', status: 'mvp' },
+// Availability follows SPEC.md: in-process + local in 0.1, the rest on the roadmap.
+const runners: { key: Key; icon: IconName; status: 'available' | 'roadmap' }[] = [
+  { key: 'inProcess', icon: 'cpu', status: 'available' },
+  { key: 'local', icon: 'terminal', status: 'available' },
   { key: 'container', icon: 'box', status: 'roadmap' },
   { key: 'kubernetes', icon: 'helm', status: 'roadmap' },
   { key: 'lambda', icon: 'lambda', status: 'roadmap' },
@@ -43,8 +43,8 @@ const harnesses = ['Claude Code', 'OpenCode', 'Hermes', 'OpenClaw'];
             <li class:list={['runner', `is-${x.status}`]}>
               <div class="top">
                 <span class="icon-wrap"><Icon name={x.icon} size={20} /></span>
-                <span class:list={['badge', x.status === 'mvp' ? 'badge--mvp' : 'badge--roadmap']}>
-                  {x.status === 'mvp' ? t.common.badges.mvp : t.common.badges.roadmap}
+                <span class:list={['badge', x.status === 'available' ? 'badge--available' : 'badge--roadmap']}>
+                  {x.status === 'available' ? t.common.badges.available : t.common.badges.roadmap}
                 </span>
               </div>
               <h3>{r.items[x.key].name}</h3>

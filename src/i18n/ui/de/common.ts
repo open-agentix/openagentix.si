@@ -49,8 +49,9 @@ export const common: Dictionary['common'] = {
     version: 'Website v{version}',
   },
   badges: {
-    mvp: 'Im MVP verfügbar',
+    available: 'In 0.1 verfügbar',
     roadmap: 'Roadmap',
+    planned: 'Geplant',
   },
   notFound: {
     title: 'Seite nicht gefunden',

@@ -40,3 +40,11 @@ used up, the [control agent](/docs/concepts/control-agent/) stops the run.
 
 <span class="oax-badge oax-badge--roadmap">Coming with the API</span> Monthly budgets per agent and
 team with alerts, and a cost dashboard in the console.
+
+## Attribution and export
+
+<span class="oax-badge oax-badge--roadmap">Roadmap</span> Every cost line carries **tenant, agent,
+use case, run, step, model and provider**. Totals can be aggregated by any of these and exported
+as CSV or JSON; a Prometheus metric with bounded labels covers dashboards. Hard-stop budgets can
+be set per run, agent, use case, tenant and month. Prices come from the pinned catalog described
+in [your keys, your models](/docs/concepts/models-and-keys/).
