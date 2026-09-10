@@ -9,6 +9,8 @@ const site = process.env.SITE_URL ?? SITE_URL;
 
 export default defineConfig({
   site,
+  // The demo build writes to a scratch directory (see scripts/build-demo.mjs).
+  outDir: process.env.OAX_OUT_DIR ?? './dist',
   trailingSlash: 'always',
   // CSS is inlined: no render-blocking stylesheet requests on first load (see lighthouserc.json).
   build: { format: 'directory', inlineStylesheets: 'always' },

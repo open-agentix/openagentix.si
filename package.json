@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:demo": "node scripts/build-demo.mjs",
     "preview": "astro preview",
     "check": "astro check",
     "test": "vitest run",
