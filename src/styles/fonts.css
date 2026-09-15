@@ -32,12 +32,28 @@
     U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* Metric-adjusted local fallback keeps layout shift low while the web font loads. */
+/* Metric-adjusted local fallbacks keep layout shift near zero while the web font loads.
+   Values are measured against Geist Variable (Latin subset) and Liberation Sans/Arial, the faces
+   that `local()` resolves to on Linux/Windows/macOS: Geist is about 2.7 % wider than Arial at
+   regular weight and 0.2-2.4 % wider than bold Arial at 600-700. Ascent and descent come from the
+   Geist font metrics (1.01 / 0.30 em), divided by size-adjust because overrides are applied to the
+   already scaled font. Regular and bold are separate faces so headings wrap like the web font. */
 @font-face {
   font-family: 'Geist Fallback';
+  font-weight: 100 599;
   src: local('Arial'), local('Helvetica Neue'), local('Liberation Sans');
-  size-adjust: 105%;
-  ascent-override: 92%;
-  descent-override: 22%;
+  size-adjust: 102.7%;
+  ascent-override: 98.3%;
+  descent-override: 29.2%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: 'Geist Fallback';
+  font-weight: 600 900;
+  src: local('Arial Bold'), local('Helvetica Neue Bold'), local('Liberation Sans Bold');
+  size-adjust: 102%;
+  ascent-override: 99%;
+  descent-override: 29.4%;
   line-gap-override: 0%;
 }
