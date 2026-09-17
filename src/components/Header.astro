@@ -31,7 +31,7 @@ const links = [
     <a class="brand" href={home} aria-label={t.common.siteName}>
       <span class="mark" set:html={logo} />
       <span class="word" aria-hidden="true">
-        <span class="name">open<span class="blue">agentix</span></span>
+        <span class="name">open<span class="blue">agentix</span><span class="dot" aria-hidden="true">.</span></span>
         <span class="sub">{t.common.superIntelligence}</span>
       </span>
     </a>
@@ -107,6 +107,11 @@ const links = [
 
   .blue {
     color: var(--brand-blue);
+  }
+
+  /* Decorative full stop after the name: same box as the wordmark, purple like the tagline. */
+  .dot {
+    color: var(--brand-muted-purple);
   }
 
   /* Understated tagline under the name: small, muted purple, never louder than the nav. */
