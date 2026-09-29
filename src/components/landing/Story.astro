@@ -2,7 +2,7 @@
 import ScrollScene from './ScrollScene.astro';
 import type { Locale } from '../../i18n/config';
 import { getDictionary } from '../../i18n/translate';
-import { storyCameras, tallStoryFocus } from '../../lib/camera';
+import { storyCameras, phoneStoryTops } from '../../lib/camera';
 
 interface Props {
   locale: Locale;
@@ -11,10 +11,10 @@ interface Props {
 const { locale } = Astro.props;
 const s = getDictionary(locale).landing.story;
 const wide = storyCameras('horizontal');
-const tallFocus = tallStoryFocus();
+const phoneTops = phoneStoryTops();
 const vars = [
   ...wide.flatMap((c, i) => [`--s${i}: ${c.scale}`, `--x${i}: ${c.x}%`, `--y${i}: ${c.y}%`]),
-  ...tallFocus.map((p, i) => `--v${i}: ${p}%`),
+  ...phoneTops.map((p, i) => `--v${i}: ${p}%`),
 ].join('; ');
 ---
 
@@ -121,7 +121,12 @@ const vars = [
     display: none;
   }
 
-  @media (max-width: 759.98px) {
+  /*
+   * Phones: the stage is a fixed-ratio window (440 x 372 diagram units, see PHONE_WINDOW_HEIGHT) over
+   * the tall diagram (also used on short landscape screens). The camera only slides (translate, percent of its own height), so what a step
+   * talks about is always fully inside the window and nothing depends on the viewport height.
+   */
+  @media (max-width: 820px), (max-height: 520px) and (orientation: landscape) {
     .story-stage {
       place-items: start center;
       padding: 0;
@@ -134,8 +139,13 @@ const vars = [
     .camera--tall {
       display: block;
       aspect-ratio: 440 / 1000;
-      width: min(100%, 26rem);
-      transform: translate3d(0, calc(23svh - var(--vy)), 0);
+      width: 100%;
+      transform: translate3d(0, calc(var(--vy) * -1), 0);
+    }
+
+    /* The audit band is a side note in the control step; keep the window to the control agent. */
+    :global([data-step='3']) .story-stage :global(.audit) {
+      opacity: 0.3;
     }
   }
 

@@ -29,10 +29,13 @@ const first = progress.replace('{current}', '1').replace('{total}', String(steps
       {lead && <p class="lead">{lead}</p>}
     </header>
     <div class="layout">
-      <div class="stage-wrap">
+      <div class="stage-wrap" data-scene-stage>
         <div class="stage" aria-hidden="true">
           <slot name="stage" />
         </div>
+        <p class="dots" aria-hidden="true">
+          {steps.map(() => <span class="dot" />)}
+        </p>
         <p class="progress" data-scene-progress data-template={progress} aria-hidden="true">{first}</p>
       </div>
       <ol class="steps">
@@ -89,6 +92,11 @@ const first = progress.replace('{current}', '1').replace('{total}', String(steps
       var(--bg-soft);
     border: 1px solid var(--border);
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+  }
+
+  /* Progress dots are a phone-only affordance (see the media query below). */
+  .dots {
+    display: none;
   }
 
   .progress {
@@ -170,29 +178,136 @@ const first = progress.replace('{current}', '1').replace('{total}', String(steps
     max-width: 32rem;
   }
 
-  @media (max-width: 759.98px) {
+  /* Short landscape screens keep the two columns but show the same fixed-ratio window as phones. */
+  @media (min-width: 820.02px) and (max-height: 520px) and (orientation: landscape) {
+    .stage-wrap {
+      top: calc(var(--header-h) + 0.75rem);
+      height: auto;
+    }
+
+    .stage {
+      flex: none;
+      aspect-ratio: 440 / 372;
+      height: calc(100svh - var(--header-h) - 4.5rem);
+      width: auto;
+      max-width: 100%;
+      margin-inline: auto;
+    }
+  }
+
+  /*
+   * Phones: a compact sticky figure with the current step's text directly beneath it. The stage keeps
+   * the aspect ratio of its content (no clipping, no viewport-height maths), capped to ~44svh; svh
+   * is used so the browser toolbars sliding in and out never resize it.
+   */
+  @media (max-width: 820px) {
     .layout {
       display: block;
     }
 
     .stage-wrap {
       top: var(--header-h);
-      padding-top: 0.5rem;
-      height: calc(46svh + 0.5rem);
+      height: auto;
       z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      row-gap: 0.5rem;
+      padding: 0.5rem 0;
       background: var(--bg);
-      padding-bottom: 0.5rem;
+    }
+
+    /* A soft edge so scrolling text fades under the stage instead of being cut off. */
+    .stage-wrap::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: 0.875rem;
+      background: linear-gradient(var(--bg), transparent);
+      pointer-events: none;
+    }
+
+    .stage {
+      grid-column: 1 / -1;
+      flex: none;
+      aspect-ratio: 440 / 372;
+      width: min(100%, calc(44svh * 440 / 372));
+      margin-inline: auto;
+    }
+
+    .dots {
+      display: flex;
+      gap: 0.65rem;
+      margin: 0;
+      padding-left: 0.4rem;
+    }
+
+    .dot {
+      width: 0.375rem;
+      height: 0.375rem;
+      border-radius: 50%;
+      background: var(--border-strong);
+      transition:
+        transform 0.4s var(--ease-out),
+        background-color 0.4s var(--ease-out);
+    }
+
+    .scene[data-step='0'] .dot:nth-child(1),
+    .scene[data-step='1'] .dot:nth-child(2),
+    .scene[data-step='2'] .dot:nth-child(3),
+    .scene[data-step='3'] .dot:nth-child(4),
+    .scene[data-step='4'] .dot:nth-child(5) {
+      background: var(--accent);
+      transform: scaleX(3);
+    }
+
+    .progress {
+      margin: 0;
+      font-size: 0.75rem;
     }
 
     .steps {
-      padding: 4vh 0 20vh;
+      padding: 0 0 14svh;
     }
 
+    /* Each step owns about half a screen, text on top so it sits right under the figure. */
     .step {
-      min-height: 55vh;
-      justify-content: flex-end;
-      padding-bottom: 6vh;
+      min-height: 52svh;
+      justify-content: flex-start;
+      padding: 0.75rem 0 0 1.1rem;
+    }
+
+    /* Inactive steps keep full text contrast; only the accent bar marks the current one. */
+    .step::before {
+      top: 0.75rem;
+      height: 6rem;
+      margin-top: 0;
+    }
+
+    .step > *,
+    .step.is-active > * {
+      transform: none;
+      transition: none;
+    }
+
+    .step h3 {
+      margin-top: 0.5rem;
+      font-size: clamp(1.3rem, 5.6vw, 1.75rem);
+    }
+
+    .step .body {
+      margin-top: 0.6rem;
+      font-size: 1rem;
+      line-height: 1.55;
     }
   }
 
+  @media (max-width: 820px) and (prefers-reduced-motion: reduce) {
+    .step::before,
+    .dot {
+      transition: none;
+    }
+  }
 </style>

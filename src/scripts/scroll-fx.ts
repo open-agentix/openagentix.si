@@ -24,9 +24,22 @@ export function parallaxOffset(top: number, height: number, speed: number, max =
   return Math.max(-max, Math.min(max, Math.round(value * 10) / 10)) + 0;
 }
 
-/** Where text is read: lower on narrow screens, where the pinned stage sits above the steps. */
-export function readingLine(win: FxWindow): number {
-  return win.innerWidth < 760 ? 0.72 : 0.45;
+/** Widest viewport that gets the phone layout (keep in sync with the media queries in ScrollScene/Story). */
+export const PHONE_MAX_WIDTH = 820;
+
+/**
+ * Where text is read, as a fraction of the viewport height. Wide screens read at the middle. On
+ * phones the pinned stage sits above the steps, so the line sits just below the stuck stage; without
+ * a measurable stage it falls back to a fixed 72 %.
+ */
+export function readingLine(win: FxWindow, scene?: Element | null): number {
+  if (win.innerWidth > PHONE_MAX_WIDTH) return 0.45;
+  const stage = scene?.querySelector<HTMLElement>('[data-scene-stage]');
+  if (!stage || typeof win.getComputedStyle !== 'function' || !win.innerHeight) return 0.72;
+  const top = parseFloat(win.getComputedStyle(stage).top);
+  const bottom = (Number.isFinite(top) ? top : 0) + stage.offsetHeight;
+  if (!bottom) return 0.72;
+  return Math.min(0.85, Math.max(0.3, (bottom + 16) / win.innerHeight));
 }
 
 /** Index of the last step whose top has passed the reading line (a fraction of the viewport height). */
@@ -47,11 +60,12 @@ export function initScenes(root: ParentNode, win: FxWindow): number {
     const progress = scene.querySelector<HTMLElement>('[data-scene-progress]');
     const template = progress?.dataset['template'] ?? '';
     let current = -1;
+    let line = readingLine(win, scene);
     const update = () => {
       const index = activeStepIndex(
         steps.map((s) => s.getBoundingClientRect().top),
         win.innerHeight,
-        readingLine(win),
+        line,
       );
       if (index === current) return;
       current = index;
@@ -63,15 +77,33 @@ export function initScenes(root: ParentNode, win: FxWindow): number {
           .replace('{total}', String(steps.length));
       }
     };
-    if (typeof win.IntersectionObserver === 'function') {
+    let observer: IntersectionObserver | undefined;
+    const observe = () => {
+      observer?.disconnect();
+      if (typeof win.IntersectionObserver !== 'function') return;
       // Re-evaluate whenever a step crosses the reading band; cheap and scroll-listener free.
-      const top = Math.round(readingLine(win) * 100);
-      const observer = new win.IntersectionObserver(update, {
-        rootMargin: `-${top}% 0px -${99 - top}% 0px`,
+      // The band starts exactly at the reading line so a step that fully covers it is also past the line.
+      const top = Number((line * 100).toFixed(3));
+      observer = new win.IntersectionObserver(update, {
+        rootMargin: `-${top}% 0px -${Number((99 - top).toFixed(3))}% 0px`,
         threshold: [0, 1],
       });
-      steps.forEach((s) => observer.observe(s));
-    }
+      steps.forEach((s) => observer!.observe(s));
+    };
+    observe();
+    // Only a width change (rotation, split view) moves the line; toolbar show/hide must not rebuild it.
+    let width = win.innerWidth;
+    win.addEventListener(
+      'resize',
+      () => {
+        if (win.innerWidth === width) return;
+        width = win.innerWidth;
+        line = readingLine(win, scene);
+        observe();
+        update();
+      },
+      { passive: true },
+    );
     update();
   });
   return scenes.length;

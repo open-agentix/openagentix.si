@@ -28,6 +28,9 @@ function fakeWin(opts: { timeline?: boolean; io?: boolean; reduced?: boolean; he
     unobserve(t: Element) {
       this.record.unobserved.push(t);
     }
+    disconnect() {
+      this.record.targets = [];
+    }
   }
   const listeners: Record<string, () => void> = {};
   const frames: FrameRequestCallback[] = [];
@@ -74,6 +77,21 @@ describe('pure helpers', () => {
     expect(readingLine({ innerWidth: 1280 } as Window)).toBe(0.45);
   });
 
+  it('puts the reading line just below the stuck stage on phones', () => {
+    document.body.innerHTML = '<section><div data-scene-stage style="top: 64px"></div></section>';
+    const stage = document.querySelector<HTMLElement>('[data-scene-stage]')!;
+    Object.defineProperty(stage, 'offsetHeight', { value: 336 });
+    const win = {
+      innerWidth: 390,
+      innerHeight: 844,
+      getComputedStyle: () => ({ top: '64px' }),
+    } as unknown as Window;
+    expect(readingLine(win, document.body)).toBeCloseTo((64 + 336 + 16) / 844, 5);
+    expect(readingLine({ ...win, innerWidth: 1280 } as Window, document.body)).toBe(0.45);
+    expect(readingLine({ ...win, innerWidth: 820 } as Window, document.body)).not.toBe(0.45);
+    expect(readingLine({ ...win, innerWidth: 821 } as Window, document.body)).toBe(0.45);
+  });
+
   it('detects capabilities defensively', () => {
     expect(supportsScrollTimeline(fakeWin({ timeline: true }).win)).toBe(true);
     expect(supportsScrollTimeline({} as Window)).toBe(false);
@@ -83,6 +101,19 @@ describe('pure helpers', () => {
 });
 
 describe('initScenes', () => {
+  it('rebuilds the observer only when the width changes', () => {
+    document.body.innerHTML = '<section data-scene><div data-scene-step></div></section>';
+    const { win, observers, listeners } = fakeWin();
+    initScenes(document, win);
+    expect(observers).toHaveLength(1);
+    listeners['resize']!();
+    expect(observers).toHaveLength(1);
+    (win as unknown as { innerWidth: number }).innerWidth = 390;
+    listeners['resize']!();
+    expect(observers).toHaveLength(2);
+    expect(observers[1]!.targets).toHaveLength(1);
+  });
+
   it('marks the active step and updates the progress text', () => {
     document.body.innerHTML = `
       <section data-scene>

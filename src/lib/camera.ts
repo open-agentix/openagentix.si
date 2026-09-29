@@ -45,17 +45,24 @@ export function storyCameras(orientation: Orientation): Camera[] {
   return focus.map((p, i) => cameraFor(p, l.width, l.height, zoom[i]!));
 }
 
-/** Vertical focus (in % of the diagram height) for each story step on narrow screens. */
-export function tallStoryFocus(): number[] {
+/** Aspect ratio of the phone story window: the diagram is 440 units wide and `PHONE_WINDOW_HEIGHT` tall. */
+export const PHONE_WINDOW_HEIGHT = 372;
+
+/**
+ * Top edge of the phone window (in % of the vertical diagram height) for each story step. The window
+ * is a fixed-size frame over the tall diagram, so the part a step talks about always lies fully inside it.
+ */
+export function phoneStoryTops(): number[] {
   const l = flowLayout('vertical');
-  const span = (boxes: { y: number; h: number }[]) =>
-    (Math.min(...boxes.map((b) => b.y)) + Math.max(...boxes.map((b) => b.y + b.h))) / 2;
-  const ys = [
-    span(Object.values(l.sources)),
-    (l.gates[1]!.y + l.tools[1]!.y + l.tools[1]!.h) / 2,
-    l.agents[1]!.y,
-    l.control.y + l.control.h,
-    span(Object.values(l.outputs)),
+  const room = l.height - PHONE_WINDOW_HEIGHT;
+  const clamp = (y: number) => Math.max(0, Math.min(room, y));
+  const tops = [
+    0,
+    // Gates, tools and the audit band share one window with the agents.
+    l.audit.y + l.audit.h + 4 - PHONE_WINDOW_HEIGHT,
+    l.audit.y + l.audit.h + 4 - PHONE_WINDOW_HEIGHT,
+    l.control.y - 14,
+    room,
   ];
-  return ys.map((y) => Math.round((y / l.height) * 1000) / 10);
+  return tops.map((y) => Math.round((clamp(y) / l.height) * 1000) / 10);
 }

@@ -9,7 +9,7 @@ import {
 } from '../../src/lib/scenarios';
 import { bottomEdge, center, flowLayout, layoutProblems, topEdge } from '../../src/lib/flow-layout';
 import { agentSlots, buildTimeline } from '../../src/lib/timeline';
-import { cameraFor, storyCameras, tallStoryFocus } from '../../src/lib/camera';
+import { cameraFor, phoneStoryTops, PHONE_WINDOW_HEIGHT, storyCameras } from '../../src/lib/camera';
 
 describe('scenarios', () => {
   it('are consistent', () => {
@@ -165,13 +165,30 @@ describe('story cameras', () => {
   });
 });
 
-describe('tall story focus', () => {
-  it('moves down the diagram from sources to outputs', () => {
-    const f = tallStoryFocus();
-    expect(f).toHaveLength(5);
-    expect(f[0]!).toBeLessThan(f[2]!);
-    expect(f[2]!).toBeLessThan(f[1]!);
-    expect(f[1]!).toBeLessThan(f[4]!);
-    expect(f.every((v) => v > 0 && v < 100)).toBe(true);
+describe('phone story window', () => {
+  const l = flowLayout('vertical');
+  const tops = phoneStoryTops();
+  const px = (t: number) => (t / 100) * l.height;
+
+  it('has one top per step and never leaves the diagram', () => {
+    expect(tops).toHaveLength(5);
+    tops.forEach((t) => {
+      expect(t).toBeGreaterThanOrEqual(0);
+      expect(px(t) + PHONE_WINDOW_HEIGHT).toBeLessThanOrEqual(l.height + 0.5);
+    });
+  });
+
+  it('keeps what each step highlights fully inside its window', () => {
+    const inside = (step: number, y0: number, y1: number) => {
+      expect(px(tops[step]!)).toBeLessThanOrEqual(y0 + 0.5);
+      expect(px(tops[step]!) + PHONE_WINDOW_HEIGHT).toBeGreaterThanOrEqual(y1 - 0.5);
+    };
+    const src = Object.values(l.sources);
+    inside(0, Math.min(...src.map((b) => b.y)), Math.max(...src.map((b) => b.y + b.h)));
+    inside(1, l.gates[1]!.y - 20, l.audit.y + l.audit.h);
+    inside(2, l.agents[1]!.y - l.agentRadius, l.tools[1]!.y + l.tools[1]!.h);
+    inside(3, l.control.y, l.tools[1]!.y + l.tools[1]!.h);
+    const out = Object.values(l.outputs);
+    inside(4, Math.min(...out.map((b) => b.y)), Math.max(...out.map((b) => b.y + b.h)));
   });
 });
