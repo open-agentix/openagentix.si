@@ -13,7 +13,7 @@ import { Aside } from '@astrojs/starlight/components';
   and is tracked as GitHub milestones and issues. If the two differ, the platform repository wins.
 </Aside>
 
-## 0.1 – Core (in progress)
+## 0.1 – Core (released 2026-08-11)
 
 - **Control node:** API (Fastify, OpenAPI 3.1), PostgreSQL, run queue, console (React), OIDC/LDAP
   sign-in, RBAC with six roles, API tokens.
@@ -30,20 +30,23 @@ import { Aside } from '@astrojs/starlight/components';
   proxy.
 - **Runners:** `in-process` and `local` (`oax` CLI), with the interfaces for all later runners.
 - **Observability:** Prometheus metrics, OpenTelemetry traces, JSON logs, health endpoints.
+- **Cost attribution:** per tenant, agent, use case and run, with CSV/JSON export.
+- **Delivery:** Docker Compose, Helm chart for Kubernetes and EKS, this website and docs.
+
+## 0.2 – Next release (on `main`)
+
 - **Tenants and access:** tenants as the isolation boundary, roles per tenant and optionally per
   agent ([details](/docs/concepts/tenants-and-access/)).
 - **Bring your own:** provider keys by reference and a model catalog from a pinned models.dev
   snapshot ([details](/docs/concepts/models-and-keys/)); MCP servers per tenant.
-- **Cost attribution:** per tenant, agent, use case and run, with CSV/JSON export.
-- **Delivery:** Docker Compose, Helm chart for Kubernetes and EKS, this website and docs.
-
-## 0.2 – Worker nodes
-
-- `container` runner (Docker, Podman) and `kubernetes-job` runner (also EKS) that spawn one
-  short-lived worker per run.
+- **Typed handovers and conditional steps:** schema-validated outputs and `when` expressions.
+- **Tool profiles:** named read/write profiles per MCP server.
+- **Worker nodes:** `container` runner (Docker, Podman) and `kubernetes-job` runner (also EKS)
+  that spawn one short-lived worker per step, with per-step credentials.
 - **Toolbox images** from a catalogue: minimal, non-root, read-only, pinned by digest, signed
   (cosign), with SBOM (syft) and vulnerability scans (trivy); egress allowlisted per toolbox.
-- Per-run secret injection and revocation.
+- **Agent Check and Agent Plan:** advisory, least-privilege decomposition with linting.
+- **OpenCode harness:** next to Claude Code behind the policy gate.
 
 ## 0.3 – Anywhere
 
@@ -52,16 +55,40 @@ import { Aside } from '@astrojs/starlight/components';
   policy gate.
 - Dedicated Teams and Slack adapters, IMAP polling for mail.
 
-## Later: planning, governance, factory
+## Features shipped in 0.1 with full docs
 
-- **Agent Check and Agent Build:** from a process described in plain language to a least-privilege
-  agent plan and a scaffolded, tested agent.
-- **Governance:** approval workflows, an MCP catalog, emergency security overrides.
-- **Change-gated schedules** ([details](/docs/concepts/change-gate/)).
-- **Development guidelines and a global hardening agent** ([details](/docs/concepts/guidelines/)).
-- **Dark software factory**, opt-in and recommended for proof-of-concept work only
-  ([details](/docs/concepts/software-factory/)).
-- **Air-gapped operation** documented end to end ([details](/docs/concepts/air-gapped/)).
+- **Change-gated schedules** with HTTP and file probes ([details](/docs/concepts/change-gate/)).
+- **Development guidelines** with deterministic hardening review ([details](/docs/concepts/guidelines/)).
+- **Dark software factory** mode, opt-in ([details](/docs/concepts/software-factory/)).
+
+## 0.3 – Enterprise integration
+
+- AWS Lambda, GitHub Actions and GitLab CI runners with signed callbacks.
+- Hermes and OpenClaw harnesses.
+- Dedicated Slack and Teams event adapters, IMAP polling for mail.
+- SCIM provisioning, per-tenant identity providers.
+- Secret managers (Vault, AWS Secrets Manager).
+- MCP catalog with review states and per-server egress rules.
+
+## 0.4 – Agent lifecycle
+
+- **Agent Build:** from plans to scaffolded agents with tests.
+- **Evaluations v2:** golden datasets and promotion gates.
+- **Version approval** bound to model and eval set.
+- Automatic hardening review of development agents' pull requests.
+- MCP catalog governance and container-run MCP servers.
+
+## 1.0 – Enterprise readiness
+
+- Stable `v1` API and agents.md schema.
+- Per-tenant audit chains and Merkle proofs.
+- Multi-step approval workflows.
+- Data residency and region pinning.
+- Scale-out run queue (Valkey/Kafka).
+- Red-teaming campaigns.
+- Air-gapped offline bundle.
+- Private model hosting (vLLM/Ollama with GPU).
+- Public demo at `demo.openagentix.si`.
 
 The order within this list is not fixed; the platform repository tracks the current plan.
 

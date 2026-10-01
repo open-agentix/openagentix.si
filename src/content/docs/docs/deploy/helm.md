@@ -5,12 +5,9 @@ sidebar:
   order: 1
 ---
 
-:::caution[Chart in development]
-The `openagentix` chart lives in
-[open-agentix/open-agentix-helm](https://github.com/open-agentix/open-agentix-helm) and is being
-built alongside the 0.1 release. Value names below follow the chart's design and may still change;
-the chart's `values.yaml` is authoritative.
-:::
+The `openagentix` chart (0.2.1) installs a complete stack with one command (bundled PostgreSQL and Valkey, generated credentials, demo and air-gapped modes). The chart lives in
+[open-agentix/open-agentix-helm](https://github.com/open-agentix/open-agentix-helm).
+Value names may still change before 1.0; the chart's `values.yaml` is authoritative.
 
 ## What the chart deploys
 

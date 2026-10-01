@@ -34,8 +34,10 @@ treated as **data**, and system prompts carry an injection guard.
 
 Secrets never appear in prompts, agent files or the audit trail. Configurations refer to them by
 name; the platform resolves `jira.token` from the environment variable `OAX_SECRET_JIRA_TOKEN` or
-the file `$OAX_SECRETS_DIR/jira.token` (for example a mounted Kubernetes Secret). Workers receive
-only the secrets of their run, which are revoked when the run ends.
+the file `$OAX_SECRETS_DIR/jira.token` (for example a mounted Kubernetes Secret). Planned for 0.2:
+each step's worker receives only that step's secrets, revoked when the step ends. Today the
+in-process worker resolves the secret references of a run's MCP connections inside the worker
+process; secret values never enter prompts, steps or audit payloads.
 
 ## Redaction
 

@@ -5,7 +5,7 @@ sidebar:
   order: 12
 ---
 
-<span class="oax-badge oax-badge--roadmap">Roadmap</span> This page describes the target design.
+<span class="oax-badge oax-badge--next">Next release (0.2)</span>: tenants as the isolation boundary and connections scoped to platform, tenant, team or agent. <span class="oax-badge oax-badge--available">Available in 0.1</span>: roles per agent (resource-scoped bindings). <span class="oax-badge oax-badge--roadmap">Planned</span>: identity providers per tenant and SCIM (0.3), per-tenant audit chains (1.0).
 Check the [roadmap](/docs/project/roadmap/) for what ships in which release.
 
 ## Tenants

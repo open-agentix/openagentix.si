@@ -35,7 +35,7 @@ export const landing = {
     sources: {
       kafka: 'Kafka',
       webhook: 'Webhook',
-      stream: 'Stream',
+      stream: 'Kafka stream',
       mail: 'E-mail',
       teams: 'MS Teams',
       cron: 'Cron',
@@ -260,11 +260,11 @@ export const landing = {
     items: {
       events: {
         title: 'Events in',
-        body: 'Signed webhooks, Kafka, cron, e-mail, Teams and Slack start runs. Every event is verified and becomes a CloudEvent with a full trail.',
+        body: 'Signed webhooks, Kafka, cron and e-mail start runs; Teams and Slack today through a webhook, with dedicated adapters planned for 0.3. Every event is verified and becomes a CloudEvent with a full trail.',
       },
       mcp: {
         title: 'Bring your own MCP',
-        body: 'Register your MCP servers per tenant, remote or as a container. Every agent gets its own tool allowlist and argument rules, enforced in code.',
+        body: 'Register your MCP servers per tenant, team or agent (next release); container-run servers and read/write profiles are planned. Every agent gets its own tool allowlist and argument rules, enforced in code.',
       },
       rbac: {
         title: 'Tenants and per-agent access',

@@ -38,13 +38,8 @@ budget:
 Budgets can be set for the pipeline and for each agent; the stricter value wins. When a budget is
 used up, the [control agent](/docs/concepts/control-agent/) stops the run.
 
-<span class="oax-badge oax-badge--roadmap">Coming with the API</span> Monthly budgets per agent and
-team with alerts, and a cost dashboard in the console.
+<span class="oax-badge oax-badge--available">Available in 0.1</span> Monthly team budgets and the cost dashboard. <span class="oax-badge oax-badge--next">Next release (0.2)</span> Monthly tenant and use-case budgets with hard stop, alerts at 50/80/100 % as events and audit entries. <span class="oax-badge oax-badge--roadmap">Planned for 0.2</span> Monthly per-agent budgets and alert delivery to chat and mail.
 
 ## Attribution and export
 
-<span class="oax-badge oax-badge--roadmap">Roadmap</span> Every cost line carries **tenant, agent,
-use case, run, step, model and provider**. Totals can be aggregated by any of these and exported
-as CSV or JSON; a Prometheus metric with bounded labels covers dashboards. Hard-stop budgets can
-be set per run, agent, use case, tenant and month. Prices come from the pinned catalog described
-in [your keys, your models](/docs/concepts/models-and-keys/).
+<span class="oax-badge oax-badge--available">Available in 0.1</span> Every cost line carries **tenant, agent, use case, run, step, model and provider**. Totals can be aggregated by any of these and exported as CSV or JSON; a Prometheus metric with bounded labels covers dashboards. Hard stops exist per run (each agent's `budget`), per team and month (0.1) and per tenant and use case and month (next release); monthly per-agent budgets are planned for 0.2. Prices come from the pinned catalog described in [your keys, your models](/docs/concepts/models-and-keys/).

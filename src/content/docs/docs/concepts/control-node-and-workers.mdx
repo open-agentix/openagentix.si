@@ -28,7 +28,8 @@ Each run (or each group of steps of a run) is executed by a **short-lived worker
    references to the secrets it may use;
 2. calls the model provider and **asks the control node's policy gate before every tool call**;
 3. streams every step back over an authenticated channel (mTLS or the signed run token);
-4. is torn down when the run ends; its scoped secrets are revoked.
+4. is torn down when the run ends; its scoped secrets are revoked (container and Kubernetes
+   runners, planned for 0.2).
 
 ```text
             ┌──────────────── control node ────────────────┐

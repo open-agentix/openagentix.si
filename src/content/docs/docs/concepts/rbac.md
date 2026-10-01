@@ -32,7 +32,7 @@ that narrow their permissions further. Tenants and per-agent bindings are descri
 
 ## Sign-in
 
-<span class="oax-badge oax-badge--roadmap">Coming with the API</span> OIDC (Keycloak, Entra ID,
+<span class="oax-badge oax-badge--available">Available in 0.1</span> OIDC (Keycloak, Entra ID,
 Okta and others), LDAP/AD bind with group-to-role mapping, a local admin bootstrap account and
 hashed, scoped, expiring API tokens. Every API route declares the permission it needs, and tests
 enforce it.

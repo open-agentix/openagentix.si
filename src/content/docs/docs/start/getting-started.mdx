@@ -9,8 +9,8 @@ import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 There are two ways in. The **local CLI** works today and runs an agent definition against an event
 on your machine, with the same parser, policy gate, budgets and audit chain as the platform. The
-**Docker Compose** setup starts the whole platform (API, worker, console, PostgreSQL) and arrives
-with the 0.1 release.
+**Docker Compose** setup starts the whole platform (API, worker, console, PostgreSQL) and is
+available now.
 
 ## Run an agent locally
 
@@ -75,11 +75,6 @@ export OAX_PROVIDERS='[{"kind":"openai","name":"openai","baseUrl":"https://api.o
 Then set `provider: openai` and a `model` in your agent. See [Providers](/docs/providers/overview/).
 
 ## Run the platform with Docker Compose
-
-<Aside type="caution" title="Coming with 0.1">
-  The API, worker and console are being built. This section describes the planned setup and will
-  be updated with the exact file when the first release is tagged.
-</Aside>
 
 The Compose setup will start PostgreSQL 16, the API (control node), a worker and the console:
 

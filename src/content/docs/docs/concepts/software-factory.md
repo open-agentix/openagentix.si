@@ -5,7 +5,7 @@ sidebar:
   order: 15
 ---
 
-<span class="oax-badge oax-badge--roadmap">Roadmap</span>
+<span class="oax-badge oax-badge--available">Available in 0.1</span>: the opt-in `mode: dark-factory` with the fixed notice in validation output. <span class="oax-badge oax-badge--roadmap">Planned</span>: the notice in the console and a ready-made spec → code → tests → pull request template (0.4).
 
 In **dark software factory** mode, agents take a task end to end: specification, code, tests and a
 pull request, with minimal human involvement.

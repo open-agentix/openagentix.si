@@ -5,7 +5,7 @@ sidebar:
   order: 13
 ---
 
-<span class="oax-badge oax-badge--roadmap">Roadmap</span> The provider adapters are described in the
+<span class="oax-badge oax-badge--next">Next release (0.2)</span>: model connections with secret references scoped to platform, tenant, team or agent, and the model catalog from a pinned models.dev snapshot with a weekly reviewed refresh. The provider adapters are described in the
 [providers overview](/docs/providers/overview/). This page covers the key and catalog design that
 builds on them.
 

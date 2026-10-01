@@ -38,5 +38,5 @@ verifies the chain of every run and prints `audit: valid (N entries, head …)`.
 
 ## In the database
 
-<span class="oax-badge oax-badge--roadmap">Coming with the API</span> The table is append-only: the
+<span class="oax-badge oax-badge--available">Available in 0.1</span> The table is append-only: the
 platform's database role has no `UPDATE` or `DELETE` privilege on it, and a trigger rejects both.

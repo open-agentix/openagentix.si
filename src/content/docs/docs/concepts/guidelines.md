@@ -5,7 +5,7 @@ sidebar:
   order: 16
 ---
 
-<span class="oax-badge oax-badge--roadmap">Roadmap</span>
+<span class="oax-badge oax-badge--available">Available in 0.1</span>
 
 ## Development guidelines
 
@@ -14,7 +14,9 @@ standards, branching and commit rules, test coverage, security rules and forbidd
 
 - It attaches to an agent or to a tenant.
 - It becomes part of the [agent contract](/docs/reference/agents-md/).
-- It is evaluated in the agent's evaluation suite and recorded for every run in the audit trail.
+- It is enforced by the policy gate on every run and recorded in the audit trail. Checks in
+  evaluation suites are planned for 0.2, automatic review of pull requests and an optional model
+  second opinion for 0.4.
 
 ## The global hardening agent
 
