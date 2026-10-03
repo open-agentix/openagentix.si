@@ -1,0 +1,65 @@
+---
+title: Control node and worker nodes
+description: The control node decides and records; short-lived worker nodes execute. How the two talk and why the split matters.
+sidebar:
+  order: 1
+---
+
+import { Aside, Badge } from '@astrojs/starlight/components';
+
+openagentix separates **deciding** from **doing**.
+
+## Control node (control plane)
+
+The control node runs the API, the console, authentication and RBAC, the agent registry (all
+published `agents.md` versions), event ingest, the scheduler and run queue, the **policy engine**
+(audit gates and the control agent), the **audit trail**, the **cost ledger** and the metrics
+endpoint.
+
+**It never executes tools itself.** A compromised or misbehaving agent therefore never runs inside
+the process that holds the audit trail, the policies and the credentials catalogue.
+
+## Worker nodes (data plane)
+
+Each run (or each group of steps of a run) is executed by a **short-lived worker** that a
+[runner](/docs/concepts/runners/) starts. A worker:
+
+1. receives a prepared run: the agent definition, the event, a **signed short-lived run token** and
+   references to the secrets it may use;
+2. calls the model provider and **asks the control node's policy gate before every tool call**;
+3. streams every step back over an authenticated channel (mTLS or the signed run token);
+4. is torn down when the run ends; its scoped secrets are revoked.
+
+```text
+            ┌──────────────── control node ────────────────┐
+ event ───▶ │ ingest → queue → policy engine → audit chain │
+            │      registry · costs · metrics · RBAC       │
+            └───────▲───────────────┬──────────────────────┘
+       steps,       │               │ run token, agent version,
+       gate queries │               ▼ secret references
+            ┌───────┴──────── worker node ─────────────────┐
+            │ toolbox image: only the tools this agent needs│
+            │ egress allowlisted · read-only · non-root     │
+            └──────────────────────────────────────────────┘
+```
+
+## Toolbox images
+
+Workers run in [toolbox images](/docs/concepts/toolbox-images/): minimal images that contain only
+the binaries an agent declares in `runtime.toolbox`, built from a catalogue, pinned by digest,
+signed and scanned.
+
+## What is available when
+
+| Piece | Status |
+| --- | --- |
+| Control node with the same interfaces as later releases | <Badge text="Available in MVP" variant="success" /> |
+| In-process and local workers | <Badge text="Available in MVP" variant="success" /> |
+| Spawned workers in containers and Kubernetes Jobs (incl. EKS) with toolbox images | <Badge text="Roadmap 0.2" variant="caution" /> |
+| AWS Lambda and CI workers | <Badge text="Roadmap 0.3" variant="caution" /> |
+
+<Aside>
+  The MVP already uses the run token and the gate protocol between worker and control node, even
+  when the worker runs in the same process. Moving to spawned workers changes where the code runs,
+  not what it is allowed to do.
+</Aside>
