@@ -1,0 +1,147 @@
+---
+import FlowDiagram from './FlowDiagram.astro';
+import ScrollScene from './ScrollScene.astro';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+import { storyCameras } from '../../lib/camera';
+import { flowLayout } from '../../lib/flow-layout';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s = getDictionary(locale).landing.story;
+const wide = storyCameras('horizontal');
+const tall = flowLayout('vertical');
+const tallFocus = [90, 480, 380, 254, 790].map((y) => Math.round((y / tall.height) * 1000) / 10);
+const vars = [
+  ...wide.flatMap((c, i) => [`--s${i}: ${c.scale}`, `--x${i}: ${c.x}%`, `--y${i}: ${c.y}%`]),
+  ...tallFocus.map((p, i) => `--v${i}: ${p}%`),
+].join('; ');
+---
+
+<ScrollScene id="how" eyebrow={s.eyebrow} title={s.title} steps={s.steps} progress={s.progress}>
+  <div slot="stage" class="story-stage" style={vars} data-static-diagram>
+    <div class="camera camera--wide"><FlowDiagram locale={locale} orientation="horizontal" idPrefix="story-h" /></div>
+    <div class="camera camera--tall"><FlowDiagram locale={locale} orientation="vertical" idPrefix="story-v" /></div>
+  </div>
+</ScrollScene>
+
+<style>
+  .story-stage {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    --sc: var(--s0);
+    --tx: var(--x0);
+    --ty: var(--y0);
+    --vy: var(--v0);
+  }
+
+  .camera {
+    width: 100%;
+    transform: scale(var(--sc)) translate3d(var(--tx), var(--ty), 0);
+    transition: transform 1.1s var(--ease-out);
+    will-change: transform;
+  }
+
+  .camera--tall {
+    display: none;
+  }
+
+  :global([data-step='1']) .story-stage {
+    --sc: var(--s1);
+    --tx: var(--x1);
+    --ty: var(--y1);
+    --vy: var(--v1);
+  }
+
+  :global([data-step='2']) .story-stage {
+    --sc: var(--s2);
+    --tx: var(--x2);
+    --ty: var(--y2);
+    --vy: var(--v2);
+  }
+
+  :global([data-step='3']) .story-stage {
+    --sc: var(--s3);
+    --tx: var(--x3);
+    --ty: var(--y3);
+    --vy: var(--v3);
+  }
+
+  :global([data-step='4']) .story-stage {
+    --sc: var(--s4);
+    --tx: var(--x4);
+    --ty: var(--y4);
+    --vy: var(--v4);
+  }
+
+  /* Spotlight: dim everything, then light the parts the active step talks about. */
+  .story-stage :global(.flow > g),
+  .story-stage :global(.flow > rect),
+  .story-stage :global(.flow > text),
+  .story-stage :global(.flow .wires) {
+    transition: opacity 0.6s var(--ease-out);
+  }
+
+  .story-stage :global(.chip),
+  .story-stage :global(.agent),
+  .story-stage :global(.gate),
+  .story-stage :global(.tool),
+  .story-stage :global(.audit),
+  .story-stage :global([data-control]) {
+    opacity: 0.3;
+  }
+
+  .story-stage :global(.is-idle) {
+    opacity: 0.12;
+  }
+
+  :global([data-step='0']) .story-stage :global(.chip:not(.chip--out)),
+  :global([data-step='1']) .story-stage :global(.gate:not(.is-idle)),
+  :global([data-step='1']) .story-stage :global(.tool:not(.is-idle)),
+  :global([data-step='1']) .story-stage :global(.audit),
+  :global([data-step='2']) .story-stage :global(.agent:not(.is-idle)),
+  :global([data-step='3']) .story-stage :global([data-control]),
+  :global([data-step='3']) .story-stage :global(.agent:not(.is-idle)),
+  :global([data-step='3']) .story-stage :global(.audit),
+  :global([data-step='4']) .story-stage :global(.chip--out) {
+    opacity: 1;
+  }
+
+  :global([data-step='3']) .story-stage :global([data-control] .glow) {
+    opacity: 1;
+  }
+
+  .story-stage :global(.packet),
+  .story-stage :global(.spark) {
+    display: none;
+  }
+
+  @media (max-width: 759.98px) {
+    .story-stage {
+      place-items: start center;
+      padding: 0;
+    }
+
+    .camera--wide {
+      display: none;
+    }
+
+    .camera--tall {
+      display: block;
+      width: min(100%, 26rem);
+      transform: translate3d(0, calc(23svh - var(--vy)), 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .camera {
+      transition: none;
+    }
+  }
+</style>
