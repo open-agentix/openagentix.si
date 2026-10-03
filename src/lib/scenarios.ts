@@ -30,8 +30,8 @@ export const scenarios: Scenario[] = [
     id: 'cve',
     source: 'cron',
     agents: [
-      { id: 'triage', tool: 'trivy.scan_image', verdict: 'allow' },
-      { id: 'fixer', tool: 'github.open_pull_request', verdict: 'allow' },
+      { id: 'triage', tool: 'trivy.scan', verdict: 'allow' },
+      { id: 'fixer', tool: 'github.open_pr', verdict: 'allow' },
     ],
     outputs: ['cve', 'pr'],
   },
@@ -40,8 +40,8 @@ export const scenarios: Scenario[] = [
     source: 'webhook',
     agents: [
       { id: 'classifier', tool: 'jira.get_issue', verdict: 'allow' },
-      { id: 'checker', tool: 'confluence.search', verdict: 'allow' },
-      { id: 'updater', tool: 'jira.update_issue', verdict: 'allow' },
+      { id: 'checker', tool: 'wiki.search', verdict: 'allow' },
+      { id: 'updater', tool: 'jira.update', verdict: 'allow' },
     ],
     outputs: ['ticket'],
   },
@@ -49,8 +49,8 @@ export const scenarios: Scenario[] = [
     id: 'orders',
     source: 'kafka',
     agents: [
-      { id: 'investigator', tool: 'postgres.read_only_query', verdict: 'allow' },
-      { id: 'reporter', tool: 'docs.render_report', verdict: 'allow' },
+      { id: 'investigator', tool: 'postgres.query', verdict: 'allow' },
+      { id: 'reporter', tool: 'docs.render', verdict: 'allow' },
     ],
     outputs: ['report', 'message'],
   },
@@ -58,7 +58,7 @@ export const scenarios: Scenario[] = [
     id: 'invoice',
     source: 'mail',
     agents: [
-      { id: 'reader', tool: 'mail.read_attachment', verdict: 'allow' },
+      { id: 'reader', tool: 'mail.read', verdict: 'allow' },
       { id: 'payer', tool: 'bank.transfer', verdict: 'block' },
     ],
     outputs: ['message'],
@@ -67,15 +67,15 @@ export const scenarios: Scenario[] = [
     id: 'incident',
     source: 'teams',
     agents: [
-      { id: 'analyst', tool: 'loki.query_logs', verdict: 'allow' },
-      { id: 'summariser', tool: 'teams.post_message', verdict: 'allow' },
+      { id: 'analyst', tool: 'loki.query', verdict: 'allow' },
+      { id: 'summariser', tool: 'teams.post', verdict: 'allow' },
     ],
     outputs: ['message', 'metrics'],
   },
   {
     id: 'anomaly',
     source: 'stream',
-    agents: [{ id: 'watcher', tool: 'prometheus.query', verdict: 'allow' }],
+    agents: [{ id: 'watcher', tool: 'prom.query', verdict: 'allow' }],
     outputs: ['metrics', 'report'],
   },
 ];
