@@ -10,7 +10,7 @@ interface Props {
 const p = getDictionary(Astro.props.locale).landing.problem;
 ---
 
-<section class="section problem" aria-labelledby="problem-title">
+<section class="section lazy-render problem" aria-labelledby="problem-title">
   <div class="container">
     <header class="section-head" data-reveal>
       <p class="eyebrow">{p.eyebrow}</p>

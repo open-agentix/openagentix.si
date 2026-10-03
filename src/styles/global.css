@@ -156,6 +156,12 @@ pre {
   color: transparent;
 }
 
+/* Skip layout and paint of sections far below the fold until they approach the viewport. */
+.section.lazy-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1100px;
+}
+
 .section-head {
   max-width: 52rem;
   margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
