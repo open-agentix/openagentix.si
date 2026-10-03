@@ -37,7 +37,8 @@ describe('dictionaries', () => {
 describe('deepMerge', () => {
   it('replaces arrays and primitives, merges objects, ignores undefined', () => {
     const base = { a: 1, list: [1, 2], nested: { x: 'x', y: 'y' } };
-    expect(deepMerge(base, { list: [3], nested: { y: 'Y' }, a: undefined })).toEqual({
+    const override = { list: [3], nested: { y: 'Y' }, a: undefined } as unknown as Parameters<typeof deepMerge<typeof base>>[1];
+    expect(deepMerge(base, override)).toEqual({
       a: 1,
       list: [3],
       nested: { x: 'x', y: 'Y' },
