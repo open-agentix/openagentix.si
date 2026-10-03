@@ -1,0 +1,356 @@
+---
+import { createHash } from 'node:crypto';
+import Icon from '../Icon.astro';
+import type { Locale } from '../../i18n/config';
+import { localeInfo } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+import { buildChain, sampleAudit, shortHash } from '../../lib/audit-chain';
+import { matrix, resources, roles, type Access } from '../../lib/rbac';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const tr = getDictionary(locale).landing.trust;
+// A real SHA-256 chain, computed at build time.
+const chain = buildChain(sampleAudit, (s) => createHash('sha256').update(s).digest('hex')).slice(-4);
+const money = new Intl.NumberFormat(localeInfo[locale].dateLocale, { style: 'currency', currency: 'EUR' });
+const budget = 150;
+const spend = [
+  { agent: 'cve-autofix', value: 18.4 },
+  { agent: 'ticket-triage', value: 42.1 },
+  { agent: 'incident-summary', value: 9.75 },
+];
+const spent = spend.reduce((a, b) => a + b.value, 0);
+const max = Math.max(...spend.map((s) => s.value));
+const symbol: Record<Access, string> = { manage: '●', read: '◐', none: '○' };
+---
+
+<section class="section trust" id="trust" aria-labelledby="trust-title">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">{tr.eyebrow}</p>
+      <h2 id="trust-title" class="display">{tr.title}</h2>
+    </header>
+
+    <div class="grid">
+      <article class="card wide" data-reveal>
+        <div class="text">
+          <h3>{tr.audit.title}</h3>
+          <p>{tr.audit.body}</p>
+        </div>
+        <ol class="chain">
+          {
+            chain.map((e) => (
+              <li class:list={['block', { blocked: e.action === 'tool.blocked' }]}>
+                <span class="seq">#{e.seq}</span>
+                <code class="action">{e.action}</code>
+                <span class="actor">{e.actor}</span>
+                <span class="hashes">
+                  <span>prev <code>{shortHash(e.prev)}</code></span>
+                  <span>hash <code>{shortHash(e.hash)}</code></span>
+                </span>
+              </li>
+            ))
+          }
+        </ol>
+        <div class="verified">
+          <span class="ok"><Icon name="check" size={14} />{tr.audit.verified}</span>
+          <span>{tr.audit.checkpoint}</span>
+        </div>
+      </article>
+
+      <article class="card" data-reveal>
+        <h3>{tr.rbac.title}</h3>
+        <p>{tr.rbac.body}</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">{tr.rbac.role}</th>
+                {resources.map((r) => <th scope="col"><code>{r}</code></th>)}
+              </tr>
+            </thead>
+            <tbody>
+              {
+                roles.map((role) => (
+                  <tr>
+                    <th scope="row"><code>{role}</code></th>
+                    {resources.map((r) => (
+                      <td class={`a-${matrix[role][r]}`}>
+                        <span aria-hidden="true">{symbol[matrix[role][r]]}</span>
+                        <span class="visually-hidden">{tr.rbac.legend[matrix[role][r]]}</span>
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+        <p class="legend" aria-hidden="true">
+          <span>● {tr.rbac.legend.manage}</span><span>◐ {tr.rbac.legend.read}</span><span>○ {tr.rbac.legend.none}</span>
+        </p>
+      </article>
+
+      <article class="card" data-reveal>
+        <h3>{tr.costs.title}</h3>
+        <p>{tr.costs.body}</p>
+        <ul class="bars">
+          {
+            spend.map((s) => (
+              <li>
+                <span class="bar-label"><code>{s.agent}</code><span>{money.format(s.value)}</span></span>
+                <span class="bar"><span style={`--v: ${(s.value / max).toFixed(3)}`} /></span>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="budget">
+          <span>{tr.costs.budget}</span>
+          <strong>{money.format(spent)} {tr.costs.of} {money.format(budget)}</strong>
+          <span class="meter"><span style={`--v: ${(spent / budget).toFixed(3)}`} /></span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .wide {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 0.8fr 1.6fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  h3 {
+    font-size: clamp(1.35rem, 2.2vw, 1.75rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+  }
+
+  .card > p,
+  .text p {
+    margin-top: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .chain {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .block {
+    position: relative;
+    display: grid;
+    gap: 0.35rem;
+    padding: 1rem;
+    border-radius: var(--radius-m);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    font-size: 0.8125rem;
+    min-width: 0;
+  }
+
+  .block:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -1.25rem;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--gradient-accent);
+  }
+
+  .block.blocked {
+    border-color: color-mix(in srgb, var(--danger) 50%, transparent);
+  }
+
+  .seq {
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+  }
+
+  .action {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .blocked .action {
+    color: var(--danger);
+  }
+
+  .actor {
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hashes {
+    display: grid;
+    gap: 0.15rem;
+    margin-top: 0.4rem;
+    color: var(--text-faint);
+    font-size: 0.75rem;
+  }
+
+  .hashes code {
+    color: var(--accent);
+  }
+
+  .verified {
+    grid-column: 2;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .verified .ok {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--ok);
+    font-weight: 600;
+  }
+
+  .table-wrap {
+    margin-top: 1.5rem;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+
+  th,
+  td {
+    padding: 0.45rem 0.35rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  thead th {
+    color: var(--text-faint);
+    font-weight: 500;
+  }
+
+  tbody th {
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  td {
+    font-size: 1rem;
+  }
+
+  .a-manage {
+    color: var(--accent);
+  }
+
+  .a-read {
+    color: var(--cyan);
+  }
+
+  .a-none {
+    color: var(--text-faint);
+  }
+
+  .legend {
+    display: flex;
+    gap: 1.25rem;
+    margin-top: 0.9rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .bars {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .bar,
+  .meter {
+    display: block;
+    height: 10px;
+    margin-top: 0.4rem;
+    border-radius: 999px;
+    background: var(--surface-2);
+    overflow: hidden;
+  }
+
+  .bar > span,
+  .meter > span {
+    display: block;
+    height: 100%;
+    background: var(--gradient-accent);
+    transform-origin: left;
+    transform: scaleX(var(--v));
+  }
+
+  .budget {
+    display: grid;
+    gap: 0.2rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .budget strong {
+    color: var(--text);
+    font-size: 1.125rem;
+  }
+
+  @media (max-width: 1000px) {
+    .grid,
+    .wide {
+      grid-template-columns: 1fr;
+    }
+
+    .verified {
+      grid-column: 1;
+    }
+
+    .chain {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .block::after {
+      display: none;
+    }
+  }
+</style>
