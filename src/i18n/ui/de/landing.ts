@@ -69,7 +69,7 @@ export const landing: Dictionary['landing'] = {
     scenarios: {
       cve: {
         caption: 'Nächtlicher Zeitplan: Container-Images scannen, die verwundbare Abhängigkeit aktualisieren, Pull Request öffnen.',
-        agents: { triage: 'CVE-Triage', fixer: 'Abhängigkeits-Fixer' },
+        agents: { triage: 'CVE-Triage', fixer: 'Paket-Updater' },
       },
       ticket: {
         caption: 'Jira-Webhook: Ticket einordnen, Runbook prüfen, Ticket aktualisieren.',

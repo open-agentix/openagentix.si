@@ -47,8 +47,8 @@ const sourceAnchor = (b: { x: number; y: number; w: number; h: number }) =>
 const outputAnchor = (b: { x: number; y: number; w: number; h: number }) =>
   wide ? leftEdge(b) : { x: b.x + b.w / 2, y: b.y };
 
-const chipLabel = wide ? 17 : 14;
-const chipHint = wide ? 12.5 : 11;
+const chipLabel = wide ? 17 : 15;
+const chipHint = wide ? 12.5 : 11.5;
 const auditSlotSize = wide ? 26 : 22;
 const auditStart = l.audit.x + (wide ? 210 : 150);
 const auditStep = wide ? 34 : 34;
