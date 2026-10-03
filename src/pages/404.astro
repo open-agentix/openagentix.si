@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import { liveLocales, localeInfo } from '../i18n/config';
+import { pathFor } from '../i18n/routes';
+import { getDictionary } from '../i18n/translate';
+
+// One static 404 for all locales: every message is shown in each live language.
+const messages = liveLocales.map((l) => ({ locale: l, t: getDictionary(l).common.notFound }));
+const en = getDictionary('en').common.notFound;
+---
+
+<Base locale="en" page={null} title={`404 – ${en.title}`} description={en.description} detectLanguage={false}>
+  <section class="container nf">
+    <p class="code" aria-hidden="true">404</p>
+    {
+      messages.map(({ locale, t }) => (
+        <div lang={localeInfo[locale].bcp47} class="msg">
+          <h1 class="headline">{t.title}</h1>
+          <p>{t.description}</p>
+          <p class="links">
+            <a href={pathFor('home', locale)}>{t.home}</a>
+            <a href={locale === 'de' ? '/de/docs/' : '/docs/'}>{t.docs}</a>
+          </p>
+        </div>
+      ))
+    }
+  </section>
+</Base>
+
+<style>
+  .nf {
+    padding-block: clamp(4rem, 12vw, 9rem);
+    text-align: center;
+  }
+
+  .code {
+    font-size: clamp(5rem, 18vw, 12rem);
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    background: var(--gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .msg {
+    margin-top: 2.5rem;
+  }
+
+  .msg + .msg h1 {
+    font-size: 1.5rem;
+  }
+
+  .msg p {
+    margin-top: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+</style>
