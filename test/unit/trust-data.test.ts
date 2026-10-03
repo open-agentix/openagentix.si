@@ -10,6 +10,7 @@ describe('audit chain', () => {
 
   it('links every entry to the previous hash', () => {
     expect(chain[0]!.prev).toBe(GENESIS);
+    expect(chain[0]!.seq).toBe(1);
     chain.slice(1).forEach((e, i) => expect(e.prev).toBe(chain[i]!.hash));
     expect(chain.every((e) => /^[0-9a-f]{64}$/.test(e.hash))).toBe(true);
   });
@@ -20,7 +21,7 @@ describe('audit chain', () => {
 
   it('detects a changed payload and a broken link', () => {
     const tampered = chain.map((e) => ({ ...e }));
-    tampered[2]!.target = 'github.force_push';
+    tampered[2]!.target = 'tickets/delete_ticket';
     expect(verifyChain(tampered, sha256)).toBe(2);
     const relinked = chain.map((e) => ({ ...e }));
     relinked[3]!.prev = GENESIS;
@@ -49,5 +50,6 @@ describe('rbac matrix', () => {
     expect(canWrite('admin', 'agents')).toBe(true);
     expect(resources.some((r) => canWrite('viewer', r))).toBe(false);
     expect(canWrite('integrator', 'connections')).toBe(true);
+    expect(roles.every((r) => matrix[r].costs === 'read')).toBe(true);
   });
 });
