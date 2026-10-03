@@ -1,4 +1,6 @@
-/* Self-hosted Geist variable fonts, Latin subsets only (see src/assets/fonts/SOURCE.md). */
+/* Self-hosted Geist variable fonts, Latin subsets only (see src/assets/fonts/SOURCE.md).
+   `optional` + preload: the font is used when it arrives in time, and a late font never repaints
+   the largest text (better LCP, no layout shift). */
 @font-face {
   font-family: 'Geist Variable';
   font-style: normal;
