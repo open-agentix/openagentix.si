@@ -1,0 +1,460 @@
+---
+// Inline SVG of the platform flow. Geometry comes from src/lib/flow-layout.ts so the animation
+// driver (src/scripts/hero.ts) and this markup always agree.
+import { flowLayout, leftEdge, rightEdge, type Orientation } from '../../lib/flow-layout';
+import { iconPaths, type IconName } from '../../lib/icons';
+import { outputIds, scenarios, sourceIds } from '../../lib/scenarios';
+import { agentSlots } from '../../lib/timeline';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+  orientation: Orientation;
+  /** Unique prefix for gradient ids when the diagram appears more than once on a page. */
+  idPrefix: string;
+}
+
+const { locale, orientation, idPrefix } = Astro.props;
+const d = getDictionary(locale).landing.diagram;
+const l = flowLayout(orientation);
+const wide = orientation === 'horizontal';
+const first = scenarios[0]!;
+const firstSlots = agentSlots(first.agents.length, l.agents.length);
+const firstNames: Record<string, string> = d.scenarios.cve.agents;
+const id = (name: string) => `${idPrefix}-${name}`;
+
+const sourceIcons: Record<string, IconName> = {
+  kafka: 'kafka', webhook: 'webhook', stream: 'stream', mail: 'mail', teams: 'chat', cron: 'clock',
+};
+const outputIcons: Record<string, IconName> = {
+  pr: 'diff', cve: 'bug', ticket: 'ticket', message: 'chat', report: 'report', metrics: 'chart',
+};
+const icon = (name: IconName, x: number, y: number, size: number) =>
+  `<svg x="${x}" y="${y}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${iconPaths[name]}</svg>`;
+
+const curve = (a: { x: number; y: number }, b: { x: number; y: number }) => {
+  if (wide) {
+    const dx = (b.x - a.x) * 0.5;
+    return `M${a.x} ${a.y} C${a.x + dx} ${a.y} ${b.x - dx} ${b.y} ${b.x} ${b.y}`;
+  }
+  const dy = (b.y - a.y) * 0.5;
+  return `M${a.x} ${a.y} C${a.x} ${a.y + dy} ${b.x} ${b.y - dy} ${b.x} ${b.y}`;
+};
+
+const sourceAnchor = (b: { x: number; y: number; w: number; h: number }) =>
+  wide ? rightEdge(b) : { x: b.x + b.w / 2, y: b.y + b.h };
+const outputAnchor = (b: { x: number; y: number; w: number; h: number }) =>
+  wide ? leftEdge(b) : { x: b.x + b.w / 2, y: b.y };
+
+const chipLabel = wide ? 17 : 14;
+const chipHint = wide ? 12.5 : 11;
+const auditSlotSize = wide ? 26 : 22;
+const auditStart = l.audit.x + (wide ? 210 : 150);
+const auditStep = wide ? 34 : 34;
+const staticAuditCount = 1 + first.agents.length + 1;
+---
+
+<svg
+  class:list={['flow', `flow--${orientation}`]}
+  data-orientation={orientation}
+  viewBox={`0 0 ${l.width} ${l.height}`}
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <linearGradient id={id('stroke')} x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8b5cf6" />
+      <stop offset="0.55" stop-color="#6366f1" />
+      <stop offset="1" stop-color="#22d3ee" />
+    </linearGradient>
+    <radialGradient id={id('halo')}>
+      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.75" />
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id={id('halo-c')}>
+      <stop offset="0" stop-color="#67e8f9" stop-opacity="0.9" />
+      <stop offset="1" stop-color="#67e8f9" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <g class="wires">
+    {sourceIds.map((s) => <path d={curve(sourceAnchor(l.sources[s]), l.entry)} />)}
+    {outputIds.map((o) => <path d={curve(l.exit, outputAnchor(l.outputs[o]))} />)}
+  </g>
+
+  {/* Platform */}
+  <rect class="platform" x={l.platform.x} y={l.platform.y} width={l.platform.w} height={l.platform.h} rx="28" stroke={`url(#${id('stroke')})`} />
+  <text class="platform-title" x={l.platform.x + 24} y={l.platform.y + 30}>{d.platform}</text>
+  <path class="spine" d={`M${l.entry.x} ${l.entry.y} ${wide ? `H${l.exit.x}` : `V${l.agents[0]!.y} M${l.agents[0]!.x} ${l.agents[0]!.y} H${l.agents[2]!.x} M${l.exit.x} ${l.agents[0]!.y} V${l.exit.y}`}`} />
+
+  {/* Control agent */}
+  <g data-control>
+    <rect class="band" x={l.control.x} y={l.control.y} width={l.control.w} height={l.control.h} rx="16" />
+    <rect class="glow glow--cyan" x={l.control.x} y={l.control.y} width={l.control.w} height={l.control.h} rx="16" />
+    <rect class="alert" x={l.control.x} y={l.control.y} width={l.control.w} height={l.control.h} rx="16" />
+    <g class="c-icon" set:html={icon('eye', l.control.x + 18, l.control.y + 20, 24)} />
+    <text class="band-label" x={l.control.x + 54} y={l.control.y + 28}>{d.control}</text>
+    <text class="band-hint" x={l.control.x + 54} y={l.control.y + 47}>{d.controlHint}</text>
+  </g>
+
+  {/* Agents, audit gates and tools */}
+  {
+    l.agents.map((a, slot) => {
+      const index = firstSlots.indexOf(slot);
+      const used = index !== -1;
+      const agent = used ? first.agents[index]! : null;
+      const name = agent ? (firstNames[agent.id] ?? agent.id) : '';
+      const gate = l.gates[slot]!;
+      const tool = l.tools[slot]!;
+      return (
+        <>
+          <path class="stem" d={`M${a.x} ${a.y + l.agentRadius} V${tool.y}`} />
+          <g data-agent={slot} class:list={['agent', { 'is-idle': !used, 'is-static-on': used }]}>
+            <circle class="glow halo" cx={a.x} cy={a.y} r={l.agentRadius + 26} fill={`url(#${id('halo')})`} />
+            <circle class="agent-core" cx={a.x} cy={a.y} r={l.agentRadius} />
+            <circle class="glow ring" cx={a.x} cy={a.y} r={l.agentRadius} stroke={`url(#${id('stroke')})`} />
+            <g class="a-icon" set:html={icon('cpu', a.x - 14, a.y - 22, 28)} />
+            <text class="agent-label" x={a.x} y={a.y + 17}>{d.agent}</text>
+            <text class="agent-name" data-agent-name x={a.x} y={a.y + l.agentRadius + (wide ? 22 : 18)}>{name}</text>
+          </g>
+          <g data-gate={slot} class:list={['gate', { 'is-idle': !used }]}>
+            <path class="shield" transform={`translate(${gate.x - 14} ${gate.y - 16}) scale(1.17)`} d="M12 2.5 4 5.5v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10v-6z" />
+            <g class:list={['ok', { 'is-static-on': used }]}>
+              <circle cx={gate.x + 16} cy={gate.y - 12} r="9" />
+              <path d={`M${gate.x + 12} ${gate.y - 12} l3 3 l5 -6`} />
+            </g>
+            <g class="no">
+              <circle cx={gate.x + 16} cy={gate.y - 12} r="9" />
+              <path d={`M${gate.x + 12.5} ${gate.y - 15.5} l7 7 M${gate.x + 19.5} ${gate.y - 15.5} l-7 7`} />
+            </g>
+            <text class="gate-label" x={gate.x} y={gate.y + (wide ? 30 : 28)}>{d.gate}</text>
+          </g>
+          <g data-tool={slot} class:list={['tool', { 'is-idle': !used, 'is-static-on': used }]}>
+            <rect class="tool-chip" x={tool.x} y={tool.y} width={tool.w} height={tool.h} rx="10" />
+            <rect class="glow tool-glow" x={tool.x} y={tool.y} width={tool.w} height={tool.h} rx="10" />
+            <text class="tool-name" data-tool-name x={tool.x + tool.w / 2} y={tool.y + tool.h / 2 + 4}>{agent?.tool ?? ''}</text>
+          </g>
+        </>
+      );
+    })
+  }
+
+  {/* Audit trail */}
+  <g class="audit">
+    <rect class="band" x={l.audit.x} y={l.audit.y} width={l.audit.w} height={l.audit.h} rx="16" />
+    <text class="band-label" x={l.audit.x + 20} y={l.audit.y + 28}>{d.audit}</text>
+    <text class="band-hint" x={l.audit.x + 20} y={l.audit.y + 47}>{d.auditHint}</text>
+    <path class="chain" d={`M${auditStart} ${l.audit.y + l.audit.h / 2} h${(l.auditSlots - 1) * auditStep + auditSlotSize}`} />
+    {
+      Array.from({ length: l.auditSlots }, (_, i) => (
+        <rect
+          data-audit-slot={i}
+          class:list={['audit-slot', { 'is-static-on': i < staticAuditCount }]}
+          x={auditStart + i * auditStep}
+          y={l.audit.y + (l.audit.h - auditSlotSize) / 2}
+          width={auditSlotSize}
+          height={auditSlotSize}
+          rx="6"
+        />
+      ))
+    }
+  </g>
+
+  {/* Event sources */}
+  <text class="col-label" x={wide ? l.sources.kafka.x + 4 : l.width / 2} y={wide ? 36 : 12} text-anchor={wide ? 'start' : 'middle'}>{d.events}</text>
+  {
+    sourceIds.map((s) => {
+      const b = l.sources[s];
+      return (
+        <g data-node={`source:${s}`} class:list={['chip', { 'is-static-on': s === first.source }]}>
+          <rect class="chip-bg" x={b.x} y={b.y} width={b.w} height={b.h} rx="14" />
+          <rect class="glow chip-glow" x={b.x} y={b.y} width={b.w} height={b.h} rx="14" />
+          <g class="chip-icon" set:html={icon(sourceIcons[s]!, b.x + 14, b.y + (b.h - 24) / 2, 24)} />
+          <text class="chip-label" x={b.x + 48} y={b.y + b.h / 2 - 2} font-size={chipLabel}>{d.sources[s]}</text>
+          <text class="chip-hint" x={b.x + 48} y={b.y + b.h / 2 + 15} font-size={chipHint}>{d.sourceHints[s]}</text>
+        </g>
+      );
+    })
+  }
+
+  {/* Outputs */}
+  <text class="col-label" x={wide ? l.outputs.pr.x + 4 : l.width / 2} y={wide ? 36 : l.outputs.pr.y - 10} text-anchor={wide ? 'start' : 'middle'}>{d.results}</text>
+  {
+    outputIds.map((o) => {
+      const b = l.outputs[o];
+      return (
+        <g data-node={`output:${o}`} class:list={['chip', 'chip--out', { 'is-static-on': first.outputs.includes(o) }]}>
+          <rect class="chip-bg" x={b.x} y={b.y} width={b.w} height={b.h} rx="14" />
+          <rect class="glow chip-glow" x={b.x} y={b.y} width={b.w} height={b.h} rx="14" />
+          <g class="chip-icon" set:html={icon(outputIcons[o]!, b.x + 14, b.y + (b.h - 24) / 2, 24)} />
+          <text class="chip-label" x={b.x + 48} y={b.y + b.h / 2 - 2} font-size={chipLabel}>{d.outputs[o]}</text>
+          <text class="chip-hint" x={b.x + 48} y={b.y + b.h / 2 + 15} font-size={chipHint}>{d.outputHints[o]}</text>
+        </g>
+      );
+    })
+  }
+
+  {/* Moving parts: three packets (event + up to two outputs) and one tool-call spark */}
+  {
+    [0, 1, 2].map((p) => (
+      <g data-packet={p} class="packet">
+        <circle r="20" fill={`url(#${id('halo-c')})`} />
+        <circle r="6.5" class="packet-core" />
+      </g>
+    ))
+  }
+  <circle data-spark class="spark" r="4.5" />
+</svg>
+
+<style>
+  .flow {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    font-family: var(--font-sans);
+    --chip: color-mix(in srgb, var(--surface-2) 88%, transparent);
+  }
+
+  .wires path,
+  .spine,
+  .stem {
+    fill: none;
+    stroke: var(--border-strong);
+    stroke-width: 1.25;
+    stroke-dasharray: 2 6;
+    stroke-linecap: round;
+  }
+
+  .spine {
+    stroke-dasharray: none;
+    stroke: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .platform {
+    fill: color-mix(in srgb, var(--surface) 70%, transparent);
+    stroke-width: 1.5;
+  }
+
+  .platform-title {
+    fill: var(--text-faint);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .band {
+    fill: var(--chip);
+    stroke: var(--border);
+  }
+
+  .band-label {
+    fill: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .band-hint {
+    fill: var(--text-faint);
+    font-size: 12px;
+    font-family: var(--font-mono);
+  }
+
+  .c-icon {
+    color: var(--cyan);
+  }
+
+  .glow {
+    opacity: 0;
+  }
+
+  .glow--cyan {
+    fill: rgb(34 211 238 / 0.1);
+    stroke: rgb(34 211 238 / 0.8);
+    stroke-width: 1.5;
+  }
+
+  .alert {
+    opacity: 0;
+    fill: rgb(251 113 133 / 0.12);
+    stroke: var(--rose);
+    stroke-width: 2;
+  }
+
+  .agent-core {
+    fill: var(--surface-2);
+    stroke: var(--border-strong);
+    stroke-width: 1.25;
+  }
+
+  .ring {
+    fill: none;
+    stroke-width: 2.5;
+  }
+
+  .a-icon {
+    color: var(--accent);
+  }
+
+  .agent-label {
+    fill: var(--text-faint);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-anchor: middle;
+  }
+
+  .agent-name {
+    fill: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    text-anchor: middle;
+  }
+
+  .flow--vertical .agent-name {
+    font-size: 12.5px;
+  }
+
+  .is-idle {
+    opacity: 0.28;
+  }
+
+  .shield {
+    fill: var(--chip);
+    stroke: var(--text-muted);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+
+  .ok,
+  .no {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .ok circle {
+    fill: var(--green);
+  }
+
+  .no circle {
+    fill: var(--rose);
+  }
+
+  .ok path,
+  .no path {
+    fill: none;
+    stroke: #06070c;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .gate-label {
+    fill: var(--text-faint);
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-anchor: middle;
+  }
+
+  .tool-chip {
+    fill: var(--chip);
+    stroke: var(--border);
+  }
+
+  .tool-glow {
+    fill: rgb(52 211 153 / 0.12);
+    stroke: var(--green);
+    stroke-width: 1.5;
+  }
+
+  .tool-name {
+    fill: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    text-anchor: middle;
+  }
+
+  .chain {
+    stroke: var(--border-strong);
+    stroke-width: 1.5;
+  }
+
+  .audit-slot {
+    fill: var(--accent);
+    opacity: 0.18;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .col-label {
+    fill: var(--text-faint);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .chip-bg {
+    fill: var(--chip);
+    stroke: var(--border);
+  }
+
+  .chip-glow {
+    fill: rgb(139 92 246 / 0.14);
+    stroke: var(--accent);
+    stroke-width: 1.5;
+  }
+
+  .chip--out .chip-glow {
+    fill: rgb(34 211 238 / 0.12);
+    stroke: var(--cyan);
+  }
+
+  .chip-icon {
+    color: var(--text-muted);
+  }
+
+  .chip-label {
+    fill: var(--text);
+    font-weight: 600;
+  }
+
+  .chip-hint {
+    fill: var(--text-faint);
+    font-family: var(--font-mono);
+  }
+
+  .packet {
+    opacity: 0;
+  }
+
+  .packet-core {
+    fill: #fff;
+  }
+
+  .spark {
+    opacity: 0;
+    fill: var(--cyan);
+  }
+
+  /* Static diagram (reduced motion or no Web Animations): show the first scenario completed. */
+  :global([data-static='true']) .is-static-on .glow,
+  :global([data-static='true']) .is-static-on.ok,
+  :global([data-static='true']) .audit-slot.is-static-on,
+  :global([data-static-diagram]) .is-static-on .glow,
+  :global([data-static-diagram]) .is-static-on.ok,
+  :global([data-static-diagram]) .audit-slot.is-static-on {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .is-static-on .glow,
+    .is-static-on.ok,
+    .audit-slot.is-static-on {
+      opacity: 1;
+    }
+  }
+</style>
