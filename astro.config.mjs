@@ -32,6 +32,9 @@ export default defineConfig({
       lastUpdated: false,
       disable404Route: true,
       customCss: ['./src/styles/fonts.css', './src/styles/starlight.css'],
+      components: {
+        LanguageSelect: './src/components/docs/LanguageSelect.astro',
+      },
       sidebar: docsSidebar,
     }),
   ],
