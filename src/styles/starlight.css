@@ -1,0 +1,57 @@
+/* Starlight theme: map the site palette onto Starlight's custom properties. */
+:root {
+  --sl-font: 'Inter Variable', 'Inter Fallback', ui-sans-serif, system-ui, sans-serif;
+  --sl-font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Code', Menlo, Consolas, monospace;
+  --sl-color-accent-low: #1e1538;
+  --sl-color-accent: #8b5cf6;
+  --sl-color-accent-high: #ddd6fe;
+  --sl-color-white: #f2f3f8;
+  --sl-color-gray-1: #e4e6ef;
+  --sl-color-gray-2: #c2c6d6;
+  --sl-color-gray-3: #a6acc0;
+  --sl-color-gray-4: #5f667e;
+  --sl-color-gray-5: #2a2f42;
+  --sl-color-gray-6: #141826;
+  --sl-color-black: #06070c;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #ede9fe;
+  --sl-color-accent: #6d28d9;
+  --sl-color-accent-high: #3b0f8c;
+  --sl-color-white: #0b0d17;
+  --sl-color-gray-1: #1a1e2e;
+  --sl-color-gray-2: #2f3447;
+  --sl-color-gray-3: #474d63;
+  --sl-color-gray-4: #7d849b;
+  --sl-color-gray-5: #c9ccda;
+  --sl-color-gray-6: #eceef6;
+  --sl-color-gray-7: #f5f6fb;
+  --sl-color-black: #ffffff;
+}
+
+.oax-badge {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border-radius: 999px;
+  font-size: var(--sl-text-xs);
+  font-weight: 600;
+  border: 1px solid currentColor;
+  vertical-align: middle;
+}
+
+.oax-badge--mvp {
+  color: #34d399;
+}
+
+.oax-badge--roadmap {
+  color: #fbbf24;
+}
+
+:root[data-theme='light'] .oax-badge--mvp {
+  color: #047857;
+}
+
+:root[data-theme='light'] .oax-badge--roadmap {
+  color: #92400e;
+}
