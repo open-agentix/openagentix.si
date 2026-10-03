@@ -1,8 +1,8 @@
 /* Design tokens shared by the landing pages and the docs. Dark is the primary design. */
 :root {
-  --font-sans: 'Inter Variable', 'Inter Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+  --font-sans: 'Geist Variable', 'Geist Fallback', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
     Roboto, sans-serif;
-  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas,
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', 'Cascadia Code', 'JetBrains Mono', Menlo, Consolas,
     monospace;
 
   --violet: #8b5cf6;
