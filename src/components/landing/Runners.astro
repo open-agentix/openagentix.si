@@ -1,0 +1,204 @@
+---
+import Icon from '../Icon.astro';
+import type { IconName } from '../../lib/icons';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const t = getDictionary(Astro.props.locale);
+const r = t.landing.runners;
+type Key = keyof typeof r.items;
+// Availability follows SPEC.md: in-process + local in the MVP, the rest on the roadmap.
+const runners: { key: Key; icon: IconName; status: 'mvp' | 'roadmap' }[] = [
+  { key: 'inProcess', icon: 'cpu', status: 'mvp' },
+  { key: 'local', icon: 'terminal', status: 'mvp' },
+  { key: 'container', icon: 'box', status: 'roadmap' },
+  { key: 'kubernetes', icon: 'helm', status: 'roadmap' },
+  { key: 'lambda', icon: 'lambda', status: 'roadmap' },
+  { key: 'github', icon: 'github', status: 'roadmap' },
+  { key: 'gitlab', icon: 'fox', status: 'roadmap' },
+];
+const harnesses = ['Claude Code', 'OpenCode', 'Hermes', 'OpenClaw'];
+---
+
+<section class="section runners" id="runners" aria-labelledby="runners-title">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">{r.eyebrow}</p>
+      <h2 id="runners-title" class="display">{r.title}</h2>
+      <p class="lead">{r.lead}</p>
+    </header>
+
+    <div class="orbit" data-reveal>
+      <div class="gate">
+        <Icon name="shield" size={28} />
+        <p>{r.gate}</p>
+      </div>
+      <ul class="grid">
+        {
+          runners.map((x) => (
+            <li class:list={['runner', `is-${x.status}`]}>
+              <div class="top">
+                <span class="icon-wrap"><Icon name={x.icon} size={20} /></span>
+                <span class:list={['badge', x.status === 'mvp' ? 'badge--mvp' : 'badge--roadmap']}>
+                  {x.status === 'mvp' ? t.common.badges.mvp : t.common.badges.roadmap}
+                </span>
+              </div>
+              <h3>{r.items[x.key].name}</h3>
+              <p>{r.items[x.key].body}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="note">{t.landing.architecture.runnersNote}</p>
+    </div>
+
+    <div class="harness" data-reveal>
+      <div>
+        <span class="badge badge--roadmap">{t.common.badges.roadmap}</span>
+        <h3>{r.harness.title}</h3>
+        <p>{r.harness.body}</p>
+      </div>
+      <ul class="names">
+        {harnesses.map((h) => <li>{h}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .orbit {
+    position: relative;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    background:
+      radial-gradient(60% 50% at 50% 0%, var(--glow-a), transparent 70%),
+      var(--bg-soft);
+  }
+
+  .gate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 0 auto 2rem;
+    padding: 0.85rem 1.25rem;
+    width: fit-content;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    background: var(--surface);
+    color: var(--accent);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .gate p {
+    color: var(--text);
+  }
+
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 0.9rem;
+  }
+
+  .runner {
+    padding: 1.35rem;
+    border-radius: var(--radius-l);
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .runner.is-roadmap {
+    border-style: dashed;
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .icon-wrap {
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.75rem;
+    background: rgb(127 127 127 / 0.1);
+  }
+
+  .runner h3 {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    font-weight: 650;
+  }
+
+  .runner p {
+    margin-top: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .note {
+    margin-top: 1.5rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .harness {
+    margin-top: 1.25rem;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: var(--radius-xl);
+    border: 1px dashed var(--border-strong);
+  }
+
+  .harness h3 {
+    margin-top: 0.85rem;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+  }
+
+  .harness p {
+    margin-top: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .names {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+  }
+
+  .names li {
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-weight: 600;
+    text-align: center;
+  }
+
+  @media (max-width: 860px) {
+    .harness {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
