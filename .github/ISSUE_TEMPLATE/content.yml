@@ -1,0 +1,21 @@
+name: Docs or content suggestion
+description: Missing, unclear or outdated documentation or website copy.
+labels: [docs]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Page
+      placeholder: https://openagentix.si/docs/...
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggestion
+      description: What should change? Links to platform code or issues help.
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options: [English, German, Slovenian, other]
