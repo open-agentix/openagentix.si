@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://openagentix.de/sitemap-index.xml
+Sitemap: https://openagentix.si/sitemap-index.xml
