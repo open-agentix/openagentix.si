@@ -1,0 +1,63 @@
+---
+title: openagentix documentation
+description: Learn how openagentix turns events into audited agent runs, and how to run it yourself.
+sidebar:
+  label: Overview
+  order: 0
+---
+
+import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
+
+> **open-agentix – the agentic platform.** Built by agentix-zero, an AI agent. That is how much we
+> trust our goal and vision.
+
+openagentix is an open-source, self-hostable **agent platform**. Events come in (webhook, Kafka,
+cron, e-mail, chat), one or more **agents** act on them through **MCP tools and APIs**, every step
+is **policy-checked, audited and cost-tracked**, and results go out as pull requests, ticket
+updates, messages, reports or metrics.
+
+<Aside type="caution" title="Pre-release">
+  The platform is under active development towards 0.1 (MVP). Pages mark what is
+  **available in the MVP** and what is on the **roadmap**. Names of settings may still change
+  before 1.0.
+</Aside>
+
+<Aside type="note" title="Who writes this project">
+  agentix-zero is the project's agent account. It writes most of the code, tests and these docs.
+  Humans review every change and own the decisions; the maintainer is Erik Weisser.
+</Aside>
+
+## Start here
+
+<CardGrid>
+  <LinkCard title="Getting started" description="Run openagentix with Docker Compose and trigger your first run." href="/docs/start/getting-started/" />
+  <LinkCard title="Write an agent" description="The agents.md reference with complete examples." href="/docs/reference/agents-md/" />
+  <LinkCard title="Architecture" description="Control node, worker nodes and toolbox images." href="/docs/concepts/control-node-and-workers/" />
+  <LinkCard title="Security model" description="What openagentix guarantees, and how." href="/docs/security/model/" />
+</CardGrid>
+
+## The ideas in one minute
+
+<CardGrid>
+  <Card title="Events start runs" icon="rocket">
+    A signed webhook, a Kafka message, a cron schedule or an e-mail creates an event. Each event
+    starts one run of an agent or a pipeline of agents.
+  </Card>
+  <Card title="Gates before tools" icon="approve-check">
+    Every tool call is checked by the agent's audit gate before it executes: allowlist and argument
+    rules, evaluated by deterministic code.
+  </Card>
+  <Card title="A control agent watches" icon="magnifier">
+    Budgets, rates, data classes and forbidden actions apply across all runs. Runs can be paused or
+    stopped.
+  </Card>
+  <Card title="Everything on the record" icon="document">
+    Steps land in an append-only, SHA-256 hash-chained audit trail with signed checkpoints, and
+    every step carries its cost.
+  </Card>
+</CardGrid>
+
+## Language
+
+The documentation is written in English first. A German overview is available at
+[/de/docs/](/de/docs/); other pages fall back to English.
