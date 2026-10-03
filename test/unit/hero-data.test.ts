@@ -9,7 +9,7 @@ import {
 } from '../../src/lib/scenarios';
 import { bottomEdge, center, flowLayout, layoutProblems, topEdge } from '../../src/lib/flow-layout';
 import { agentSlots, buildTimeline } from '../../src/lib/timeline';
-import { cameraFor, storyCameras } from '../../src/lib/camera';
+import { cameraFor, storyCameras, tallStoryFocus } from '../../src/lib/camera';
 
 describe('scenarios', () => {
   it('are consistent', () => {
@@ -162,5 +162,16 @@ describe('story cameras', () => {
     const [sources, , , , outputs] = storyCameras('horizontal');
     expect(sources!.x).toBeGreaterThan(0);
     expect(outputs!.x).toBeLessThan(0);
+  });
+});
+
+describe('tall story focus', () => {
+  it('moves down the diagram from sources to outputs', () => {
+    const f = tallStoryFocus();
+    expect(f).toHaveLength(5);
+    expect(f[0]!).toBeLessThan(f[2]!);
+    expect(f[2]!).toBeLessThan(f[1]!);
+    expect(f[1]!).toBeLessThan(f[4]!);
+    expect(f.every((v) => v > 0 && v < 100)).toBe(true);
   });
 });
