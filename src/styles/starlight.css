@@ -55,3 +55,9 @@
 :root[data-theme='light'] .oax-badge--roadmap {
   color: #92400e;
 }
+
+/* Status badges in tables stay on one line. */
+.sl-markdown-content td .sl-badge,
+.sl-badge {
+  white-space: nowrap;
+}
