@@ -1,0 +1,50 @@
+---
+title: Dokumentation von openagentix
+description: Überblick auf Deutsch. Die ausführliche Dokumentation erscheint zuerst auf Englisch.
+sidebar:
+  label: Überblick
+  order: 0
+---
+
+import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+> **open-agentix – die agentische Plattform.** Gebaut von agentix-zero, einem KI-Agenten. So sehr
+> vertrauen wir unserem Ziel und unserer Vision.
+
+<Aside type="note" title="Doku zuerst auf Englisch">
+  Die Dokumentation entsteht zuerst auf Englisch und wird dort aktuell gehalten. Diese Übersicht
+  gibt es auf Deutsch; alle weiteren Seiten zeigen bis zur Übersetzung den englischen Text.
+</Aside>
+
+openagentix ist eine quelloffene, selbst gehostete **Agentenplattform**. Ereignisse kommen herein
+(Webhook, Kafka, Cron, E-Mail, Chat), ein oder mehrere **Agenten** handeln über **MCP-Tools und
+APIs**, jeder Schritt wird **vorab geprüft, protokolliert und mit Kosten erfasst**, und die
+Ergebnisse gehen als Pull Request, Ticket-Update, Nachricht, Bericht oder Metrik hinaus.
+
+<Aside type="caution" title="Vorabversion">
+  Die Plattform entsteht gerade auf dem Weg zu 0.1 (MVP). Die Seiten kennzeichnen, was **im MVP
+  verfügbar** ist und was auf der **Roadmap** steht.
+</Aside>
+
+agentix-zero ist das Agenten-Konto des Projekts und schreibt den Großteil von Code, Tests und Doku.
+Menschen prüfen jede Änderung und tragen die Entscheidungen; Maintainer ist Erik Weisser.
+
+## Einstieg
+
+<CardGrid>
+  <LinkCard title="Erste Schritte" description="Den ersten Agenten lokal mit der CLI ausführen." href="/docs/start/getting-started/" />
+  <LinkCard title="agents.md-Referenz" description="Alle Felder mit vollständigen Beispielen." href="/docs/reference/agents-md/" />
+  <LinkCard title="Architektur" description="Kontrollknoten, Worker-Knoten und Toolbox-Images." href="/docs/concepts/control-node-and-workers/" />
+  <LinkCard title="Sicherheitsmodell" description="Was openagentix garantiert – und wie." href="/docs/security/model/" />
+</CardGrid>
+
+## Die Ideen in einer Minute
+
+- **Ereignisse starten Läufe:** Ein signierter Webhook, eine Kafka-Nachricht, ein Zeitplan oder
+  eine E-Mail erzeugt ein Ereignis; jedes Ereignis startet einen Lauf.
+- **Prüfung vor jedem Tool:** Das Audit-Gate jedes Agenten prüft Tool-Aufrufe vor der Ausführung
+  gegen Allowlist und Argumentregeln – mit deterministischem Code, nicht mit einem Modell.
+- **Ein Kontroll-Agent wacht:** Budgets, Raten, Datenklassen und verbotene Aktionen gelten für alle
+  Läufe; Läufe können angehalten oder beendet werden.
+- **Alles im Protokoll:** Jeder Schritt landet in einem nur anhängbaren, per SHA-256 verketteten
+  Audit-Trail mit signierten Checkpoints – und trägt seine Kosten.
