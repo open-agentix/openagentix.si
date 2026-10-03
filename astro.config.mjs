@@ -10,11 +10,11 @@ const site = process.env.SITE_URL ?? SITE_URL;
 export default defineConfig({
   site,
   trailingSlash: 'always',
-  build: { format: 'directory', inlineStylesheets: 'auto' },
+  // CSS is inlined: no render-blocking stylesheet requests on first load (see lighthouserc.json).
+  build: { format: 'directory', inlineStylesheets: 'always' },
   // The site ships SVG and CSS artwork only; no raster processing is needed at build time.
   image: { service: passthroughImageService() },
   devToolbar: { enabled: false },
-  prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
   integrations: [
     starlight({
       title: 'openagentix docs',
