@@ -15,7 +15,11 @@ const { locale } = Astro.props;
 const tr = getDictionary(locale).landing.trust;
 // A real SHA-256 chain, computed at build time.
 const chain = buildChain(sampleAudit, (s) => createHash('sha256').update(s).digest('hex')).slice(-4);
-const money = new Intl.NumberFormat(localeInfo[locale].dateLocale, { style: 'currency', currency: 'USD' });
+const money = new Intl.NumberFormat(localeInfo[locale].dateLocale, {
+  style: 'currency',
+  currency: 'USD',
+  currencyDisplay: 'narrowSymbol',
+});
 const budget = 150;
 const spend = [
   { agent: 'cve-autofix', value: 18.4 },
@@ -24,7 +28,6 @@ const spend = [
 ];
 const spent = spend.reduce((a, b) => a + b.value, 0);
 const max = Math.max(...spend.map((s) => s.value));
-const symbol: Record<Access, string> = { manage: '●', read: '◐', none: '○' };
 ---
 
 <section class="section lazy-render trust" id="trust" aria-labelledby="trust-title">
@@ -80,7 +83,7 @@ const symbol: Record<Access, string> = { manage: '●', read: '◐', none: '○'
                     <th scope="row"><code>{role}</code></th>
                     {resources.map((r) => (
                       <td class={`a-${matrix[role][r]}`}>
-                        <span aria-hidden="true">{symbol[matrix[role][r]]}</span>
+                        <span class="dot" aria-hidden="true"></span>
                         <span class="visually-hidden">{tr.rbac.legend[matrix[role][r]]}</span>
                       </td>
                     ))}
@@ -91,7 +94,9 @@ const symbol: Record<Access, string> = { manage: '●', read: '◐', none: '○'
           </table>
         </div>
         <p class="legend" aria-hidden="true">
-          <span>● {tr.rbac.legend.manage}</span><span>◐ {tr.rbac.legend.read}</span><span>○ {tr.rbac.legend.none}</span>
+          <span class="a-manage"><span class="dot"></span>{tr.rbac.legend.manage}</span>
+          <span class="a-read"><span class="dot"></span>{tr.rbac.legend.read}</span>
+          <span class="a-none"><span class="dot"></span>{tr.rbac.legend.none}</span>
         </p>
       </article>
 
@@ -272,20 +277,44 @@ const symbol: Record<Access, string> = { manage: '●', read: '◐', none: '○'
     white-space: nowrap;
   }
 
-  td {
-    font-size: 1rem;
+  /* Access level as a shape: filled (manage), half (read), ring (none). */
+  .dot {
+    display: inline-block;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    vertical-align: middle;
   }
 
   .a-manage {
     color: var(--accent);
   }
 
+  .a-manage .dot {
+    background: currentColor;
+  }
+
   .a-read {
     color: var(--cyan);
   }
 
+  :global(:root[data-theme='light']) .a-read {
+    color: #0e7490;
+  }
+
+  .a-read .dot {
+    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+  }
+
   .a-none {
     color: var(--text-faint);
+  }
+
+  .legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 
   .legend {
