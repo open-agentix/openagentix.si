@@ -1,0 +1,11 @@
+---
+// Wraps Starlight's language select so a choice made in the docs is remembered site-wide.
+import Default from '@astrojs/starlight/components/LanguageSelect.astro';
+---
+
+<Default />
+
+<script>
+  import { initLanguageSwitchers } from '../../scripts/switcher';
+  initLanguageSwitchers(document, window);
+</script>
