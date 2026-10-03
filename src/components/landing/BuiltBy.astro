@@ -1,0 +1,209 @@
+---
+import { execFileSync } from 'node:child_process';
+import Icon from '../Icon.astro';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const t = getDictionary(Astro.props.locale);
+const b = t.landing.builtBy;
+
+// Real commits of this repository, read at build time. Falls back to an empty feed outside git.
+let commits: { hash: string; subject: string }[] = [];
+try {
+  commits = execFileSync('git', ['log', '-n', '6', '--author=agentix-zero', '--format=%h%x09%s'], {
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'ignore'],
+  })
+    .trim()
+    .split('\n')
+    .filter(Boolean)
+    .map((line) => {
+      const [hash = '', subject = ''] = line.split('\t');
+      return { hash, subject };
+    });
+} catch {
+  commits = [];
+}
+---
+
+<section class="section built" id="built-by" aria-labelledby="built-title">
+  <div class="container inner">
+    <div class="copy" data-reveal>
+      <p class="eyebrow">{b.eyebrow}</p>
+      <h2 id="built-title" class="display">{b.title}</h2>
+      <p class="tagline"><strong>{t.common.ownerTagline.lead}</strong> {t.common.ownerTagline.rest}</p>
+      <p class="body">{b.body}</p>
+      <p class="transparency">{t.common.transparency}</p>
+    </div>
+
+    <div class="console" data-reveal>
+      <p class="label">{b.gatesLabel}</p>
+      <ul class="gates">
+        {
+          b.gates.map((g, i) => (
+            <li style={`--i: ${i}`}>
+              <span class="ok"><Icon name="check" size={14} /></span>
+              {g}
+              <span class="passed">{b.passed}</span>
+            </li>
+          ))
+        }
+      </ul>
+      {
+        commits.length > 0 && (
+          <>
+            <p class="label">{b.feedLabel}</p>
+            <ol class="feed">
+              {commits.map((c, i) => (
+                <li style={`--i: ${i}`}>
+                  <code class="hash">{c.hash}</code>
+                  <code class="subject">{c.subject}</code>
+                </li>
+              ))}
+            </ol>
+          </>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .tagline {
+    margin-top: 1.5rem;
+    font-size: clamp(1.15rem, 1.7vw, 1.375rem);
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .tagline strong {
+    color: var(--text);
+  }
+
+  .body {
+    margin-top: 1rem;
+    color: var(--text-muted);
+  }
+
+  .transparency {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--accent);
+    font-size: 0.9375rem;
+    color: var(--text-faint);
+  }
+
+  .console {
+    padding: 1.5rem;
+    border-radius: var(--radius-xl);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    box-shadow: 0 40px 100px -40px var(--glow-a);
+    font-size: 0.9rem;
+  }
+
+  .label {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.75rem;
+  }
+
+  .label:not(:first-child) {
+    margin-top: 1.5rem;
+  }
+
+  .gates,
+  .feed {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .gates li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-s);
+    background: var(--surface);
+  }
+
+  .ok {
+    display: grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: rgb(52 211 153 / 0.15);
+    color: var(--ok);
+  }
+
+  .passed {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--ok);
+    font-family: var(--font-mono);
+  }
+
+  .feed li {
+    display: flex;
+    gap: 0.75rem;
+    min-width: 0;
+    font-size: 0.8125rem;
+  }
+
+  .hash {
+    color: var(--accent);
+    flex: none;
+  }
+
+  .subject {
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .gates li,
+      .feed li {
+        animation: slide-in linear both;
+        animation-timeline: view();
+        animation-range: entry calc(10% + var(--i) * 5%) cover calc(30% + var(--i) * 5%);
+      }
+    }
+  }
+
+  @keyframes slide-in {
+    from {
+      opacity: 0;
+      transform: translate3d(-1rem, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
