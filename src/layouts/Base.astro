@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import fontLatin from '../assets/fonts/geist-latin-wght-normal.woff2?url';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { defaultLocale, localeInfo, type Locale } from '../i18n/config';
@@ -47,7 +46,6 @@ const xDefault = page ? new URL(pathFor(page, defaultLocale), site).href : undef
     <meta name="color-scheme" content="dark light" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="preload" href={fontLatin} as="font" type="font/woff2" crossorigin />
     <script is:inline>
       // Apply the stored or system colour theme before first paint (shared key with the docs).
       (function () {
@@ -77,11 +75,9 @@ const xDefault = page ? new URL(pathFor(page, defaultLocale), site).href : undef
     </main>
     <Footer locale={locale} page={page} />
     <script>
-      import { initLanguageSwitchers } from '../scripts/switcher';
-      import { initMenu, initThemeToggle } from '../scripts/theme';
-      initLanguageSwitchers(document, window);
-      initThemeToggle(document, window);
-      initMenu(document, window);
+      // Non-critical UI wiring loads after first paint (links still work without it).
+      import { whenIdle } from '../scripts/defer';
+      whenIdle(window, () => void import('../scripts/site-init').then((m) => m.initSite(document, window)));
     </script>
   </body>
 </html>
