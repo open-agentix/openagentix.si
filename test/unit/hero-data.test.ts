@@ -9,6 +9,7 @@ import {
 } from '../../src/lib/scenarios';
 import { bottomEdge, center, flowLayout, layoutProblems, topEdge } from '../../src/lib/flow-layout';
 import { agentSlots, buildTimeline } from '../../src/lib/timeline';
+import { cameraFor, storyCameras } from '../../src/lib/camera';
 
 describe('scenarios', () => {
   it('are consistent', () => {
@@ -23,6 +24,11 @@ describe('scenarios', () => {
   it('include pipelines of one, two and three agents and at least one blocked call', () => {
     expect(new Set(scenarios.map((s) => s.agents.length))).toEqual(new Set([1, 2, 3]));
     expect(scenarios.some(isBlocked)).toBe(true);
+  });
+
+  it('use tool names short enough for the diagram chips', () => {
+    const longest = Math.max(...scenarios.flatMap((s) => s.agents.map((a) => a.tool.length)));
+    expect(longest).toBeLessThanOrEqual(16);
   });
 
   it('report every kind of problem', () => {
@@ -133,5 +139,28 @@ describe('timeline', () => {
   it('works with the vertical layout', () => {
     const tl = buildTimeline(scenarios[1]!, flowLayout('vertical'));
     expect(tl.slots).toEqual([0, 1, 2]);
+  });
+});
+
+describe('story cameras', () => {
+  it('centres a focus point', () => {
+    expect(cameraFor({ x: 50, y: 50 }, 100, 100, 2)).toEqual({ scale: 2, x: 0, y: 0 });
+    expect(cameraFor({ x: 0, y: 100 }, 100, 100, 1)).toEqual({ scale: 1, x: 50, y: -50 });
+  });
+
+  it.each(['horizontal', 'vertical'] as const)('provides five finite cameras for the %s story', (o) => {
+    const cams = storyCameras(o);
+    expect(cams).toHaveLength(5);
+    for (const c of cams) {
+      expect(Number.isFinite(c.x) && Number.isFinite(c.y)).toBe(true);
+      expect(Math.abs(c.x)).toBeLessThan(50);
+      expect(Math.abs(c.y)).toBeLessThan(50);
+    }
+  });
+
+  it('moves left for the sources and right for the outputs in the wide story', () => {
+    const [sources, , , , outputs] = storyCameras('horizontal');
+    expect(sources!.x).toBeGreaterThan(0);
+    expect(outputs!.x).toBeLessThan(0);
   });
 });
