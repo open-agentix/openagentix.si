@@ -13,7 +13,7 @@ const { locale } = Astro.props;
 const c = getDictionary(locale).landing.cta;
 ---
 
-<section class="section cta" aria-labelledby="cta-title">
+<section class="section lazy-render cta" aria-labelledby="cta-title">
   <div class="container">
     <div class="panel" data-reveal>
       <div class="glow" aria-hidden="true" data-parallax="0.08"></div>
