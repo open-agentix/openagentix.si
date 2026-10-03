@@ -434,13 +434,13 @@ export const landing: Dictionary['landing'] = {
       },
       {
         phase: '0.2',
-        body: 'Container- und Kubernetes-Runner, Feinschliff für Kafka und Mail, Dashboards in der Konsole.',
+        body: 'Worker-Knoten in Containern und auf Kubernetes/EKS, mit signierten, gescannten Toolbox-Images.',
       },
       {
         phase: '0.3',
         body: 'Runner für AWS Lambda, GitHub Actions und GitLab CI; optionale externe Harnesses.',
       },
-      { phase: '1.0', body: 'Stabile APIs, signierte Releases und ein dokumentierter Upgrade-Pfad.' },
+      { phase: '1.0', body: 'Stabile APIs, signierte Releases, dokumentierte Upgrades und eine öffentliche Demo.' },
     ],
   },
   cta: {
