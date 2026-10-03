@@ -1,0 +1,54 @@
+---
+title: External harnesses (optional)
+description: Let Claude Code, OpenCode, Hermes or OpenClaw execute an agent - with the same policy gate, audit and costs. Never required.
+sidebar:
+  order: 2
+  badge:
+    text: Roadmap
+    variant: caution
+---
+
+import { Aside, Badge } from '@astrojs/starlight/components';
+
+<Badge text="Roadmap 0.3" variant="caution" /> Harness execution is planned for 0.3. The adapter
+interface exists today; the Claude Code invocation is already built and tested, the others are
+stubs.
+
+Some teams already use an agent harness they like. openagentix can hand an agent to such a harness
+**without giving up any guardrail**: an adapter translates `agents.md` into the harness
+configuration, runs the harness in a sandboxed [runner](/docs/concepts/runners/), and routes every
+tool call through the openagentix policy gate.
+
+| Harness | Adapter | Status |
+| --- | --- | --- |
+| Claude Code | `claude-code` | <Badge text="Invocation built" variant="note" /> <Badge text="Roadmap 0.3" variant="caution" /> |
+| OpenCode | `opencode` | <Badge text="Roadmap 0.3" variant="caution" /> |
+| Hermes | `hermes` | <Badge text="Roadmap 0.3" variant="caution" /> |
+| OpenClaw | `openclaw` | <Badge text="Roadmap 0.3" variant="caution" /> |
+
+## How the gate stays in charge
+
+1. The harness gets an MCP configuration with **one** server: the `openagentix-gate` proxy,
+   authenticated with the run's signed token.
+2. The proxy offers only the agent's granted tools. Each call goes through the
+   [audit gate](/docs/concepts/audit-agent/), is recorded in the
+   [audit trail](/docs/concepts/audit-trail/), counts against the budgets and is watched by the
+   [control agent](/docs/concepts/control-agent/).
+3. The harness's own tools are switched off; it can act only through the proxy.
+
+For Claude Code this means a headless invocation along these lines:
+
+```sh
+claude -p "<prompt>" --output-format stream-json --verbose --model <model> \
+  --append-system-prompt "<instructions>" \
+  --mcp-config .openagentix/mcp.json --strict-mcp-config \
+  --permission-mode dontAsk \
+  --allowedTools "mcp__openagentix-gate__tickets__get_ticket,…"
+```
+
+with `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1` set.
+
+<Aside type="note" title="Optional by design">
+  The platform works fully without any harness. Harnesses never get credentials for the real tools
+  and never fetch instructions from the internet at run time.
+</Aside>
