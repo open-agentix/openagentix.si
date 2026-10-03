@@ -432,13 +432,13 @@ export const landing = {
       },
       {
         phase: '0.2',
-        body: 'Container and Kubernetes runners, Kafka and mail polishing, console dashboards.',
+        body: 'Worker nodes in containers and on Kubernetes/EKS, with signed, scanned toolbox images.',
       },
       {
         phase: '0.3',
         body: 'AWS Lambda, GitHub Actions and GitLab CI runners; optional external harnesses.',
       },
-      { phase: '1.0', body: 'Stable APIs, signed releases and a documented upgrade path.' },
+      { phase: '1.0', body: 'Stable APIs, signed releases, documented upgrades and a public demo.' },
     ],
   },
   cta: {
