@@ -176,8 +176,9 @@ const first = progress.replace('{current}', '1').replace('{total}', String(steps
     }
 
     .stage-wrap {
-      top: calc(var(--header-h) + 0.5rem);
-      height: 46svh;
+      top: var(--header-h);
+      padding-top: 0.5rem;
+      height: calc(46svh + 0.5rem);
       z-index: 2;
       background: var(--bg);
       padding-bottom: 0.5rem;
