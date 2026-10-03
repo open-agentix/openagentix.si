@@ -1,0 +1,159 @@
+---
+import Icon from '../Icon.astro';
+import type { IconName } from '../../lib/icons';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const f = getDictionary(Astro.props.locale).landing.features;
+type Key = keyof typeof f.items;
+// Order and size of the bento tiles; the large ones carry the core promise.
+const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' }[] = [
+  { key: 'audit', icon: 'shield', size: 'l' },
+  { key: 'events', icon: 'bolt', size: 'm' },
+  { key: 'mcp', icon: 'plug', size: 'm' },
+  { key: 'costs', icon: 'coins', size: 's' },
+  { key: 'rbac', icon: 'users', size: 's' },
+  { key: 'runs', icon: 'sliders', size: 's' },
+  { key: 'providers', icon: 'cpu', size: 'l' },
+  { key: 'metrics', icon: 'chart', size: 's' },
+  { key: 'helm', icon: 'helm', size: 's' },
+  { key: 'approvals', icon: 'hand', size: 's' },
+  { key: 'secrets', icon: 'key', size: 'm' },
+  { key: 'offline', icon: 'offline', size: 'm' },
+];
+---
+
+<section class="section features" id="features" aria-labelledby="features-title">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">{f.eyebrow}</p>
+      <h2 id="features-title" class="display">{f.title}</h2>
+    </header>
+    <ul class="bento">
+      {
+        tiles.map((t) => (
+          <li class:list={['tile', `tile--${t.size}`]} data-reveal>
+            <span class="icon-wrap"><Icon name={t.icon} size={t.size === 'l' ? 26 : 22} /></span>
+            <h3>{f.items[t.key].title}</h3>
+            <p>{f.items[t.key].body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .bento {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+  }
+
+  .tile {
+    grid-column: span 3;
+    padding: 1.6rem;
+    border-radius: var(--radius-l);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition:
+      transform 0.5s var(--ease-out),
+      border-color 0.3s;
+  }
+
+  .tile:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-strong);
+  }
+
+  .tile--l {
+    grid-column: span 6;
+    grid-row: span 2;
+    padding: 2.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background:
+      radial-gradient(90% 70% at 15% 0%, var(--glow-a), transparent 60%),
+      radial-gradient(70% 60% at 100% 100%, var(--glow-b), transparent 60%),
+      var(--surface);
+  }
+
+  .tile--m {
+    grid-column: span 3;
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .icon-wrap {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.9rem;
+    background: rgb(127 127 127 / 0.1);
+    color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+
+  .tile--l .icon-wrap {
+    width: 3.25rem;
+    height: 3.25rem;
+    margin-bottom: auto;
+    background: rgb(139 92 246 / 0.18);
+    color: var(--accent);
+  }
+
+  h3 {
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.015em;
+  }
+
+  .tile--l h3 {
+    margin-top: 3rem;
+    font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+    letter-spacing: -0.035em;
+  }
+
+  p {
+    margin-top: 0.55rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .tile--l p {
+    font-size: 1.0625rem;
+    max-width: 30rem;
+  }
+
+  @media (max-width: 1000px) {
+    .tile,
+    .tile--m {
+      grid-column: span 6;
+      grid-row: auto;
+    }
+
+    .tile--l {
+      grid-column: span 12;
+      grid-row: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .tile,
+    .tile--m,
+    .tile--l {
+      grid-column: span 12;
+    }
+  }
+</style>
