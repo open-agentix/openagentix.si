@@ -1,0 +1,100 @@
+---
+title: Getting started
+description: Run your first openagentix agent with the local CLI today, and the full platform with Docker Compose once the API ships.
+sidebar:
+  order: 1
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+There are two ways in. The **local CLI** works today and runs an agent definition against an event
+on your machine, with the same parser, policy gate, budgets and audit chain as the platform. The
+**Docker Compose** setup starts the whole platform (API, worker, console, PostgreSQL) and arrives
+with the 0.1 release.
+
+## Run an agent locally
+
+<Steps>
+
+1. Clone the platform repository and install dependencies (Node.js 22 LTS, pnpm):
+
+   ```sh
+   git clone https://github.com/open-agentix/open-agentix.git
+   cd open-agentix
+   pnpm install --frozen-lockfile
+   pnpm build
+   ```
+
+2. Make the CLI available as `oax` and validate the bundled example pipeline:
+
+   ```sh
+   alias oax="node $PWD/packages/runners/dist/cli.js"
+   oax validate examples/cve-triage.agents.md
+   # valid: cve-triage@<version>
+   ```
+
+3. Run it against a recorded event. The example uses the deterministic `simulated` provider and
+   built-in demo MCP servers, so it needs no API keys and makes no outbound calls:
+
+   ```sh
+   oax run examples/cve-triage.agents.md --event examples/events/trivy-finding.json
+   ```
+
+   The summary shows the result, the steps, tokens and cost, and the verified audit chain:
+
+   ```text
+   status=succeeded steps=… toolCalls=… tokens=…/… cost=$0.000000
+   audit: valid (… entries, head 3f9a0c…)
+   ```
+
+4. Try the guardrails. Run the ticket example, which needs a human approval, and answer it:
+
+   ```sh
+   oax run examples/ticket-updater.agents.md \
+     --event examples/events/jira-issue.json --approve all
+   ```
+
+   Without `--approve all` the approval is rejected and the agent stops.
+
+</Steps>
+
+Add `--json` to get every step as a JSON line. See the [CLI reference](/docs/reference/cli/) for
+all options.
+
+## Use a real model
+
+Configure providers with `OAX_PROVIDERS` (a JSON array) or `--providers <file>`, and keep keys out
+of files: secrets are resolved by name from `OAX_SECRET_<NAME>` or from files in
+`OAX_SECRETS_DIR`.
+
+```sh
+export OAX_SECRET_OPENAI_KEY=sk-...
+export OAX_PROVIDERS='[{"kind":"openai","name":"openai","baseUrl":"https://api.openai.com/v1","apiKeySecret":"openai.key"}]'
+```
+
+Then set `provider: openai` and a `model` in your agent. See [Providers](/docs/providers/overview/).
+
+## Run the platform with Docker Compose
+
+<Aside type="caution" title="Coming with 0.1">
+  The API, worker and console are being built. This section describes the planned setup and will
+  be updated with the exact file when the first release is tagged.
+</Aside>
+
+The Compose setup will start PostgreSQL 16, the API (control node), a worker and the console:
+
+```sh
+git clone https://github.com/open-agentix/open-agentix.git
+cd open-agentix
+cp .env.example .env        # set the admin bootstrap password and secrets
+docker compose up -d
+```
+
+You will then send a signed [webhook](/docs/events/webhook/) to start a run and follow it in the
+console, step by step.
+
+## Next steps
+
+- Learn the [concepts](/docs/concepts/control-node-and-workers/).
+- Write your own agent with the [agents.md reference](/docs/reference/agents-md/).
+- Read the [security model](/docs/security/model/) before connecting real tools.
