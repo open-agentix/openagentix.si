@@ -214,9 +214,9 @@ export const landing: Dictionary['landing'] = {
     rows: [
       { step: 'Ereignis empfangen', detail: 'cron · nightly', decision: 'geprüft', cost: '–' },
       { step: 'Modellaufruf', detail: 'bedrock · eu-central-1', decision: '–', cost: '0,08 €' },
-      { step: 'Tool-Aufruf', detail: 'trivy.scan_image', decision: 'erlaubt', cost: '0,00 €' },
+      { step: 'Tool-Aufruf', detail: 'trivy.scan', decision: 'erlaubt', cost: '0,00 €' },
       { step: 'Modellaufruf', detail: 'bedrock · eu-central-1', decision: '–', cost: '0,11 €' },
-      { step: 'Tool-Aufruf', detail: 'github.open_pull_request', decision: 'erlaubt', cost: '0,00 €' },
+      { step: 'Tool-Aufruf', detail: 'github.open_pr', decision: 'erlaubt', cost: '0,00 €' },
       { step: 'Tool-Aufruf', detail: 'github.merge', decision: 'blockiert', cost: '–' },
     ],
     side: {
