@@ -2,9 +2,10 @@
 import { defineConfig, passthroughImageService } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { docsSidebar } from './src/docs-sidebar.mjs';
+import { GITHUB_ORG, repos, SITE_URL } from './src/project.ts';
 
 // Canonical origin used for canonical URLs, hreflang links and the sitemap.
-const site = process.env.SITE_URL ?? 'https://openagentix.de';
+const site = process.env.SITE_URL ?? SITE_URL;
 
 export default defineConfig({
   site,
@@ -26,9 +27,9 @@ export default defineConfig({
         de: { label: 'Deutsch', lang: 'de' },
       },
       social: [
-        { icon: 'github', label: 'GitHub', href: 'https://github.com/open-agentix' },
+        { icon: 'github', label: 'GitHub', href: GITHUB_ORG },
       ],
-      editLink: { baseUrl: 'https://github.com/open-agentix/website/edit/main/' },
+      editLink: { baseUrl: `${repos.website.url}/edit/main/` },
       lastUpdated: false,
       disable404Route: true,
       customCss: ['./src/styles/fonts.css', './src/styles/starlight.css'],
