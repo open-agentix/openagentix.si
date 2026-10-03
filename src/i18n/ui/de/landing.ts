@@ -213,17 +213,17 @@ export const landing: Dictionary['landing'] = {
     columns: { step: 'Schritt', detail: 'Tool / Modell', decision: 'Gate', cost: 'Kosten' },
     rows: [
       { step: 'Ereignis empfangen', detail: 'cron · nightly', decision: 'geprüft', cost: '–' },
-      { step: 'Modellaufruf', detail: 'bedrock · eu-central-1', decision: '–', cost: '0,08 €' },
-      { step: 'Tool-Aufruf', detail: 'trivy.scan', decision: 'erlaubt', cost: '0,00 €' },
-      { step: 'Modellaufruf', detail: 'bedrock · eu-central-1', decision: '–', cost: '0,11 €' },
-      { step: 'Tool-Aufruf', detail: 'github.open_pr', decision: 'erlaubt', cost: '0,00 €' },
+      { step: 'Modellaufruf', detail: 'bedrock · eu-central-1', decision: '–', cost: '0,08 $' },
+      { step: 'Tool-Aufruf', detail: 'trivy.scan', decision: 'erlaubt', cost: '0,00 $' },
+      { step: 'Modellaufruf', detail: 'bedrock · eu-central-1', decision: '–', cost: '0,11 $' },
+      { step: 'Tool-Aufruf', detail: 'github.open_pr', decision: 'erlaubt', cost: '0,00 $' },
       { step: 'Tool-Aufruf', detail: 'github.merge', decision: 'blockiert', cost: '–' },
     ],
     side: {
       audit: 'Audit-Kette',
       auditValue: 'Geprüft · 1.204 Einträge',
       budget: 'Budget',
-      budgetValue: '0,42 € von 5,00 €',
+      budgetValue: '0,42 $ von 5,00 $',
       tokens: 'Tokens',
       tokensValue: '18.240 rein · 2.115 raus',
       approvals: 'Freigaben',
@@ -262,7 +262,7 @@ export const landing: Dictionary['landing'] = {
     items: {
       events: {
         title: 'Ereignisse rein',
-        body: 'Signierte Webhooks, Kafka, Cron, E-Mail, Teams und Slack starten Läufe. Jedes Ereignis wird gespeichert und lässt sich erneut abspielen.',
+        body: 'Signierte Webhooks, Kafka, Cron, E-Mail, Teams und Slack starten Läufe. Jedes Ereignis wird geprüft und als CloudEvent lückenlos nachverfolgt.',
       },
       mcp: {
         title: 'MCP-Zugriff',

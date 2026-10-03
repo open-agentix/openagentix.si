@@ -15,7 +15,7 @@ const { locale } = Astro.props;
 const tr = getDictionary(locale).landing.trust;
 // A real SHA-256 chain, computed at build time.
 const chain = buildChain(sampleAudit, (s) => createHash('sha256').update(s).digest('hex')).slice(-4);
-const money = new Intl.NumberFormat(localeInfo[locale].dateLocale, { style: 'currency', currency: 'EUR' });
+const money = new Intl.NumberFormat(localeInfo[locale].dateLocale, { style: 'currency', currency: 'USD' });
 const budget = 150;
 const spend = [
   { agent: 'cve-autofix', value: 18.4 },
@@ -43,10 +43,11 @@ const symbol: Record<Access, string> = { manage: '●', read: '◐', none: '○'
         <ol class="chain">
           {
             chain.map((e) => (
-              <li class:list={['block', { blocked: e.action === 'tool.blocked' }]}>
+              <li class:list={['block', { blocked: e.target.endsWith(' deny') }]}>
                 <span class="seq">#{e.seq}</span>
                 <code class="action">{e.action}</code>
                 <span class="actor">{e.actor}</span>
+                <span class="target">{e.target}</span>
                 <span class="hashes">
                   <span>prev <code>{shortHash(e.prev)}</code></span>
                   <span>hash <code>{shortHash(e.hash)}</code></span>
@@ -193,15 +194,24 @@ const symbol: Record<Access, string> = { manage: '●', read: '◐', none: '○'
     color: var(--text);
   }
 
-  .blocked .action {
-    color: var(--danger);
-  }
-
   .actor {
     color: var(--text-muted);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .target {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .blocked .target {
+    color: var(--danger);
   }
 
   .hashes {
