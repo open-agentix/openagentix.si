@@ -211,17 +211,17 @@ export const landing = {
     columns: { step: 'Step', detail: 'Tool / model', decision: 'Gate', cost: 'Cost' },
     rows: [
       { step: 'Event received', detail: 'cron · nightly', decision: 'verified', cost: '–' },
-      { step: 'Model call', detail: 'bedrock · eu-central-1', decision: '–', cost: '€0.08' },
-      { step: 'Tool call', detail: 'trivy.scan', decision: 'allowed', cost: '€0.00' },
-      { step: 'Model call', detail: 'bedrock · eu-central-1', decision: '–', cost: '€0.11' },
-      { step: 'Tool call', detail: 'github.open_pr', decision: 'allowed', cost: '€0.00' },
+      { step: 'Model call', detail: 'bedrock · eu-central-1', decision: '–', cost: '$0.08' },
+      { step: 'Tool call', detail: 'trivy.scan', decision: 'allowed', cost: '$0.00' },
+      { step: 'Model call', detail: 'bedrock · eu-central-1', decision: '–', cost: '$0.11' },
+      { step: 'Tool call', detail: 'github.open_pr', decision: 'allowed', cost: '$0.00' },
       { step: 'Tool call', detail: 'github.merge', decision: 'blocked', cost: '–' },
     ],
     side: {
       audit: 'Audit chain',
       auditValue: 'Verified · 1,204 entries',
       budget: 'Budget',
-      budgetValue: '€0.42 of €5.00',
+      budgetValue: '$0.42 of $5.00',
       tokens: 'Tokens',
       tokensValue: '18,240 in · 2,115 out',
       approvals: 'Approvals',
@@ -260,7 +260,7 @@ export const landing = {
     items: {
       events: {
         title: 'Events in',
-        body: 'Signed webhooks, Kafka, cron, e-mail, Teams and Slack start runs. Every event is stored and can be replayed.',
+        body: 'Signed webhooks, Kafka, cron, e-mail, Teams and Slack start runs. Every event is verified and becomes a CloudEvent with a full trail.',
       },
       mcp: {
         title: 'MCP access',
