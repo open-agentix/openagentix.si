@@ -100,17 +100,44 @@ const first = progress.replace('{current}', '1').replace('{total}', String(steps
     color: var(--text-faint);
   }
 
+  /* Inactive steps keep full text contrast; the active one gets an accent bar and moves in. */
   .step {
+    position: relative;
     min-height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    opacity: 0.32;
-    transition: opacity 0.6s var(--ease-out);
+    padding-left: 1.5rem;
   }
 
-  .step.is-active {
+  .step::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 3px;
+    height: 9rem;
+    margin-top: -4.5rem;
+    border-radius: 3px;
+    background: var(--gradient-accent);
+    transform: scaleY(0.15);
+    opacity: 0.35;
+    transition:
+      transform 0.7s var(--ease-out),
+      opacity 0.7s var(--ease-out);
+  }
+
+  .step > * {
+    transition: transform 0.7s var(--ease-out);
+  }
+
+  .step.is-active::before {
+    transform: scaleY(1);
     opacity: 1;
+  }
+
+  .step.is-active > * {
+    transform: translate3d(0.5rem, 0, 0);
   }
 
   .step-label {
@@ -167,9 +194,4 @@ const first = progress.replace('{current}', '1').replace('{total}', String(steps
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .step {
-      opacity: 1;
-    }
-  }
 </style>
