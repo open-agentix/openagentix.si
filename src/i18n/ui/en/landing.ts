@@ -212,9 +212,9 @@ export const landing = {
     rows: [
       { step: 'Event received', detail: 'cron · nightly', decision: 'verified', cost: '–' },
       { step: 'Model call', detail: 'bedrock · eu-central-1', decision: '–', cost: '€0.08' },
-      { step: 'Tool call', detail: 'trivy.scan_image', decision: 'allowed', cost: '€0.00' },
+      { step: 'Tool call', detail: 'trivy.scan', decision: 'allowed', cost: '€0.00' },
       { step: 'Model call', detail: 'bedrock · eu-central-1', decision: '–', cost: '€0.11' },
-      { step: 'Tool call', detail: 'github.open_pull_request', decision: 'allowed', cost: '€0.00' },
+      { step: 'Tool call', detail: 'github.open_pr', decision: 'allowed', cost: '€0.00' },
       { step: 'Tool call', detail: 'github.merge', decision: 'blocked', cost: '–' },
     ],
     side: {
