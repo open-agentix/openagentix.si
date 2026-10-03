@@ -1,0 +1,101 @@
+---
+import Icon from '../Icon.astro';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const u = getDictionary(Astro.props.locale).landing.useCases;
+const groups = [
+  { ...u.enterprise, icon: 'users' as const, variant: 'ent' },
+  { ...u.small, icon: 'terminal' as const, variant: 'small' },
+];
+---
+
+<section class="section use-cases" aria-labelledby="use-title">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">{u.eyebrow}</p>
+      <h2 id="use-title" class="display">{u.title}</h2>
+    </header>
+    <div class="cols">
+      {
+        groups.map((g) => (
+          <div class:list={['group', `group--${g.variant}`]} data-reveal>
+            <h3>
+              <Icon name={g.icon} size={20} />
+              {g.title}
+            </h3>
+            <ul>
+              {g.items.map((item) => (
+                <li>
+                  <h4>{item.title}</h4>
+                  <p>{item.body}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .group {
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .group--small {
+    background:
+      radial-gradient(90% 60% at 100% 0%, var(--glow-b), transparent 60%),
+      var(--surface);
+  }
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.25rem;
+    font-weight: 650;
+  }
+
+  ul {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: grid;
+  }
+
+  li {
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  h4 {
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+
+  li p {
+    margin-top: 0.3rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

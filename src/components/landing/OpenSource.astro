@@ -1,0 +1,208 @@
+---
+import Icon from '../Icon.astro';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+import { repos } from '../../project';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getDictionary(locale);
+const o = t.landing.openSource;
+const list = [
+  { ...repos.platform, body: o.repos.platform },
+  { ...repos.helm, body: o.repos.helm },
+  { ...repos.website, body: o.repos.website },
+];
+const roadmapHref = locale === 'de' ? '/de/docs/project/roadmap/' : '/docs/project/roadmap/';
+---
+
+<section class="section open" id="open-source" aria-labelledby="open-title">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">{o.eyebrow}</p>
+      <h2 id="open-title" class="display">{o.title}</h2>
+      <p class="lead">{o.lead}</p>
+    </header>
+
+    <ul class="repos">
+      {
+        list.map((r) => (
+          <li data-reveal>
+            <a href={r.url}>
+              <span class="repo-name">
+                <Icon name="github" size={18} />
+                open-agentix/<strong>{r.name}</strong>
+              </span>
+              <span class="repo-body">{r.body}</span>
+              <span class="repo-foot">
+                Apache-2.0 <Icon name="arrow" size={16} />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="contribute" data-reveal>{o.contribute}</p>
+
+    <div class="roadmap" data-reveal>
+      <div class="roadmap-head">
+        <h3>{o.roadmapTitle}</h3>
+        <a href={roadmapHref}>{o.roadmapLink} <Icon name="arrow" size={16} /></a>
+      </div>
+      <ol>
+        {
+          o.roadmap.map((step, i) => (
+            <li class:list={{ now: i === 0 }}>
+              <span class="phase">{step.phase}</span>
+              <p>{step.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .repos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .repos a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: 100%;
+    padding: 1.5rem;
+    border-radius: var(--radius-l);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    text-decoration: none;
+    transition:
+      transform 0.5s var(--ease-out),
+      border-color 0.3s;
+  }
+
+  .repos a:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-strong);
+  }
+
+  .repo-name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+  }
+
+  .repo-name strong {
+    color: var(--text);
+  }
+
+  .repo-body {
+    color: var(--text-muted);
+    flex: 1;
+  }
+
+  .repo-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8125rem;
+    color: var(--text-faint);
+  }
+
+  .contribute {
+    margin-top: 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .roadmap {
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .roadmap-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .roadmap-head h3 {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+  }
+
+  .roadmap-head a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 600;
+  }
+
+  .roadmap ol {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .roadmap li {
+    position: relative;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border-strong);
+  }
+
+  .roadmap li.now {
+    border-top-color: var(--accent);
+  }
+
+  .roadmap li::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--border-strong);
+  }
+
+  .roadmap li.now::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .phase {
+    font-family: var(--font-mono);
+    font-weight: 600;
+  }
+
+  .roadmap p {
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 860px) {
+    .repos,
+    .roadmap ol {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
