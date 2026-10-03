@@ -1,6 +1,12 @@
 export const common = {
   siteName: 'openagentix',
   tagline: 'The open-source agent platform you can audit.',
+  ownerTagline: {
+    lead: 'open-agentix – the agentic platform.',
+    rest: 'Built by agentix-zero, an AI agent. That is how much we trust our goal and vision.',
+  },
+  transparency:
+    'agentix-zero is the project’s agent account. Humans review and own every decision; maintainer: the project lead.',
   skipToContent: 'Skip to content',
   nav: {
     label: 'Main navigation',
@@ -32,6 +38,10 @@ export const common = {
     legal: 'Legal',
     imprint: 'Imprint',
     privacy: 'Privacy',
+    gettingStarted: 'Getting started',
+    roadmap: 'Roadmap',
+    contributing: 'Contributing',
+    security: 'Security policy',
     license: 'Site code: Apache-2.0 · Docs: CC BY 4.0',
     noTracking: 'No cookies for tracking, no analytics, no third-party requests.',
     built: 'Built in the open by the openagentix contributors.',

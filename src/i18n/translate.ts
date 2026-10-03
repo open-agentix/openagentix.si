@@ -30,7 +30,7 @@ const partials: Record<Locale, DeepPartial<Dictionary>> = { en, de, sl };
 /** Dictionary for a locale, with English as fallback for missing keys. */
 export function getDictionary(locale: Locale): Dictionary {
   if (locale === defaultLocale) return en;
-  return deepMerge(en, partials[locale]);
+  return deepMerge<Dictionary>(en, partials[locale]);
 }
 
 /** Replaces `{name}` placeholders. Unknown placeholders are left untouched. */
