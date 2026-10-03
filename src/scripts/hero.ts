@@ -1,6 +1,7 @@
 import { flowLayout, type Orientation, type Point } from '../lib/flow-layout';
 import { scenarios as defaultScenarios, type Scenario } from '../lib/scenarios';
 import { buildTimeline, type Beat } from '../lib/timeline';
+import type { FxWindow } from './scroll-fx';
 
 export const WIDE_QUERY = '(min-width: 760px)';
 
@@ -89,7 +90,7 @@ function readData(root: HTMLElement): HeroData {
 
 export function createHero(
   root: HTMLElement,
-  win: Window,
+  win: FxWindow,
   options: { scenarios?: Scenario[]; speed?: number; hold?: number } = {},
 ): HeroController {
   const list = options.scenarios ?? defaultScenarios;
@@ -213,7 +214,7 @@ export function createHero(
     win.document.visibilityState === 'hidden' ? controller.pause('hidden') : controller.resume('hidden'),
   );
   if (typeof win.IntersectionObserver === 'function') {
-    new win.IntersectionObserver(([entry]) =>
+    new win.IntersectionObserver(([entry]: IntersectionObserverEntry[]) =>
       entry?.isIntersecting ? controller.resume('offscreen') : controller.pause('offscreen'),
     ).observe(root);
   }

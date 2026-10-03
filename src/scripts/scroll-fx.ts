@@ -4,11 +4,17 @@
  * tracks the active step of pinned scenes, which is discrete state CSS cannot express.
  */
 
-export function supportsScrollTimeline(win: Window): boolean {
+/** Window plus the optional platform constructors these effects feature-detect. */
+export type FxWindow = Window & {
+  IntersectionObserver?: typeof IntersectionObserver;
+  CSS?: { supports(condition: string): boolean };
+};
+
+export function supportsScrollTimeline(win: FxWindow): boolean {
   return typeof win.CSS?.supports === 'function' && win.CSS.supports('animation-timeline: view()');
 }
 
-export function prefersReducedMotion(win: Window): boolean {
+export function prefersReducedMotion(win: FxWindow): boolean {
   return typeof win.matchMedia === 'function' && win.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
@@ -19,7 +25,7 @@ export function parallaxOffset(top: number, height: number, speed: number, max =
 }
 
 /** Where text is read: lower on narrow screens, where the pinned stage sits above the steps. */
-export function readingLine(win: Window): number {
+export function readingLine(win: FxWindow): number {
   return win.innerWidth < 760 ? 0.72 : 0.45;
 }
 
@@ -34,7 +40,7 @@ export function activeStepIndex(tops: readonly number[], viewportHeight: number,
 }
 
 /** Tracks which step of each `[data-scene]` is active and mirrors it to `data-step`. */
-export function initScenes(root: ParentNode, win: Window): number {
+export function initScenes(root: ParentNode, win: FxWindow): number {
   const scenes = Array.from(root.querySelectorAll<HTMLElement>('[data-scene]'));
   scenes.forEach((scene) => {
     const steps = Array.from(scene.querySelectorAll<HTMLElement>('[data-scene-step]'));
@@ -72,7 +78,7 @@ export function initScenes(root: ParentNode, win: Window): number {
 }
 
 /** Fallback reveal for browsers without scroll timelines. */
-export function initReveals(root: ParentNode, win: Window): 'css' | 'observer' | 'static' {
+export function initReveals(root: ParentNode, win: FxWindow): 'css' | 'observer' | 'static' {
   if (supportsScrollTimeline(win)) return 'css';
   const items = Array.from(root.querySelectorAll<HTMLElement>('[data-reveal]'));
   if (typeof win.IntersectionObserver !== 'function') {
@@ -80,7 +86,7 @@ export function initReveals(root: ParentNode, win: Window): 'css' | 'observer' |
     return 'static';
   }
   const observer = new win.IntersectionObserver(
-    (entries) => {
+    (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('in-view');
@@ -95,7 +101,7 @@ export function initReveals(root: ParentNode, win: Window): 'css' | 'observer' |
 }
 
 /** rAF parallax fallback; only elements currently in view are updated. */
-export function initParallax(root: ParentNode, win: Window): 'css' | 'off' | 'raf' {
+export function initParallax(root: ParentNode, win: FxWindow): 'css' | 'off' | 'raf' {
   if (supportsScrollTimeline(win)) return 'css';
   if (prefersReducedMotion(win) || typeof win.IntersectionObserver !== 'function') return 'off';
   const items = Array.from(root.querySelectorAll<HTMLElement>('[data-parallax]'));
@@ -115,7 +121,7 @@ export function initParallax(root: ParentNode, win: Window): 'css' | 'off' | 'ra
       win.requestAnimationFrame(frame);
     }
   };
-  const observer = new win.IntersectionObserver((entries) => {
+  const observer = new win.IntersectionObserver((entries: IntersectionObserverEntry[]) => {
     entries.forEach((e) => {
       if (e.isIntersecting) visible.add(e.target as HTMLElement);
       else visible.delete(e.target as HTMLElement);
@@ -127,7 +133,7 @@ export function initParallax(root: ParentNode, win: Window): 'css' | 'off' | 'ra
   return 'raf';
 }
 
-export function initScrollFx(root: ParentNode, win: Window) {
+export function initScrollFx(root: ParentNode, win: FxWindow) {
   return {
     scenes: initScenes(root, win),
     reveals: initReveals(root, win),
