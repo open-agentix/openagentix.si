@@ -1,0 +1,384 @@
+---
+import ScrollScene from './ScrollScene.astro';
+import Icon from '../Icon.astro';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const a = getDictionary(locale).landing.architecture;
+const progress = getDictionary(locale).landing.story.progress;
+// Toolbox names are image identifiers from agents.md (`runtime.toolbox`), not translated copy.
+const toolboxes = ['git + node', 'trivy', 'jira-cli'];
+---
+
+<ScrollScene id="architecture" eyebrow={a.eyebrow} title={a.title} lead={a.lead} steps={a.steps} progress={progress}>
+  <div slot="stage" class="arch">
+    <div class="node control">
+      <p class="node-title"><Icon name="shield" size={18} />{a.controlNode}</p>
+      <ul class="parts">
+        {a.controlParts.map((p) => <li>{p}</li>)}
+      </ul>
+      <p class="never"><Icon name="x" size={14} />{a.neverExecutes}</p>
+    </div>
+
+    <div class="link">
+      <span class="wire"></span>
+      <span class="tag tag--token">{a.runToken}</span>
+      <span class="tag tag--check">{a.policyCheck}</span>
+      <span class="tag tag--back">{a.stepsBack}</span>
+      <span class="pulse pulse--out"></span>
+      <span class="pulse pulse--in"></span>
+    </div>
+
+    <div class="node worker">
+      <p class="node-title"><Icon name="box" size={18} />{a.worker}</p>
+      <div class="toolbox">
+        <p class="toolbox-title">{a.toolbox}</p>
+        <ul class="tools">
+          {toolboxes.map((t, i) => <li style={`--i: ${i}`}><code>{t}</code></li>)}
+        </ul>
+        <ul class="seals">
+          <li><Icon name="check" size={12} />{a.signed}</li>
+          <li><Icon name="check" size={12} />{a.scanned}</li>
+          <li><Icon name="check" size={12} />{a.sbom}</li>
+        </ul>
+        <p class="egress"><Icon name="offline" size={14} />{a.egress}</p>
+      </div>
+      <p class="removed">{a.removed}</p>
+    </div>
+  </div>
+</ScrollScene>
+
+<style>
+  .arch {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr minmax(4rem, 0.6fr) 1fr;
+    align-items: center;
+    gap: 0.5rem;
+    padding: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .node {
+    border-radius: var(--radius-l);
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    transition:
+      opacity 0.7s var(--ease-out),
+      transform 0.7s var(--ease-out);
+  }
+
+  .node-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 650;
+    font-size: 1.0625rem;
+  }
+
+  .control {
+    box-shadow: 0 0 0 1px rgb(139 92 246 / 0.4), 0 30px 80px -30px var(--glow-a);
+  }
+
+  .control .node-title {
+    color: var(--accent);
+  }
+
+  .parts {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .parts li {
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radius-s);
+    background: var(--surface-2);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .never {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.9rem;
+    font-size: 0.8125rem;
+    color: var(--danger);
+  }
+
+  .link {
+    position: relative;
+    height: 100%;
+    display: grid;
+    align-content: center;
+    gap: 0.4rem;
+    justify-items: center;
+  }
+
+  .wire {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), var(--cyan));
+    opacity: 0.6;
+  }
+
+  .tag {
+    position: relative;
+    z-index: 1;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    font-family: var(--font-mono);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.5s var(--ease-out),
+      transform 0.5s var(--ease-out);
+  }
+
+  /* Each pulse is a full-width track with a dot at one end; sliding the track moves the dot. */
+  .pulse {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% - 4px);
+    height: 8px;
+    opacity: 0;
+  }
+
+  .pulse--out {
+    background: radial-gradient(circle 4px at calc(100% - 4px) 50%, var(--accent) 95%, transparent);
+  }
+
+  .pulse--in {
+    background: radial-gradient(circle 4px at 4px 50%, var(--cyan) 95%, transparent);
+  }
+
+  .link {
+    overflow: hidden;
+  }
+
+  .worker {
+    opacity: 0;
+    transform: translate3d(1.5rem, 0, 0) scale(0.92);
+  }
+
+  .worker .node-title {
+    color: var(--cyan);
+  }
+
+  .toolbox {
+    margin-top: 1rem;
+    padding: 0.85rem;
+    border-radius: var(--radius-m);
+    border: 1px dashed var(--border-strong);
+  }
+
+  .toolbox-title {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .tools {
+    list-style: none;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tools li {
+    padding: 0.25rem 0.55rem;
+    border-radius: var(--radius-s);
+    background: rgb(34 211 238 / 0.1);
+    color: var(--text);
+    font-size: 0.8125rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.5s var(--ease-out) calc(0.25s + var(--i) * 0.12s),
+      transform 0.5s var(--ease-out) calc(0.25s + var(--i) * 0.12s);
+  }
+
+  .seals {
+    list-style: none;
+    margin: 0.7rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--ok);
+  }
+
+  .seals li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .egress {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .removed {
+    margin-top: 0.8rem;
+    font-size: 0.8125rem;
+    color: var(--warn);
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out);
+  }
+
+  /* Step 1: the worker appears with its toolbox. */
+  :global([data-step='1']) .worker,
+  :global([data-step='2']) .worker {
+    opacity: 1;
+    transform: none;
+  }
+
+  :global([data-step='1']) .tools li,
+  :global([data-step='2']) .tools li {
+    opacity: 1;
+    transform: none;
+  }
+
+  :global([data-step='1']) .tag--token {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Step 2: policy checks out, steps back. */
+  :global([data-step='2']) .tag--check,
+  :global([data-step='2']) .tag--back {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global([data-step='2']) .pulse--out {
+      animation: travel-out 1.6s var(--ease-in-out) infinite;
+    }
+
+    :global([data-step='2']) .pulse--in {
+      animation: travel-in 1.6s var(--ease-in-out) 0.8s infinite;
+    }
+  }
+
+  @keyframes travel-out {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+    20%,
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes travel-in {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    20%,
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(0);
+    }
+  }
+
+  /* Step 3: the worker is torn down. */
+  :global([data-step='3']) .worker {
+    opacity: 0.35;
+    transform: scale(0.96);
+    border-style: dashed;
+  }
+
+  :global([data-step='3']) .removed {
+    opacity: 1;
+  }
+
+  :global([data-step='3']) .tools li {
+    opacity: 0.25;
+  }
+
+  @media (max-width: 759.98px) {
+    .arch {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      align-items: start;
+      padding: 0.75rem;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .link {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      height: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .wire,
+    .pulse {
+      display: none;
+    }
+
+    .node {
+      padding: 0.75rem;
+    }
+
+    .parts {
+      margin-top: 0.5rem;
+      gap: 0.25rem;
+    }
+
+    .parts li {
+      padding: 0.2rem 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .toolbox {
+      margin-top: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    .egress,
+    .never {
+      display: none;
+    }
+  }
+</style>

@@ -18,12 +18,17 @@ export function parallaxOffset(top: number, height: number, speed: number, max =
   return Math.max(-max, Math.min(max, Math.round(value * 10) / 10)) + 0;
 }
 
-/** Index of the step whose box contains the viewport's reading line (40 % from the top). */
-export function activeStepIndex(tops: readonly number[], viewportHeight: number): number {
-  const line = viewportHeight * 0.4;
+/** Where text is read: lower on narrow screens, where the pinned stage sits above the steps. */
+export function readingLine(win: Window): number {
+  return win.innerWidth < 760 ? 0.72 : 0.45;
+}
+
+/** Index of the last step whose top has passed the reading line (a fraction of the viewport height). */
+export function activeStepIndex(tops: readonly number[], viewportHeight: number, line = 0.45): number {
+  const y = viewportHeight * line;
   let active = 0;
   tops.forEach((top, i) => {
-    if (top <= line) active = i;
+    if (top <= y) active = i;
   });
   return active;
 }
@@ -40,6 +45,7 @@ export function initScenes(root: ParentNode, win: Window): number {
       const index = activeStepIndex(
         steps.map((s) => s.getBoundingClientRect().top),
         win.innerHeight,
+        readingLine(win),
       );
       if (index === current) return;
       current = index;
@@ -53,8 +59,9 @@ export function initScenes(root: ParentNode, win: Window): number {
     };
     if (typeof win.IntersectionObserver === 'function') {
       // Re-evaluate whenever a step crosses the reading band; cheap and scroll-listener free.
+      const top = Math.round(readingLine(win) * 100);
       const observer = new win.IntersectionObserver(update, {
-        rootMargin: '-40% 0px -59% 0px',
+        rootMargin: `-${top}% 0px -${99 - top}% 0px`,
         threshold: [0, 1],
       });
       steps.forEach((s) => observer.observe(s));

@@ -8,6 +8,7 @@ import {
   initScrollFx,
   parallaxOffset,
   prefersReducedMotion,
+  readingLine,
   supportsScrollTimeline,
 } from '../../src/scripts/scroll-fx';
 
@@ -32,6 +33,7 @@ function fakeWin(opts: { timeline?: boolean; io?: boolean; reduced?: boolean; he
   const frames: FrameRequestCallback[] = [];
   const win = {
     innerHeight: opts.height ?? 1000,
+    innerWidth: 1280,
     CSS: { supports: () => opts.timeline ?? false },
     matchMedia: () => ({ matches: opts.reduced ?? false }),
     IntersectionObserver: opts.io === false ? undefined : FakeIO,
@@ -63,7 +65,13 @@ describe('pure helpers', () => {
     expect(activeStepIndex([100, 900, 1700], 1000)).toBe(0);
     expect(activeStepIndex([-800, 300, 1100], 1000)).toBe(1);
     expect(activeStepIndex([-1600, -800, 100], 1000)).toBe(2);
+    expect(activeStepIndex([-800, 600, 1100], 1000, 0.72)).toBe(1);
     expect(activeStepIndex([], 1000)).toBe(0);
+  });
+
+  it('reads lower on narrow screens', () => {
+    expect(readingLine({ innerWidth: 390 } as Window)).toBe(0.72);
+    expect(readingLine({ innerWidth: 1280 } as Window)).toBe(0.45);
   });
 
   it('detects capabilities defensively', () => {
