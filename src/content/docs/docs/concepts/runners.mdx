@@ -1,0 +1,51 @@
+---
+title: Runners
+description: Where agent runs execute - in-process, locally, in containers, on Kubernetes or EKS, in AWS Lambda or CI - and why the policy gate is always the same.
+sidebar:
+  order: 3
+---
+
+import { Aside, Badge } from '@astrojs/starlight/components';
+
+A **runner** starts the [worker](/docs/concepts/control-node-and-workers/) for a run. The worker
+hands back a stream of steps. Every runner enforces the same policy engine, audit chain and
+budgets: changing the runner changes **where** an agent runs, never **what** it may do.
+
+| Runner | What it does | Status |
+| --- | --- | --- |
+| `in-process` | Runs inside the worker process. The default. | <Badge text="Available in MVP" variant="success" /> |
+| `local` | Runs on a developer machine: `oax run agents.md --event event.json`. | <Badge text="Available in MVP" variant="success" /> |
+| `container` | Docker or Podman; one short-lived container per run, read-only root file system, no network except allowlisted egress. | <Badge text="Roadmap 0.2" variant="caution" /> |
+| `kubernetes-job` | One Kubernetes Job per run (also on EKS) with its own ServiceAccount, IRSA and NetworkPolicy. | <Badge text="Roadmap 0.2" variant="caution" /> |
+| `aws-lambda` | One function per agent version, invoked per run, with VPC configuration for Bedrock VPC endpoints. | <Badge text="Roadmap 0.3" variant="caution" /> |
+| `github-actions` | `workflow_dispatch` in a target repository; results are posted back through a signed callback. | <Badge text="Roadmap 0.3" variant="caution" /> |
+| `gitlab-ci` | A pipeline trigger token and the same signed callback. | <Badge text="Roadmap 0.3" variant="caution" /> |
+
+Select a runner per agent in `agents.md`:
+
+```yaml
+runtime:
+  runner: in-process   # default
+```
+
+## The local CLI
+
+The `local` runner lets you try an agent definition against a recorded event without a server:
+
+```sh
+oax run agents.md --event event.json
+```
+
+The local run uses the same parser, policy gate, budgets and audit format as the platform, so what
+passes locally behaves the same way in production.
+
+## Optional external harnesses
+
+A runner can also hand the agent to an external harness such as Claude Code or OpenCode. See
+[External harnesses](/docs/integrations/harnesses/). Harnesses are optional; the platform works
+fully without them.
+
+<Aside>
+  Runners that are on the roadmap already exist as documented interfaces in the MVP, so their
+  configuration can be reviewed before they ship.
+</Aside>

@@ -1,0 +1,48 @@
+---
+title: Toolbox images
+description: Minimal, signed and scanned images that give each agent exactly the tools it needs and nothing else.
+sidebar:
+  order: 2
+  badge:
+    text: Roadmap
+    variant: caution
+---
+
+import { Aside, Badge } from '@astrojs/starlight/components';
+
+<Badge text="Roadmap 0.2" variant="caution" /> In the MVP, workers run in-process or locally and use
+the tools available there. Toolbox images arrive with the container and Kubernetes runners.
+
+An agent declares the toolbox it needs in its [`agents.md`](/docs/reference/agents-md/):
+
+```yaml
+runtime:
+  runner: kubernetes-job
+  toolbox: trivy
+  egress:
+    - ghcr.io
+```
+
+## What a toolbox image is
+
+- **Minimal:** distroless or Alpine base with only the listed binaries (for example `git` + `node`,
+  `trivy`, `jira-cli`). No shell where possible.
+- **Locked down:** runs as non-root with a read-only root file system.
+- **Reproducible:** built from a catalogue in the repository and **pinned by digest**.
+- **Verifiable:** signed with cosign, shipped with an SBOM (syft) and vulnerability-scanned (trivy)
+  in CI.
+- **Fenced in:** outbound traffic per toolbox is allowlisted (Kubernetes NetworkPolicy or the
+  container network).
+
+Secrets are injected per run, scoped to what the run may use, and revoked when the run ends.
+
+## Why not one big image?
+
+A single image with every tool gives every agent every capability. With toolboxes, an agent that
+triages CVEs cannot push to Git, because `git` is not in its image and GitHub is not in its
+egress allowlist. The [audit gate](/docs/concepts/audit-agent/) still checks each call; the
+toolbox removes whole classes of mistakes before they can happen.
+
+<Aside type="tip">
+  Keep toolboxes small and specific. Two agents with different needs should use two toolboxes.
+</Aside>
