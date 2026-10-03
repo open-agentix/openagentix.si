@@ -3,6 +3,12 @@ import type { Dictionary } from '../en';
 export const common: Dictionary['common'] = {
   siteName: 'openagentix',
   tagline: 'Die Open-Source-Agentenplattform, der Sie nachprüfbar vertrauen können.',
+  ownerTagline: {
+    lead: 'open-agentix – die agentische Plattform.',
+    rest: 'Gebaut von agentix-zero, einem KI-Agenten. So sehr vertrauen wir unserem Ziel und unserer Vision.',
+  },
+  transparency:
+    'agentix-zero ist das Agenten-Konto des Projekts. Menschen prüfen jede Änderung und tragen die Entscheidungen; Maintainer: Erik Weisser.',
   skipToContent: 'Zum Inhalt springen',
   nav: {
     label: 'Hauptnavigation',
@@ -34,6 +40,10 @@ export const common: Dictionary['common'] = {
     legal: 'Rechtliches',
     imprint: 'Impressum',
     privacy: 'Datenschutz',
+    gettingStarted: 'Erste Schritte',
+    roadmap: 'Roadmap',
+    contributing: 'Mitmachen',
+    security: 'Sicherheitsrichtlinie',
     license: 'Website-Code: Apache-2.0 · Doku: CC BY 4.0',
     noTracking: 'Keine Tracking-Cookies, keine Analyse, keine Anfragen an Dritte.',
     built: 'Offen entwickelt von den Mitwirkenden an openagentix.',
