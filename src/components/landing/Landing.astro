@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from './Hero.astro';
+import Problem from './Problem.astro';
+import Story from './Story.astro';
+import Architecture from './Architecture.astro';
+import Reveal from './Reveal.astro';
+import Personas from './Personas.astro';
+import Features from './Features.astro';
+import Runners from './Runners.astro';
+import Trust from './Trust.astro';
+import UseCases from './UseCases.astro';
+import BuiltBy from './BuiltBy.astro';
+import OpenSource from './OpenSource.astro';
+import Cta from './Cta.astro';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const meta = getDictionary(locale).landing.meta;
+---
+
+<Base locale={locale} page="home" title={meta.title} description={meta.description}>
+  <Hero locale={locale} />
+  <Problem locale={locale} />
+  <Story locale={locale} />
+  <Architecture locale={locale} />
+  <Reveal locale={locale} />
+  <Personas locale={locale} />
+  <Features locale={locale} />
+  <Runners locale={locale} />
+  <Trust locale={locale} />
+  <UseCases locale={locale} />
+  <BuiltBy locale={locale} />
+  <OpenSource locale={locale} />
+  <Cta locale={locale} />
+</Base>
+
+<script>
+  import { initScrollFx } from '../../scripts/scroll-fx';
+  initScrollFx(document, window);
+</script>
