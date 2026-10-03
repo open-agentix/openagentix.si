@@ -1,0 +1,82 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import type { Locale } from '../../i18n/config';
+import { localeInfo } from '../../i18n/config';
+import type { PageId } from '../../i18n/routes';
+import { format, getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+  page: Extract<PageId, 'imprint' | 'privacy'>;
+}
+
+const { locale, page } = Astro.props;
+const entry = await getEntry('legal', `${locale}/${page}`);
+if (!entry) throw new Error(`Missing legal text ${locale}/${page}`);
+const { Content } = await render(entry);
+const t = getDictionary(locale);
+const date = new Intl.DateTimeFormat(localeInfo[locale].dateLocale, { dateStyle: 'long' }).format(
+  new Date(entry.data.updated),
+);
+---
+
+<Base locale={locale} page={page} title={`${entry.data.title} – openagentix`} description={entry.data.description}>
+  <article class="container prose">
+    <h1 class="headline">{entry.data.title}</h1>
+    <p class="updated">{format(t.pages.legal.updated, { date })}</p>
+    <Content />
+  </article>
+</Base>
+
+<style>
+  .prose {
+    max-width: 46rem;
+    padding-block: clamp(3rem, 8vw, 6rem);
+  }
+
+  .updated {
+    margin-top: 0.75rem;
+    color: var(--text-faint);
+    font-size: 0.9375rem;
+  }
+
+  .prose :global(h2) {
+    margin-top: 2.5rem;
+    font-size: 1.375rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .prose :global(p),
+  .prose :global(ul),
+  .prose :global(table) {
+    margin-top: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .prose :global(strong) {
+    color: var(--text);
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .prose :global(th),
+  .prose :global(td) {
+    text-align: left;
+    padding: 0.55rem 0.6rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+
+  .prose :global(th) {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>
