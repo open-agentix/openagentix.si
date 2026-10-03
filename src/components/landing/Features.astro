@@ -11,19 +11,20 @@ interface Props {
 const f = getDictionary(Astro.props.locale).landing.features;
 type Key = keyof typeof f.items;
 // Order and size of the bento tiles; the large ones carry the core promise.
-const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' }[] = [
+// Rows of 12 columns: l+m+m (two rows high), s x4, l+m+m, w+w.
+const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' }[] = [
   { key: 'audit', icon: 'shield', size: 'l' },
   { key: 'events', icon: 'bolt', size: 'm' },
   { key: 'mcp', icon: 'plug', size: 'm' },
   { key: 'costs', icon: 'coins', size: 's' },
   { key: 'rbac', icon: 'users', size: 's' },
   { key: 'runs', icon: 'sliders', size: 's' },
-  { key: 'providers', icon: 'cpu', size: 'l' },
   { key: 'metrics', icon: 'chart', size: 's' },
-  { key: 'helm', icon: 'helm', size: 's' },
-  { key: 'approvals', icon: 'hand', size: 's' },
+  { key: 'providers', icon: 'cpu', size: 'l' },
   { key: 'secrets', icon: 'key', size: 'm' },
   { key: 'offline', icon: 'offline', size: 'm' },
+  { key: 'helm', icon: 'helm', size: 'w' },
+  { key: 'approvals', icon: 'hand', size: 'w' },
 ];
 ---
 
@@ -86,6 +87,10 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' }[] = [
       var(--surface);
   }
 
+  .tile--w {
+    grid-column: span 6;
+  }
+
   .tile--m {
     grid-column: span 3;
     grid-row: span 2;
@@ -138,7 +143,8 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' }[] = [
 
   @media (max-width: 1000px) {
     .tile,
-    .tile--m {
+    .tile--m,
+    .tile--w {
       grid-column: span 6;
       grid-row: auto;
     }
@@ -152,6 +158,7 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' }[] = [
   @media (max-width: 560px) {
     .tile,
     .tile--m,
+    .tile--w,
     .tile--l {
       grid-column: span 12;
     }
