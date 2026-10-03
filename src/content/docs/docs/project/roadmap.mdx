@@ -1,0 +1,57 @@
+---
+title: Roadmap
+description: Where openagentix is heading - 0.1 MVP, worker nodes in 0.2, more runners and harnesses in 0.3, then 1.0.
+sidebar:
+  order: 1
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+<Aside type="note" title="Mirrored page">
+  This page mirrors `ROADMAP.md` in the
+  [platform repository](https://github.com/open-agentix/open-agentix), which is the source of truth
+  and is tracked as GitHub milestones and issues. If the two differ, the platform repository wins.
+</Aside>
+
+## 0.1 – MVP (in progress)
+
+- **Control node:** API (Fastify, OpenAPI 3.1), PostgreSQL, run queue, console (React), OIDC/LDAP
+  sign-in, RBAC with six roles, API tokens.
+- **Agents as code:** `agents.md` parser and validator, immutable published versions, pipelines of
+  1..n agents.
+- **Events:** signed webhooks, Kafka, cron, mail-in via webhook; Teams and Slack through generic
+  webhooks.
+- **Guardrails:** per-agent audit gate, global control agent, approvals, data classification.
+- **Audit:** append-only SHA-256 hash chain with Ed25519-signed checkpoints and verification.
+- **Costs:** per step and run, price table, budgets with hard stop.
+- **Providers:** OpenAI-compatible, Ollama, AWS Bedrock (VPC endpoint, proxy, IRSA), Anthropic,
+  simulated.
+- **MCP:** client with per-agent allowlists, timeouts and result limits; the policy gate as an MCP
+  proxy.
+- **Runners:** `in-process` and `local` (`oax` CLI), with the interfaces for all later runners.
+- **Observability:** Prometheus metrics, OpenTelemetry traces, JSON logs, health endpoints.
+- **Delivery:** Docker Compose, Helm chart for Kubernetes and EKS, this website and docs.
+
+## 0.2 – Worker nodes
+
+- `container` runner (Docker, Podman) and `kubernetes-job` runner (also EKS) that spawn one
+  short-lived worker per run.
+- **Toolbox images** from a catalogue: minimal, non-root, read-only, pinned by digest, signed
+  (cosign), with SBOM (syft) and vulnerability scans (trivy); egress allowlisted per toolbox.
+- Per-run secret injection and revocation.
+
+## 0.3 – Anywhere
+
+- `aws-lambda`, `github-actions` and `gitlab-ci` runners with signed callbacks.
+- Optional **external harnesses**: Claude Code, OpenCode, Hermes, OpenClaw, all routed through the
+  policy gate.
+- Dedicated Teams and Slack adapters, IMAP polling for mail.
+
+## Towards 1.0
+
+- Stable `v1` APIs and `agents.md` schema (`openagentix.io/v1`).
+- Signed releases and images, documented upgrade paths.
+- Chart repository and OCI publishing, public demo at `demo.openagentix.si`.
+
+Have an idea? Open an issue in the platform repository; larger changes start as an
+[ADR](/docs/project/governance/#decisions).
