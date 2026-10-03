@@ -25,7 +25,7 @@ const xDefault = page ? new URL(pathFor(page, defaultLocale), site).href : undef
 ---
 
 <!doctype html>
-<html lang={localeInfo[locale].bcp47} dir="ltr" data-theme="dark">
+<html lang={localeInfo[locale].bcp47} dir="ltr" data-theme="dark" data-detect-language={detectLanguage ? 'true' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -57,14 +57,6 @@ const xDefault = page ? new URL(pathFor(page, defaultLocale), site).href : undef
         document.documentElement.dataset.theme = t;
       })();
     </script>
-    {
-      detectLanguage && (
-        <script>
-          import { runLanguageRedirect } from '../scripts/lang-redirect';
-          runLanguageRedirect(window);
-        </script>
-      )
-    }
     <slot name="head" />
   </head>
   <body>
@@ -75,9 +67,17 @@ const xDefault = page ? new URL(pathFor(page, defaultLocale), site).href : undef
     </main>
     <Footer locale={locale} page={page} />
     <script>
-      // Non-critical UI wiring loads after first paint (links still work without it).
+      // One small entry module: the language check runs right away, everything else after the page
+      // is idle (links and content work without it).
+      import { runLanguageRedirect } from '../scripts/lang-redirect';
       import { whenIdle } from '../scripts/defer';
-      whenIdle(window, () => void import('../scripts/site-init').then((m) => m.initSite(document, window)));
+      if (document.documentElement.dataset.detectLanguage === 'true') runLanguageRedirect(window);
+      whenIdle(window, () => {
+        void import('../scripts/site-init').then((m) => m.initSite(document, window));
+        if (document.querySelector('[data-hero], [data-scene]')) {
+          void import('../scripts/landing-init').then((m) => m.initLanding(document, window));
+        }
+      });
     </script>
   </body>
 </html>
