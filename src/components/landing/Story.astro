@@ -2,8 +2,7 @@
 import ScrollScene from './ScrollScene.astro';
 import type { Locale } from '../../i18n/config';
 import { getDictionary } from '../../i18n/translate';
-import { storyCameras } from '../../lib/camera';
-import { flowLayout } from '../../lib/flow-layout';
+import { storyCameras, tallStoryFocus } from '../../lib/camera';
 
 interface Props {
   locale: Locale;
@@ -12,8 +11,7 @@ interface Props {
 const { locale } = Astro.props;
 const s = getDictionary(locale).landing.story;
 const wide = storyCameras('horizontal');
-const tall = flowLayout('vertical');
-const tallFocus = [90, 480, 380, 254, 790].map((y) => Math.round((y / tall.height) * 1000) / 10);
+const tallFocus = tallStoryFocus();
 const vars = [
   ...wide.flatMap((c, i) => [`--s${i}: ${c.scale}`, `--x${i}: ${c.x}%`, `--y${i}: ${c.y}%`]),
   ...tallFocus.map((p, i) => `--v${i}: ${p}%`),
@@ -135,7 +133,7 @@ const vars = [
 
     .camera--tall {
       display: block;
-      aspect-ratio: 440 / 880;
+      aspect-ratio: 440 / 1000;
       width: min(100%, 26rem);
       transform: translate3d(0, calc(23svh - var(--vy)), 0);
     }

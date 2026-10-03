@@ -74,22 +74,23 @@ function horizontal(): FlowLayout {
 }
 
 function vertical(): FlowLayout {
-  const platform = { x: 16, y: 176, w: 408, h: 520 };
-  const agentY = 380;
+  // Two chip columns keep localised labels readable on phones.
+  const platform = { x: 16, y: 236, w: 408, h: 520 };
+  const agentY = 440;
   const agents = [96, 220, 344].map((x) => ({ x, y: agentY }));
   return {
     orientation: 'vertical',
     width: 440,
-    height: 880,
-    sources: grid(sourceIds, 3, 16, 16, 128, 60, 12),
-    outputs: grid(outputIds, 3, 16, 732, 128, 60, 12),
+    height: 1000,
+    sources: grid(sourceIds, 2, 16, 16, 198, 56, 12),
+    outputs: grid(outputIds, 2, 16, 792, 198, 56, 12),
     platform,
-    control: { x: 36, y: 222, w: 368, h: 64 },
+    control: { x: 36, y: 282, w: 368, h: 64 },
     agents,
     agentRadius: 36,
     gates: agents.map((a) => ({ x: a.x, y: a.y + 92 })),
     tools: agents.map((a) => ({ x: a.x - 58, y: a.y + 132, w: 116, h: 40 })),
-    audit: { x: 36, y: 612, w: 368, h: 64 },
+    audit: { x: 36, y: 672, w: 368, h: 64 },
     auditSlots: 6,
     entry: { x: 220, y: platform.y },
     exit: { x: 220, y: platform.y + platform.h },
