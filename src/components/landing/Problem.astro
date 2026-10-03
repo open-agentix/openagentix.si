@@ -1,0 +1,143 @@
+---
+import Icon from '../Icon.astro';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const p = getDictionary(Astro.props.locale).landing.problem;
+---
+
+<section class="section problem" aria-labelledby="problem-title">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">{p.eyebrow}</p>
+      <h2 id="problem-title" class="display">{p.title}</h2>
+    </header>
+    <div class="split">
+      <div class="col col--problem" data-reveal>
+        <h3 class="col-label">{p.problemsLabel}</h3>
+        <ul>
+          {
+            p.problems.map((item) => (
+              <li>
+                <span class="mark"><Icon name="x" size={14} /></span>
+                <div>
+                  <h4>{item.title}</h4>
+                  <p>{item.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="col col--answer" data-reveal>
+        <h3 class="col-label">{p.solutionsLabel}</h3>
+        <p class="answer-title">{p.solutionTitle}</p>
+        <ul>
+          {
+            p.solutions.map((item) => (
+              <li>
+                <span class="mark"><Icon name="check" size={14} /></span>
+                <div>
+                  <h4>{item.title}</h4>
+                  <p>{item.body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1rem, 3vw, 2rem);
+  }
+
+  .col {
+    padding: clamp(1.5rem, 3.5vw, 3rem);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .col--answer {
+    background:
+      radial-gradient(120% 90% at 100% 0%, var(--glow-a), transparent 55%),
+      var(--surface);
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  }
+
+  .col-label {
+    font-size: 0.8125rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+
+  .answer-title {
+    margin-top: 1rem;
+    font-size: clamp(1.5rem, 2.6vw, 2.125rem);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  ul {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    margin-top: 0.15rem;
+  }
+
+  .col--problem .mark {
+    color: var(--danger);
+    background: rgb(251 113 133 / 0.12);
+  }
+
+  .col--answer .mark {
+    color: var(--ok);
+    background: rgb(52 211 153 / 0.12);
+  }
+
+  h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  li p {
+    margin-top: 0.35rem;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 860px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

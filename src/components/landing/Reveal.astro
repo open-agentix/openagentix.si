@@ -1,0 +1,341 @@
+---
+import Icon from '../Icon.astro';
+import logo from '../../assets/logo-mark.svg?raw';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const r = getDictionary(Astro.props.locale).landing.reveal;
+const decisionClass = (i: number) => (i === 5 ? 'is-blocked' : r.rows[i]!.decision === '–' ? 'is-none' : 'is-ok');
+---
+
+<section class="section reveal" aria-labelledby="reveal-title">
+  <div class="container">
+    <header class="section-head center" data-reveal>
+      <p class="eyebrow">{r.eyebrow}</p>
+      <h2 id="reveal-title" class="display">{r.title}</h2>
+      <p class="lead">{r.lead}</p>
+    </header>
+
+    <div class="tilt">
+      <div class="device" role="img" aria-label={r.mockLabel}>
+        <div class="device-core" aria-hidden="true">
+          <aside class="side">
+            <div class="side-brand"><span set:html={logo} />openagentix</div>
+            <ul>
+              {r.nav.map((n, i) => <li class:list={{ active: i === 0 }}>{n}</li>)}
+            </ul>
+          </aside>
+          <div class="main">
+            <div class="run-head">
+              <div>
+                <p class="run-title">{r.runTitle}</p>
+                <p class="run-meta">{r.runMeta}</p>
+              </div>
+              <span class="status"><Icon name="check" size={14} />{r.status}</span>
+            </div>
+            <div class="table">
+              <div class="row row--head">
+                <span>{r.columns.step}</span><span>{r.columns.detail}</span><span>{r.columns.decision}</span><span>{r.columns.cost}</span>
+              </div>
+              {
+                r.rows.map((row, i) => (
+                  <div class="row" style={`--i: ${i}`}>
+                    <span>{row.step}</span>
+                    <span class="mono">{row.detail}</span>
+                    <span class:list={['decision', decisionClass(i)]}>{row.decision}</span>
+                    <span class="mono">{row.cost}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+          <div class="panel">
+            <div class="kv"><span>{r.side.audit}</span><strong class="ok">{r.side.auditValue}</strong></div>
+            <div class="kv"><span>{r.side.budget}</span><strong>{r.side.budgetValue}</strong><span class="meter"><span style="--v: 0.084"></span></span></div>
+            <div class="kv"><span>{r.side.tokens}</span><strong>{r.side.tokensValue}</strong></div>
+            <div class="kv"><span>{r.side.approvals}</span><strong class="warn">{r.side.approvalsValue}</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .center .lead {
+    margin-inline: auto;
+  }
+
+  .tilt {
+    perspective: 1600px;
+  }
+
+  .device {
+    padding: 0.5rem;
+    border-radius: var(--radius-xl);
+    background: rgb(127 127 127 / 0.07);
+    border: 1px solid var(--border);
+    box-shadow: 0 60px 140px -50px rgb(99 102 241 / 0.5);
+    transform-origin: 50% 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .device {
+        animation: tilt-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 45%;
+      }
+
+      .row {
+        animation: row-in linear both;
+        animation-timeline: view();
+        animation-range: entry calc(20% + var(--i) * 4%) cover calc(35% + var(--i) * 4%);
+      }
+    }
+  }
+
+  @keyframes tilt-in {
+    from {
+      transform: rotateX(24deg) scale(0.88) translate3d(0, 4rem, 0);
+      opacity: 0.4;
+    }
+    to {
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  @keyframes row-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.75rem, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .device-core {
+    display: grid;
+    grid-template-columns: 13rem 1fr 16rem;
+    min-height: 26rem;
+    border-radius: calc(var(--radius-xl) - 0.5rem);
+    background: var(--bg-soft);
+    overflow: hidden;
+    font-size: 0.875rem;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  }
+
+  .side {
+    padding: 1.25rem 1rem;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  .side-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 650;
+    margin-bottom: 1.25rem;
+  }
+
+  .side-brand :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .side ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .side li {
+    padding: 0.45rem 0.7rem;
+    border-radius: var(--radius-s);
+    color: var(--text-muted);
+  }
+
+  .side li.active {
+    background: rgb(139 92 246 / 0.16);
+    color: var(--text);
+  }
+
+  .main {
+    padding: 1.25rem 1.5rem;
+    min-width: 0;
+  }
+
+  .run-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+  }
+
+  .run-title {
+    font-weight: 650;
+    font-size: 1rem;
+  }
+
+  .run-meta {
+    color: var(--text-faint);
+    font-size: 0.8125rem;
+    margin-top: 0.15rem;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background: rgb(52 211 153 / 0.14);
+    color: var(--ok);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+
+  .table {
+    margin-top: 1.25rem;
+    display: grid;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1.1fr 1.5fr 0.7fr 0.5fr;
+    gap: 0.75rem;
+    padding: 0.6rem 0.25rem;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+
+  .row--head {
+    color: var(--text-faint);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .decision {
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+
+  .is-ok {
+    color: var(--ok);
+  }
+
+  .is-blocked {
+    color: var(--danger);
+  }
+
+  .is-none {
+    color: var(--text-faint);
+  }
+
+  .panel {
+    padding: 1.25rem;
+    border-left: 1px solid var(--border);
+    display: grid;
+    align-content: start;
+    gap: 1.1rem;
+  }
+
+  .kv {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .kv > span:first-child {
+    color: var(--text-faint);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .kv strong {
+    font-weight: 600;
+  }
+
+  .ok {
+    color: var(--ok);
+  }
+
+  .warn {
+    color: var(--warn);
+  }
+
+  .meter {
+    display: block;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    overflow: hidden;
+    margin-top: 0.3rem;
+  }
+
+  .meter span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--gradient-accent);
+    transform: scaleX(var(--v));
+    transform-origin: left;
+  }
+
+  @media (max-width: 1000px) {
+    .device-core {
+      grid-template-columns: 1fr;
+    }
+
+    .side {
+      display: none;
+    }
+
+    .panel {
+      border-left: 0;
+      border-top: 1px solid var(--border);
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .row {
+      grid-template-columns: 1fr 0.7fr;
+    }
+
+    .row > :nth-child(2),
+    .row > :nth-child(4) {
+      display: none;
+    }
+
+    .panel {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
