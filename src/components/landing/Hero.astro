@@ -2,7 +2,7 @@
 import FlowDiagram from './FlowDiagram.astro';
 import Icon from '../Icon.astro';
 import type { Locale } from '../../i18n/config';
-import { pathFor } from '../../i18n/routes';
+import { pathFor, demoUrl } from '../../i18n/routes';
 import { getDictionary } from '../../i18n/translate';
 import { scenarios } from '../../lib/scenarios';
 import { GITHUB_ORG } from '../../project';
@@ -42,7 +42,7 @@ const captions = d.scenarios as Record<string, { caption: string }>;
         <span class="island"><Icon name="arrow" size={16} /></span>
       </a>
       <a class="btn btn--ghost" href={GITHUB_ORG}><Icon name="github" size={18} />{h.ctaGithub}</a>
-      <a class="btn btn--muted" href={pathFor('demo', locale)}>{h.ctaDemo}</a>
+      <a class="btn btn--muted" href={demoUrl(locale)}>{h.ctaDemo}</a>
     </div>
     <a class="built-by" href="#built-by">
       <strong>{t.common.ownerTagline.lead}</strong>
