@@ -55,6 +55,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md): DCO sign-off, Conventional Commits, SemV
 with tests. Please follow the [Code of Conduct](CODE_OF_CONDUCT.md) and report security issues as
 described in [SECURITY.md](SECURITY.md).
 
+Questions and discussion: [GitHub Discussions](https://github.com/open-agentix/openagentix.si/discussions),
+[Issues](https://github.com/open-agentix/openagentix.si/issues) or info@openagentix.si.
+
 ## Licence
 
 - Website source code: [Apache-2.0](LICENSE)

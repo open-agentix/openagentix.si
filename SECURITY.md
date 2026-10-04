@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-**Please do not open public issues for security problems.**
+**Please do not open public issues for security problems, and do not report them by e-mail.**
 
 Report privately through
 [GitHub Security Advisories](https://github.com/open-agentix/openagentix.si/security/advisories/new)

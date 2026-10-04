@@ -4,6 +4,8 @@ export const SITE_URL = 'https://openagentix.si';
 export const BLOG_URL = 'https://blog.openagentix.si/';
 /** Hosts that belong to the project: allowed as link targets and in the no-third-party scan. */
 export const OWN_HOSTS = ['openagentix.si', 'www.openagentix.si', 'demo.openagentix.si', 'blog.openagentix.si'] as const;
+/** Public contact address (questions go to GitHub Discussions first). */
+export const CONTACT_EMAIL = 'info@openagentix.si';
 export const GITHUB_ORG = 'https://github.com/open-agentix';
 
 export const repos = {
