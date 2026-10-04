@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { assertBuilt, distFiles, read } from './helpers';
+import { assertBuilt, distFiles, readPageText } from './helpers';
 
 // The platform is no longer called MVP. The only allowed mention is the fixed recommendation for
 // the dark software factory ("MVP and proof-of-concept development only").
@@ -14,12 +14,12 @@ describe('status wording', () => {
   });
 
   it('does not call the platform an MVP', () => {
-    const hits = pages.filter((f) => /\bMVP\b/.test(read(f).replace(RECOMMENDATION, '')));
+    const hits = pages.filter((f) => /\bMVP\b/.test(readPageText(f).replace(RECOMMENDATION, '')));
     expect(hits).toEqual([]);
   });
 
   it('states the dark software factory recommendation on the landing pages', () => {
-    expect(read('index.html')).toMatch(RECOMMENDATION);
-    expect(read('de/index.html')).toMatch(RECOMMENDATION);
+    expect(readPageText('index.html')).toMatch(RECOMMENDATION);
+    expect(readPageText('de/index.html')).toMatch(RECOMMENDATION);
   });
 });
