@@ -13,7 +13,7 @@ specific to this repository.
 - **No third-party requests.** Never add CDN links, remote fonts, analytics, embeds or anything else
   that makes a visitor's browser contact another host. `pnpm test:dist` fails if you do.
 - **No hard-coded copy.** User-facing text lives in `src/i18n/ui/<locale>/` (UI) or in
-  `src/content/` (docs and legal pages). English is the source; German must cover every key.
+  `src/content/` (docs). English is the source; German must cover every key.
 - **English** for code, comments, commit messages and pull requests.
 - **Accessibility and speed are features.** Keep contrast, focus states, keyboard access and
   `prefers-reduced-motion` working, animate only `transform` and `opacity`, and stay within the

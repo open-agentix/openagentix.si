@@ -23,5 +23,5 @@ and the maintainers own all decisions. The maintainer and project lead is **Erik
 ## Decisions
 
 Everyday changes are decided in pull requests with one maintainer approval. Changes to the
-privacy policy, the imprint, the licence or the "no third-party requests" rule need the project
+licence or the "no third-party requests" rule need the project
 lead's approval.

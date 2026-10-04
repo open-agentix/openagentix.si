@@ -19,7 +19,6 @@ change and own the decisions; the maintainer is Erik Weisser. See [GOVERNANCE.md
 - **Landing page** (`/`, `/de/`): scroll-driven story of a run, from event to outcome, with an
   animated SVG flow diagram (Web Animations API, pauses on hover, static with reduced motion).
 - **Docs** (`/docs/`): [Starlight](https://starlight.astro.build/), English first, German overview.
-- **Legal pages**: imprint and privacy policy in English and German.
 - **Demo placeholder** (`/demo/`): the live demo comes later on `demo.openagentix.si`.
 
 Built with Astro 5 (static output), TypeScript and pnpm. No third-party requests: fonts, icons and

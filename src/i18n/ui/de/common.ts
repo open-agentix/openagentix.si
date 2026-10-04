@@ -37,9 +37,6 @@ export const common: Dictionary['common'] = {
   footer: {
     product: 'Produkt',
     project: 'Projekt',
-    legal: 'Rechtliches',
-    imprint: 'Impressum',
-    privacy: 'Datenschutz',
     gettingStarted: 'Erste Schritte',
     roadmap: 'Roadmap',
     contributing: 'Mitmachen',

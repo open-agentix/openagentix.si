@@ -1,9 +1,6 @@
 import type { Dictionary } from '../en';
 
 export const pages: Dictionary['pages'] = {
-  legal: {
-    updated: 'Stand: {date}',
-  },
   demo: {
     title: 'Live-Demo',
     metaTitle: 'Live-Demo – openagentix',

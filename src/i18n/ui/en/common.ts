@@ -35,9 +35,6 @@ export const common = {
   footer: {
     product: 'Product',
     project: 'Project',
-    legal: 'Legal',
-    imprint: 'Imprint',
-    privacy: 'Privacy',
     gettingStarted: 'Getting started',
     roadmap: 'Roadmap',
     contributing: 'Contributing',

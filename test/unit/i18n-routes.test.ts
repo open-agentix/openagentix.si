@@ -21,21 +21,18 @@ describe('routes', () => {
   it('builds unprefixed English and prefixed German paths', () => {
     expect(pathFor('home', 'en')).toBe('/');
     expect(pathFor('home', 'de')).toBe('/de/');
-    expect(pathFor('imprint', 'en')).toBe('/imprint/');
-    expect(pathFor('imprint', 'de')).toBe('/de/impressum/');
-    expect(pathFor('privacy', 'de')).toBe('/de/datenschutz/');
     expect(pathFor('demo', 'de')).toBe('/de/demo/');
   });
 
   it('falls back to English slugs for planned locales', () => {
-    expect(pathFor('privacy', 'sl')).toBe('/sl/privacy/');
+    expect(pathFor('demo', 'sl')).toBe('/sl/demo/');
   });
 
   it('lists absolute alternates for live locales only', () => {
-    const alts = alternatesFor('privacy', 'https://example.org');
+    const alts = alternatesFor('demo', 'https://example.org');
     expect(alts).toEqual([
-      { locale: 'en', hreflang: 'en', href: 'https://example.org/privacy/' },
-      { locale: 'de', hreflang: 'de', href: 'https://example.org/de/datenschutz/' },
+      { locale: 'en', hreflang: 'en', href: 'https://example.org/demo/' },
+      { locale: 'de', hreflang: 'de', href: 'https://example.org/de/demo/' },
     ]);
     expect(alternatesFor('home').map((a) => a.href)).toEqual(['/', '/de/']);
   });
@@ -49,8 +46,8 @@ describe('routes', () => {
   });
 
   it('normalises paths before matching', () => {
-    expect(matchPath('/de/impressum')).toEqual({ page: 'imprint', locale: 'de' });
-    expect(matchPath('de/impressum/?x=1#top')).toEqual({ page: 'imprint', locale: 'de' });
+    expect(matchPath('/de/demo')).toEqual({ page: 'demo', locale: 'de' });
+    expect(matchPath('de/demo/?x=1#top')).toEqual({ page: 'demo', locale: 'de' });
     expect(matchPath('/index.html')).toEqual({ page: 'home', locale: 'en' });
     expect(matchPath('/docs/concepts/runs/')).toBeNull();
   });

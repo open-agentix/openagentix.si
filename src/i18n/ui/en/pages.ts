@@ -1,7 +1,4 @@
 export const pages = {
-  legal: {
-    updated: 'Last updated: {date}',
-  },
   demo: {
     title: 'Live demo',
     metaTitle: 'Live demo – openagentix',

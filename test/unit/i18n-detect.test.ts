@@ -56,8 +56,8 @@ describe('redirectTarget', () => {
   });
 
   it('keeps the page, query and hash when switching', () => {
-    expect(redirectTarget({ ...base, pathname: '/privacy/', search: '?a=1', hash: '#cookies' })).toBe(
-      '/de/datenschutz/?a=1#cookies',
+    expect(redirectTarget({ ...base, pathname: '/demo/', search: '?a=1', hash: '#cookies' })).toBe(
+      '/de/demo/?a=1#cookies',
     );
   });
 
@@ -76,7 +76,7 @@ describe('redirectTarget', () => {
 
   it('lets a saved choice win in both directions', () => {
     expect(redirectTarget({ ...base, saved: 'en' })).toBeNull();
-    expect(redirectTarget({ ...base, pathname: '/de/impressum/', saved: 'en' })).toBe('/imprint/');
+    expect(redirectTarget({ ...base, pathname: '/de/demo/', saved: 'en' })).toBe('/demo/');
     expect(
       redirectTarget({ ...base, pathname: '/demo/', saved: 'de', alreadyDetected: true, languages: [] }),
     ).toBe('/de/demo/');
