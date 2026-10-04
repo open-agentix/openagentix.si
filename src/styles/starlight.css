@@ -40,7 +40,7 @@
   vertical-align: middle;
 }
 
-.oax-badge--mvp {
+.oax-badge--available {
   color: #34d399;
 }
 
@@ -48,7 +48,7 @@
   color: #fbbf24;
 }
 
-:root[data-theme='light'] .oax-badge--mvp {
+:root[data-theme='light'] .oax-badge--available {
   color: #047857;
 }
 
