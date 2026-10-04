@@ -44,6 +44,7 @@ export const common: Dictionary['common'] = {
     contributing: 'Mitmachen',
     security: 'Sicherheitsrichtlinie',
     license: 'Website-Code: Apache-2.0 · Doku: CC BY 4.0',
+    questions: 'Fragen und Diskussion:',
     noTracking: 'Keine Tracking-Cookies, keine Analyse, keine Anfragen an Dritte.',
     built: 'Offen entwickelt von den Mitwirkenden an openagentix.',
     version: 'Website v{version}',

@@ -42,6 +42,7 @@ export const common = {
     contributing: 'Contributing',
     security: 'Security policy',
     license: 'Site code: Apache-2.0 · Docs: CC BY 4.0',
+    questions: 'Questions and discussion:',
     noTracking: 'No cookies for tracking, no analytics, no third-party requests.',
     built: 'Built in the open by the openagentix contributors.',
     version: 'Website v{version}',

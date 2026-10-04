@@ -5,7 +5,7 @@ import pkg from '../../package.json';
 import type { Locale } from '../i18n/config';
 import { pathFor, type PageId, demoUrl } from '../i18n/routes';
 import { format, getDictionary } from '../i18n/translate';
-import { BLOG_URL, repos } from '../project';
+import { BLOG_URL, CONTACT_EMAIL, repos } from '../project';
 
 interface Props {
   locale: Locale;
@@ -49,6 +49,12 @@ const columns = [
       {page !== 'home' && <p class="tagline"><strong>{t.common.ownerTagline.lead}</strong> {t.common.ownerTagline.rest}</p>}
       <p class="fine">{t.common.transparency}</p>
       <p class="fine">{t.common.footer.noTracking}</p>
+      <p class="fine">
+        {t.common.footer.questions}
+        <a href={`${repos.platform.url}/discussions`}>Discussions</a> ·
+        <a href={`${repos.platform.url}/issues`}>Issues</a> ·
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+      </p>
       <LangSwitch locale={locale} page={page} />
     </div>
     {
@@ -117,6 +123,10 @@ const columns = [
   .about .fine {
     font-size: 0.875rem;
     color: var(--text-faint);
+  }
+
+  .about .fine a {
+    color: var(--text-muted);
   }
 
   h2 {

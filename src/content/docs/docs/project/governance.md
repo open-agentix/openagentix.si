@@ -41,4 +41,6 @@ Code is licensed under Apache-2.0. The documentation on this site is licensed un
 ## Conduct and security
 
 All participants follow the Contributor Covenant 2.1. Security issues are reported privately
-through GitHub security advisories.
+through GitHub's private vulnerability reporting ("Report a vulnerability"), never by e-mail.
+Questions and discussion belong in [GitHub Discussions](https://github.com/open-agentix/open-agentix/discussions)
+and [Issues](https://github.com/open-agentix/open-agentix/issues); the general contact is info@openagentix.si.
