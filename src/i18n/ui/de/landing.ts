@@ -450,4 +450,7 @@ export const landing: Dictionary['landing'] = {
     secondary: 'Auf GitHub folgen',
     demo: 'Live-Demo bald verfügbar',
   },
+  closing: {
+    line: 'Wir vertrauen auf SI - Super Intelligence.',
+  },
 };

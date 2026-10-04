@@ -25,3 +25,9 @@ export function distFiles(): string[] {
 
 export const read = (path: string): string => readFileSync(join(DIST, path), 'utf8');
 export const readBytes = (path: string): Buffer => readFileSync(join(DIST, path));
+
+/**
+ * A page without the "recent commits" feed: the feed quotes real commit subjects, which would
+ * otherwise count as page copy in text checks.
+ */
+export const readPageText = (path: string): string => read(path).replace(/<ol class="feed[^"]*"[\s\S]*?<\/ol>/, '');
