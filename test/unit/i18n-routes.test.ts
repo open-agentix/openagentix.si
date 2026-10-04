@@ -62,3 +62,11 @@ describe('routes', () => {
     expect(localeFromPath('')).toBe('en');
   });
 });
+
+describe('demoUrl', () => {
+  it('points to the demo host, with the locale path for non-default locales', async () => {
+    const { demoUrl } = await import('../../src/i18n/routes');
+    expect(demoUrl('en')).toBe('https://demo.openagentix.si/');
+    expect(demoUrl('de')).toBe('https://demo.openagentix.si/de/');
+  });
+});
