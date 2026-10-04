@@ -41,7 +41,7 @@ equal or higher; otherwise the [control agent](/docs/concepts/control-agent/) bl
 ## Chat tools
 
 Microsoft Teams and Slack reach openagentix through their outgoing or incoming webhook features,
-using the generic [webhook](/docs/events/webhook/) source in the MVP. Dedicated adapters are on the
+using the generic [webhook](/docs/events/webhook/) source in 0.1. Dedicated adapters are on the
 [roadmap](/docs/project/roadmap/).
 
 ## Triggers
