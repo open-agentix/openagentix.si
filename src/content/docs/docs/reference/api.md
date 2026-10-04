@@ -4,7 +4,7 @@ description: The HTTP API reference will be generated from the platform's OpenAP
 sidebar:
   order: 3
   badge:
-    text: TODO
+    text: Roadmap 1.0
     variant: caution
 ---
 

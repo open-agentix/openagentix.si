@@ -49,10 +49,13 @@ Orchestrator-Agent mit allen Werkzeugen und Policy, die im Prompt steht.
 Budget pro Agent; das deterministische Policy-Gate; der verkettete Audit-Trail; Schritte und Kosten
 pro Lauf und Agent.
 
-<span class="oax-badge oax-badge--roadmap">Roadmap</span> Schemaprüfung von Übergaben (heute wird
-die vorige Ausgabe als Text weitergereicht, `format: json` wird geparst, aber nicht geprüft),
-bedingte Planschritte, benannte Lese- und Schreibprofile pro MCP-Server, Zugangsdaten pro Lauf und
-isolierte Worker (v0.2) sowie Agent Check und die Erzeugung von Agent Plans (beratend). Siehe die
+<span class="oax-badge oax-badge--next">Nächstes Release (0.2)</span> Auf `main`: schemageprüfte
+Übergaben und bedingte Schritte (`when`), benannte Lese- und Schreibprofile pro MCP-Server sowie
+Agent Check und die Erzeugung von Agent Plans (beratend, mit deterministischem
+Least-Privilege-Lint).
+
+<span class="oax-badge oax-badge--roadmap">Roadmap</span> Zugangsdaten pro Schritt und isolierte
+Worker (0.2; Runner und Credential-Broker sind in Prüfung). Siehe die
 [Roadmap](/docs/project/roadmap/).
 
 ## Quellen

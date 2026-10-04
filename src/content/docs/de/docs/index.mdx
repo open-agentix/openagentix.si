@@ -17,13 +17,21 @@ import { Aside, LinkCard, CardGrid } from '@astrojs/starlight/components';
 </Aside>
 
 openagentix ist eine quelloffene, selbst gehostete **Agentenplattform**. Ereignisse kommen herein
-(Webhook, Kafka, Cron, E-Mail, Chat), ein oder mehrere **Agenten** handeln über **MCP-Tools und
-APIs**, jeder Schritt wird **vorab geprüft, protokolliert und mit Kosten erfasst**, und die
-Ergebnisse gehen als Pull Request, Ticket-Update, Nachricht, Bericht oder Metrik hinaus.
+(Webhook, Kafka, Cron, E-Mail; Chat über Webhooks), ein oder mehrere **Agenten** handeln über
+**MCP-Tools und APIs**, jeder Schritt wird **vorab geprüft, protokolliert und mit Kosten erfasst**,
+und die Ergebnisse gehen über die Tools, die ein Agent nutzen darf, hinaus, zum Beispiel als Pull
+Request, Ticket-Update, Nachricht oder Bericht.
 
 <Aside type="caution" title="Vorabversion">
-  Die Plattform entsteht gerade auf dem Weg zu 0.1. Die Seiten kennzeichnen, was **in 0.1
-  verfügbar** ist und was auf der **Roadmap** steht.
+  Version 0.1.0 ist als Tag `v0.1.0` gesetzt; ein GitHub-Release gibt es noch nicht, und das
+  API-Container-Image ist noch nicht auf GHCR veröffentlicht, daher aus dem Quellcode mit Docker
+  Compose bauen. `main` enthält schon mehr, das mit 0.2 erscheint: Mandanten, Modellschlüssel pro
+  Geltungsbereich, Monatsbudgets, Air-Gap-Modus, typisierte Übergaben und `when`-Bedingungen,
+  Tool-Profile, Agent Check und Agent Plan, das Claude-Code-Harness (mit echten Läufen verifiziert),
+  einen OpenCode-Adapter (implementiert, Prüfung mit echtem Programm steht aus) und einen
+  Kubernetes-Job-Runner als Baustein. Container-Runner und Credential-Broker sind noch in Prüfung.
+  Die Seiten kennzeichnen, was **verfügbar** ist, was im **nächsten Release** kommt und was auf der
+  **Roadmap** steht.
 </Aside>
 
 agentix-zero ist das Agenten-Konto des Projekts und schreibt den Großteil von Code, Tests und Doku.

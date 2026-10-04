@@ -53,6 +53,7 @@ export const common: Dictionary['common'] = {
     available: 'In 0.1 verfügbar',
     roadmap: 'Roadmap',
     planned: 'Geplant',
+    next: 'Nächstes Release',
   },
   notFound: {
     title: 'Seite nicht gefunden',

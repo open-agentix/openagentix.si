@@ -45,9 +45,8 @@ try {
         {
           b.gates.map((g, i) => (
             <li style={`--i: ${i}`}>
-              <span class="ok"><Icon name="check" size={14} /></span>
+              <span class="ok"><Icon name="shield" size={14} /></span>
               {g}
-              <span class="passed">{b.passed}</span>
             </li>
           ))
         }
@@ -137,15 +136,8 @@ try {
     width: 1.4rem;
     height: 1.4rem;
     border-radius: 50%;
-    background: rgb(52 211 153 / 0.15);
-    color: var(--ok);
-  }
-
-  .passed {
-    margin-left: auto;
-    font-size: 0.75rem;
-    color: var(--ok);
-    font-family: var(--font-mono);
+    background: var(--glow-a);
+    color: var(--accent);
   }
 
   .feed li {

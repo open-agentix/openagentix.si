@@ -1,6 +1,6 @@
 ---
 title: Getting started
-description: Run your first openagentix agent with the local CLI today, and the full platform with Docker Compose once the API ships.
+description: Run your first openagentix agent with the local CLI, and the full platform with Docker Compose built from source.
 sidebar:
   order: 1
 ---
@@ -9,8 +9,8 @@ import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 There are two ways in. The **local CLI** works today and runs an agent definition against an event
 on your machine, with the same parser, policy gate, budgets and audit chain as the platform. The
-**Docker Compose** setup starts the whole platform (API, worker, console, PostgreSQL) and is
-available now.
+**Docker Compose** setup builds and starts the whole platform (API, worker, console, PostgreSQL)
+from the repository checkout. There is no published release image yet.
 
 ## Run an agent locally
 
@@ -76,17 +76,21 @@ Then set `provider: openai` and a `model` in your agent. See [Providers](/docs/p
 
 ## Run the platform with Docker Compose
 
-The Compose setup will start PostgreSQL 16, the API (control node), a worker and the console:
+The Compose setup builds and starts PostgreSQL, the API (control node, port 8080), a worker and the
+console (port 3000). There is no `.env.example`; the defaults live in `docker-compose.yml`:
 
 ```sh
 git clone https://github.com/open-agentix/open-agentix.git
 cd open-agentix
-cp .env.example .env        # set the admin bootstrap password and secrets
-docker compose up -d
+docker compose up --build -d
+scripts/demo.sh        # seeds the cve-triage example and sends a signed webhook
 ```
 
-You will then send a signed [webhook](/docs/events/webhook/) to start a run and follow it in the
-console, step by step.
+Sign in to the console at `http://localhost:3000` with `admin@example.com` and
+`change-me-please-123`, and change the password through `OAX_BOOTSTRAP_ADMIN_PASSWORD`. The setup
+uses the `simulated` provider and built-in mock MCP servers, so it needs no API keys and makes no
+outbound calls. The script sends a signed [webhook](/docs/events/webhook/); follow the run in the
+console, step by step. Add `--profile ollama` for a local model.
 
 ## Next steps
 

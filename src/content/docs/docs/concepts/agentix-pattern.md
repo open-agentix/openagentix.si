@@ -48,10 +48,12 @@ orchestrator agent that holds every tool, and policy written into the prompt.
 budget; the deterministic policy gate; the hash-chained audit trail; steps and costs per run and
 agent.
 
-<span class="oax-badge oax-badge--roadmap">Roadmap</span> Schema validation of handovers (today the
-previous output is passed on as text, `format: json` is parsed but not validated), conditional plan
-steps, named read/write tool profiles per MCP server, per-run credentials and isolated workers
-(v0.2), and Agent Check / Agent Plan generation (advisory). See the
+<span class="oax-badge oax-badge--next">Next release (0.2)</span> On `main`: schema-validated
+handovers and conditional steps (`when`), named read/write tool profiles per MCP server, and Agent
+Check / Agent Plan generation (advisory, with a deterministic least-privilege lint).
+
+<span class="oax-badge oax-badge--roadmap">Roadmap</span> Per-step credentials and isolated workers
+(0.2; the runner and credential broker are in review). See the
 [roadmap](/docs/project/roadmap/).
 
 ## References

@@ -13,13 +13,13 @@ export const landing: Dictionary['landing'] = {
     lead: 'openagentix macht aus Ereignissen erledigte Arbeit. Ein Webhook, eine Kafka-Nachricht, eine E-Mail oder ein Zeitplan startet einen Lauf. Agenten handeln über MCP-Tools. Jeder Aufruf wird vor der Ausführung geprüft, fälschungssicher protokolliert und auf den Cent genau abgerechnet.',
     ctaDocs: 'Zur Doku',
     ctaGithub: 'Auf GitHub ansehen',
-    ctaDemo: 'Live-Demo: bald verfügbar',
+    ctaDemo: 'Live-Demo',
     scrollHint: 'Weiterscrollen und einem Lauf folgen',
   },
   diagram: {
     title: 'So läuft ein Lauf durch openagentix',
     description:
-      'Ereignisse aus Kafka, Webhooks, Streams, E-Mail, Microsoft Teams und Cron kommen links in die Plattform. Darin reichen ein bis drei Agenten die Arbeit weiter. Jeder Tool-Aufruf passiert zuerst das Audit-Gate des Agenten, ein globaler Kontroll-Agent überwacht Budgets und Leitplanken, und jeder Schritt landet in einem per Hash verketteten Audit-Trail. Rechts verlassen die Ergebnisse die Plattform: Pull Requests, behobene CVEs, aktualisierte Tickets, Chat-Nachrichten, Berichte und Metriken.',
+      'Ereignisse aus Kafka, Webhooks, Kafka-Log-Streams, E-Mail, Microsoft Teams (über einen Webhook) und Cron kommen links in die Plattform. Darin reichen ein bis drei Agenten die Arbeit weiter. Jeder Tool-Aufruf passiert zuerst das Audit-Gate des Agenten, ein globaler Kontroll-Agent überwacht Budgets und Leitplanken, und jeder Schritt landet in einem per Hash verketteten Audit-Trail. Rechts verlassen die Ergebnisse die Plattform über die Tools, die ein Agent nutzen darf, zum Beispiel als Pull Requests, aktualisierte Tickets, Chat-Nachrichten oder Berichte. Die gezeigten Ergebnisziele sind beispielhaft; deklarierbare Ausgabeziele sind geplant.',
     pause: 'Animation anhalten',
     play: 'Animation abspielen',
     platform: 'openagentix',
@@ -37,17 +37,17 @@ export const landing: Dictionary['landing'] = {
     sources: {
       kafka: 'Kafka',
       webhook: 'Webhook',
-      stream: 'Stream',
+      stream: 'Kafka-Stream',
       mail: 'E-Mail',
-      teams: 'MS Teams',
+      teams: 'MS Teams (Webhook)',
       cron: 'Cron',
     },
     sourceHints: {
       kafka: 'orders.failed',
       webhook: 'Jira · GitHub',
-      stream: 'Log-Stream',
+      stream: 'Logs-Topic',
       mail: 'rechnungen@',
-      teams: '@agentix',
+      teams: 'über Webhook',
       cron: 'nachts 03:00',
     },
     outputs: {
@@ -63,7 +63,7 @@ export const landing: Dictionary['landing'] = {
       cve: 'kritisch → 0',
       ticket: 'OPS-482',
       message: '#ops-alerts',
-      report: 'Markdown · PDF',
+      report: 'Markdown',
       metrics: 'Prometheus',
     },
     scenarios: {
@@ -84,11 +84,11 @@ export const landing: Dictionary['landing'] = {
         agents: { reader: 'Rechnungsleser', payer: 'Zahlungsagent' },
       },
       incident: {
-        caption: 'Erwähnung in Teams: Incident-Logs analysieren, Zusammenfassung posten, Metriken exportieren.',
+        caption: 'Teams-Nachricht per Webhook: Incident-Logs analysieren, Zusammenfassung posten, Metriken exportieren.',
         agents: { analyst: 'Log-Analyse', summariser: 'Zusammenfassung' },
       },
       anomaly: {
-        caption: 'Log-Stream: Auffälligkeiten erkennen, Metriken melden, kurzen Bericht schreiben.',
+        caption: 'Kafka-Log-Stream: Auffälligkeiten erkennen, Metriken melden, kurzen Bericht schreiben.',
         agents: { watcher: 'Anomalie-Wächter' },
       },
     },
@@ -101,7 +101,7 @@ export const landing: Dictionary['landing'] = {
       {
         label: 'Ereignis',
         title: 'Ein Ereignis trifft ein.',
-        body: 'Ein signierter Webhook, ein Kafka-Topic, ein Zeitplan, eine E-Mail oder eine Erwähnung im Chat. openagentix prüft es, speichert es und startet einen Lauf.',
+        body: 'Ein signierter Webhook, ein Kafka-Topic, ein Zeitplan oder eine E-Mail. Chat-Nachrichten kommen über einen Webhook an. openagentix prüft das Ereignis, speichert es und startet einen Lauf.',
       },
       {
         label: 'Audit-Gate',
@@ -116,12 +116,12 @@ export const landing: Dictionary['landing'] = {
       {
         label: 'Kontroll-Agent',
         title: 'Ein Kontroll-Agent behält jeden Lauf im Blick.',
-        body: 'Budgets, Raten, Datenklassen und verbotene Aktionen gelten über alle Läufe hinweg. Er kann Läufe anhalten oder beenden. Eine optionale Prüfung durch ein Modell kann Regeln nur verschärfen, nie lockern.',
+        body: 'Budgets, Raten, Datenklassen und verbotene Aktionen gelten über alle Läufe hinweg. Er kann Läufe anhalten oder beenden. Seine Regeln sind heute deterministischer Code; eine optionale Zweitmeinung durch ein Modell ist geplant (0.4).',
       },
       {
         label: 'Ergebnisse',
         title: 'Ergebnisse landen dort, wo Ihr Team arbeitet.',
-        body: 'Ein Pull Request, eine behobene CVE, ein aktualisiertes Ticket, eine Nachricht in Teams oder Slack, ein Bericht oder Metriken für Ihr Monitoring. Jedes Ergebnis lässt sich bis zum auslösenden Ereignis zurückverfolgen.',
+        body: 'Agenten liefern über die Tools, die sie nutzen dürfen: ein Pull Request, ein aktualisiertes Ticket, eine Chat-Nachricht oder ein Bericht. Jedes Ergebnis lässt sich bis zum auslösenden Ereignis zurückverfolgen. Deklarierbare Ausgabeziele sind geplant.',
       },
     ],
   },
@@ -161,9 +161,9 @@ export const landing: Dictionary['landing'] = {
     ],
   },
   architecture: {
-    eyebrow: 'Architektur',
+    eyebrow: 'Zielarchitektur · Roadmap 0.2',
     title: 'Ein Kontrollknoten, der entscheidet. Worker, die nur ausführen.',
-    lead: 'Der Kontrollknoten hält Registry, Policy-Gates, Audit-Kette, Kosten und Metriken – und führt selbst nie ein Tool aus. Gearbeitet wird in kurzlebigen Worker-Knoten, die genau die Tools mitbringen, die ein Agent braucht.',
+    lead: 'Der Kontrollknoten hält Registry, Policy-Gates, Audit-Kette, Kosten und Metriken – und führt selbst nie ein Tool aus. Heute läuft der Worker im Prozess oder lokal. Die hier gezeigten gestarteten, kurzlebigen Worker mit signierten Toolbox-Images sind der Entwurf für 0.2 und noch nicht gebaut.',
     steps: [
       {
         label: 'Kontrollknoten',
@@ -173,24 +173,24 @@ export const landing: Dictionary['landing'] = {
       {
         label: 'Start',
         title: 'Ein Worker startet – mit genau den nötigen Tools.',
-        body: 'Der Runner startet das Toolbox-Image des Agenten, etwa git + node, trivy oder jira-cli. Minimal, ohne root, schreibgeschützt, per Digest fixiert, signiert und gescannt. Ausgehender Verkehr nur per Allowlist.',
+        body: 'Geplant (0.2): Der Runner startet das Toolbox-Image des Agenten, etwa git + node, trivy oder jira-cli. Minimal, ohne root, schreibgeschützt, per Digest fixiert, signiert und gescannt, mit Allowlist für ausgehenden Verkehr. Noch nicht gebaut.',
       },
       {
         label: 'Erst fragen',
         title: 'Vor jedem Tool-Aufruf fragt der Worker nach.',
-        body: 'Jeder Aufruf geht zuerst an das Policy-Gate des Kontrollknotens. Die Schritte fließen über einen authentifizierten Kanal zurück und landen in der Audit-Kette.',
+        body: 'Jeder Aufruf geht zuerst mit dem signierten Lauf-Token an das Policy-Gate. Die Schritte landen in der Audit-Kette. Heute gilt das schon für den Worker im Prozess; entfernte Worker sind geplant.',
       },
       {
         label: 'Abbau',
         title: 'Danach ist der Worker weg.',
-        body: 'Endet der Lauf, wird der Worker entfernt und seine eingegrenzten Secrets werden widerrufen. Nichts bleibt liegen, nichts driftet.',
+        body: 'Geplant (0.2): Endet der Lauf, wird der Worker entfernt und seine Secrets pro Schritt werden widerrufen. Noch nicht gebaut; der Credential-Broker ist in Prüfung.',
       },
     ],
     controlNode: 'Kontrollknoten',
     controlParts: ['Registry', 'Policy-Gates', 'Audit-Kette', 'Kosten', 'Metriken'],
     neverExecutes: 'führt nie Tools aus',
-    worker: 'Worker-Knoten',
-    toolbox: 'Toolbox-Image',
+    worker: 'Worker-Knoten · geplant 0.2',
+    toolbox: 'Toolbox-Image · geplant',
     signed: 'signiert',
     scanned: 'gescannt',
     sbom: 'SBOM',
@@ -199,7 +199,7 @@ export const landing: Dictionary['landing'] = {
     policyCheck: 'Policy-Prüfung',
     stepsBack: 'Schritte zurückgemeldet',
     removed: 'entfernt · Secrets widerrufen',
-    runnersNote: 'Heute laufen Worker im Prozess oder lokal. Als Nächstes folgen Container und Kubernetes/EKS, danach AWS Lambda und CI-Runner.',
+    runnersNote: 'Heute laufen Worker im Prozess oder lokal. Ein Kubernetes-Job-Runner liegt auf main als Baustein vor, noch nicht in die Plattform eingebunden; Container-Runner und Credential-Broker sind in Prüfung. AWS Lambda und CI-Runner folgen später.',
   },
   reveal: {
     eyebrow: 'Die Konsole',
@@ -247,7 +247,7 @@ export const landing: Dictionary['landing'] = {
       {
         role: 'Agent-Engineer',
         title: 'Baut zusammen und liefert aus',
-        body: 'Macht aus der Beschreibung eine versionierte agents.md mit Tools, Budgets, Freigaben und Tests und bringt sie in Produktion.',
+        body: 'Macht aus der Beschreibung eine versionierte agents.md mit Tools, Budgets und Freigaben, testet sie im Probelauf und veröffentlicht eine unveränderliche Version. Testsuiten und Freigabeschranken sind geplant.',
       },
       {
         role: 'Auditor',
@@ -258,19 +258,19 @@ export const landing: Dictionary['landing'] = {
   },
   features: {
     eyebrow: 'Funktionen',
-    title: 'Alles, was ein Agent in Produktion braucht.',
+    title: 'Alles, was ein Agent für kontrollierten Betrieb braucht.',
     items: {
       events: {
         title: 'Ereignisse rein',
-        body: 'Signierte Webhooks, Kafka, Cron, E-Mail, Teams und Slack starten Läufe. Jedes Ereignis wird geprüft und als CloudEvent lückenlos nachverfolgt.',
+        body: 'Signierte Webhooks, Kafka, Cron und E-Mail starten Läufe; Teams und Slack heute über einen Webhook, eigene Adapter sind für 0.3 geplant. Jedes Ereignis wird geprüft und als CloudEvent lückenlos nachverfolgt.',
       },
       mcp: {
         title: 'Eigene MCP-Server mitbringen',
-        body: 'Registrieren Sie Ihre MCP-Server je Mandant, remote oder als Container. Jeder Agent bekommt eigene Tool-Allowlists und Argumentregeln, im Code durchgesetzt.',
+        body: 'Registrieren Sie Ihre MCP-Server je Mandant, Team oder Agent und fassen Sie ihre Tools in benannten Lese-/Schreibprofilen zusammen (beides nächstes Release, 0.2); als Container laufende Server sind geplant. Jeder Agent bekommt eigene Tool-Allowlists und Argumentregeln, im Code durchgesetzt.',
       },
       rbac: {
         title: 'Mandanten und Zugriff pro Agent',
-        body: 'Mandanten trennen Agenten, Läufe, Schlüssel, Audit und Kosten. Rollen gibt es je Mandant und auf Wunsch je Agent, sodass Menschen nur die Agenten sehen, an denen sie arbeiten. OIDC und LDAP/AD sind optional; eine Person kann alle Rollen innehaben.',
+        body: 'Mandanten trennen Agenten, Läufe, Schlüssel, Audit und Kosten (nächstes Release, 0.2). Rollen gibt es je Mandant und auf Wunsch je Agent, sodass Menschen nur die Agenten sehen, an denen sie arbeiten. OIDC und LDAP/AD sind optional; eine Person kann alle Rollen innehaben.',
       },
       audit: {
         title: 'Revisionssicheres Audit',
@@ -286,15 +286,15 @@ export const landing: Dictionary['landing'] = {
       },
       metrics: {
         title: 'Metriken und Traces',
-        body: 'Prometheus-Metriken, OpenTelemetry-Traces und JSON-Logs, alles über die Lauf-ID verknüpft.',
+        body: 'Prometheus-Metriken, OpenTelemetry-Traces und JSON-Logs, über die Lauf-ID verknüpft. Traces haben heute einen Span pro Lauf; Spans pro Schritt sind geplant.',
       },
       providers: {
         title: 'Eigene Schlüssel und Modelle',
-        body: 'OpenAI-kompatible APIs, Ollama, Anthropic und AWS Bedrock. Schlüssel sind Referenzen, begrenzt auf Plattform, Mandant, Team oder Agent. Modelllisten und Preise stammen aus einem festgeschriebenen models.dev-Stand, mit lokalen Anpassungen für private Modelle.',
+        body: 'OpenAI-kompatible APIs, Ollama, Anthropic und AWS Bedrock. Schlüssel sind Referenzen. Ihre Begrenzung auf Mandant, Team oder Agent und der Modellkatalog aus einem festgeschriebenen models.dev-Stand kommen im nächsten Release (0.2).',
       },
       helm: {
         title: 'Helm und EKS',
-        body: 'Ein Helm-Chart mit IRSA, NetworkPolicies, PodSecurity „restricted“, Autoscaling und Migrations-Job.',
+        body: 'Ein Helm-Chart mit IRSA, NetworkPolicies, PodSecurity „restricted“, Autoscaling und Migrations-Job. Es wird in der CI gerendert und geprüft; ein Installationstest folgt, sobald das API-Image veröffentlicht ist.',
       },
       approvals: {
         title: 'Mensch in der Schleife',
@@ -306,37 +306,37 @@ export const landing: Dictionary['landing'] = {
       },
       offline: {
         title: 'Air-gapped-Betrieb',
-        body: 'Keine nachgeladenen Prompts, Skills oder Telemetrie und keine Modellliste, die zur Laufzeit geholt wird. Mit lokalen Modellen und eigenen MCP-Servern muss nichts Ihr Netz verlassen.',
+        body: 'Keine nachgeladenen Prompts, Skills oder Telemetrie und keine Modellliste, die zur Laufzeit geholt wird. Mit lokalen Modellen und eigenen MCP-Servern muss nichts Ihr Netz verlassen. Ein Fail-closed-Schalter kommt im nächsten Release (0.2); ein externes Harness braucht weiterhin eigenen Netzzugang.',
       },
       changeGate: {
         title: 'Zeitpläne mit Änderungsprüfung',
-        body: 'Ein Zeitplan kann zuerst prüfen, mit schlichtem Code und ohne Modell: ein Hash von Seite, Datei, API-Antwort oder Abfrage. Der Lauf startet nur, wenn sich etwas geändert hat, ruhige Nächte kosten nichts.',
+        body: 'Ein Zeitplan kann zuerst prüfen, mit schlichtem Code und ohne Modell: ein Hash von Seite oder Datei (API-Antworten und Abfragen sind geplant). Der Lauf startet nur, wenn sich etwas geändert hat, ruhige Nächte kosten nichts.',
       },
       guidelines: {
         title: 'Richtlinien und Hardening-Agent',
-        body: 'Versionierte Entwicklungsrichtlinien hängen an einem Agenten oder Mandanten. Ein globaler Hardening-Agent prüft, was Entwicklungs-Agenten liefern, gegen unternehmensweite Regeln und kann Entscheidungen nur verschärfen.',
+        body: 'Versionierte Entwicklungsrichtlinien hängen an einem Agenten oder Mandanten. Eine deterministische Hardening-Prüfung lässt sich bei Bedarf ausführen; die automatische Prüfung von Pull Requests ist geplant (0.4).',
       },
       factory: {
         title: 'Dark Software Factory',
-        body: 'Optional: Agenten führen eine Aufgabe von der Spezifikation bis zu Code, Tests und Pull Request mit minimalem menschlichem Eingriff. Nur für MVP- und Proof-of-Concept-Entwicklung empfohlen, nicht für Produktionsänderungen ohne Prüfung.',
+        body: 'Optionaler Modus, heute mit festem Hinweis; eine Vorlage für Spezifikation, Code, Tests und Pull Request ist geplant (0.4). Nur für MVP- und Proof-of-Concept-Entwicklung empfohlen, nicht für Produktionsänderungen ohne Prüfung.',
       },
     },
   },
   runners: {
     eyebrow: 'Runner',
     title: 'Agenten laufen überall.',
-    lead: 'Im Prozess, auf dem Laptop, in Containern, auf Kubernetes oder EKS, in AWS Lambda, GitHub Actions oder GitLab CI. Auf Wunsch mit Ihrem Lieblings-Harness. Immer durch dasselbe Policy-Gate.',
+    lead: 'Heute im Prozess oder auf dem eigenen Rechner. Container, Kubernetes oder EKS, AWS Lambda, GitHub Actions und GitLab CI stehen auf der Roadmap. Auf Wunsch mit Ihrem Lieblings-Harness. Immer durch dasselbe Policy-Gate.',
     gate: 'Dasselbe Policy-Gate · dieselbe Audit-Kette · dieselben Budgets',
     items: {
       inProcess: { name: 'Im Prozess', body: 'Der Standard. Läuft direkt im Worker, ohne zusätzliche Komponenten.' },
       local: { name: 'Lokale CLI', body: 'oax run agents.md --event event.json auf dem eigenen Rechner.' },
       container: {
         name: 'Container',
-        body: 'Docker oder Podman: ein kurzlebiger Container pro Lauf, schreibgeschützt, ausgehender Verkehr nur per Allowlist.',
+        body: 'Geplant: Docker oder Podman, ein kurzlebiger Container pro Schritt, schreibgeschützt, ausgehender Verkehr nur per Allowlist. In Prüfung.',
       },
       kubernetes: {
         name: 'Kubernetes / EKS',
-        body: 'Ein Job pro Lauf mit eigenem ServiceAccount, IRSA und NetworkPolicy.',
+        body: 'Geplant: ein Job pro Schritt mit eigenem ServiceAccount, IRSA und NetworkPolicy. Ein Baustein liegt auf main, noch nicht in die Plattform eingebunden.',
       },
       lambda: { name: 'AWS Lambda', body: 'Eine Funktion pro Agentenversion, im eigenen VPC für Bedrock-Endpunkte.' },
       github: {
@@ -347,7 +347,7 @@ export const landing: Dictionary['landing'] = {
     },
     harness: {
       title: 'Eigenes Harness mitbringen. Optional.',
-      body: 'Claude Code, OpenCode, Hermes oder OpenClaw können einen Agenten ausführen. Ein Adapter übersetzt die agents.md in die Konfiguration des Harness und leitet jeden Tool-Aufruf durch das Policy-Gate von openagentix. Audit, Kontroll-Agent und Kosten bleiben dadurch identisch. Die Plattform funktioniert vollständig ohne Harness.',
+      body: 'Ein Adapter übersetzt die agents.md in die Konfiguration des Harness und leitet jeden Tool-Aufruf durch das Policy-Gate von openagentix. Audit, Kontroll-Agent und Kosten bleiben dadurch identisch. Claude Code ist mit echten Läufen verifiziert (nächstes Release, 0.2). Der OpenCode-Adapter ist implementiert und gegen eine Attrappen-CLI getestet; die Prüfung mit echtem Programm steht aus. Hermes und OpenClaw sind geplant. Die Plattform funktioniert vollständig ohne Harness.',
     },
   },
   trust: {
@@ -375,7 +375,7 @@ export const landing: Dictionary['landing'] = {
   useCases: {
     eyebrow: 'Einsatzbeispiele',
     title: 'Vom Konzern bis zum Homelab.',
-    lead: 'Eine Person auf einem einzelnen Server kann alle Rollen innehaben. Ein Unternehmen ergänzt Mandanten, Single Sign-on und signierte Checkpoints. Der Kern bleibt derselbe.',
+    lead: 'Eine Person auf einem einzelnen Server kann alle Rollen innehaben. Ein Unternehmen ergänzt Mandanten, Single Sign-on und signierte Checkpoints. Der Kern bleibt derselbe. Die folgenden Fälle sind Beispiele dafür, was sich bauen lässt; das Repository liefert cve-triage und ticket-updater als lauffähige Beispiele, weitere sind geplant.',
     enterprise: {
       title: 'Unternehmen',
       items: [
@@ -389,7 +389,7 @@ export const landing: Dictionary['landing'] = {
         },
         {
           title: 'Incident-Zusammenfassungen',
-          body: 'Bei einer Erwähnung in Teams Logs und Metriken sammeln und eine Zeitleiste posten, auf die sich die Rufbereitschaft verlassen kann.',
+          body: 'Bei einer Teams-Nachricht (über ein Webhook-Relay) Logs und Metriken sammeln und eine Zeitleiste posten, auf die sich die Rufbereitschaft verlassen kann.',
         },
         {
           title: 'Compliance-Nachweise',
@@ -422,10 +422,9 @@ export const landing: Dictionary['landing'] = {
   builtBy: {
     eyebrow: 'Von einem Agenten gebaut',
     title: 'Diese Plattform baut ein Agent.',
-    body: 'agentix-zero schreibt Code, Tests und Dokumentation von open-agentix. Jede Änderung passiert dieselbe Art von Prüfungen, die die Plattform für Ihre Agenten durchsetzt – und nichts wird ohne menschliche Prüfung veröffentlicht.',
-    gatesLabel: 'Prüfungen für jeden Commit',
+    body: 'agentix-zero schreibt Code, Tests und Dokumentation von open-agentix. Die Projektregel: Jede Änderung läuft über einen Pull Request mit derselben Art von Prüfungen, die die Plattform für Ihre Agenten durchsetzt, gefolgt von einer menschlichen Prüfung.',
+    gatesLabel: 'Regeln für jede Änderung',
     gates: ['Conventional Commit', 'Tests · Abdeckung ≥ 80 %', 'Keine Anfragen an Dritte', 'Menschliche Prüfung'],
-    passed: 'bestanden',
     feedLabel: 'Letzte Commits von agentix-zero',
   },
   openSource: {
@@ -443,17 +442,17 @@ export const landing: Dictionary['landing'] = {
     roadmap: [
       {
         phase: '0.1 · Kern',
-        body: 'Ereignisse, agents.md, Audit-Gate, Kontroll-Agent, verkettetes Audit, Kosten, Mandanten, Runner im Prozess und lokal.',
+        body: 'Ereignisse, agents.md, Audit-Gate, Kontroll-Agent, verkettetes Audit, Kosten, Runner im Prozess und lokal.',
       },
       {
         phase: '0.2',
-        body: 'Worker-Knoten in Containern und auf Kubernetes/EKS, mit signierten, gescannten Toolbox-Images.',
+        body: 'Auf main: Mandanten, Modellschlüssel pro Geltungsbereich, Monatsbudgets, Air-Gap-Schalter, typisierte Übergaben, Tool-Profile, Agent Check, Claude-Code-Harness. Geplant: Container-Worker und signierte Toolbox-Images.',
       },
       {
         phase: '0.3',
-        body: 'Runner für AWS Lambda, GitHub Actions und GitLab CI; optionale externe Harnesses.',
+        body: 'Runner für AWS Lambda, GitHub Actions und GitLab CI; Hermes- und OpenClaw-Harnesses; Slack- und Teams-Adapter.',
       },
-      { phase: '1.0', body: 'Stabile APIs, signierte Releases, dokumentierte Upgrades und eine öffentliche Demo.' },
+      { phase: '1.0', body: 'Stabile APIs, signierte Releases, dokumentierte Upgrades und eine Demo auf Release-Images.' },
     ],
   },
   cta: {
@@ -461,7 +460,7 @@ export const landing: Dictionary['landing'] = {
     lead: 'openagentix mit Docker Compose starten, einen Webhook verbinden und zusehen, wie der erste Lauf im Protokoll landet.',
     primary: 'Loslegen',
     secondary: 'Auf GitHub folgen',
-    demo: 'Live-Demo bald verfügbar',
+    demo: 'Live-Demo öffnen',
   },
   closing: {
     line: 'Wir vertrauen auf SI - Super Intelligence.',

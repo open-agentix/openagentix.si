@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../Icon.astro';
 import type { Locale } from '../../i18n/config';
 import { getDictionary } from '../../i18n/translate';
+import { demoHost } from '../../i18n/routes';
 
 interface Props {
   locale: Locale;
@@ -10,10 +11,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const d = getDictionary(locale).pages.demo;
-// Illustrative command for the planned demo; the endpoint does not exist yet.
-const curl = `curl -X POST https://demo.openagentix.si/v1/events/webhook/demo \\
-  -H 'Content-Type: application/json' \\
-  -d '{"type":"image.pushed","image":"registry.example/app:1.4.2"}'`;
+const demo = demoHost;
 ---
 
 <Base locale={locale} page="demo" title={d.metaTitle} description={d.description}>
@@ -35,13 +33,11 @@ const curl = `curl -X POST https://demo.openagentix.si/v1/events/webhook/demo \\
       }
     </ol>
 
-    <figure class="code">
-      <figcaption>{d.curlLabel}</figcaption>
-      <pre><code>{curl}</code></pre>
-    </figure>
-    <p class="muted"><Icon name="mail" size={16} /> {d.mail}</p>
     <p class="note">{d.note}</p>
-    <a class="btn btn--primary" href="/docs/start/getting-started/">{d.cta} <Icon name="arrow" size={16} /></a>
+    <div class="actions">
+      <a class="btn btn--primary" href={demo}>{d.open} <Icon name="arrow" size={16} /></a>
+      <a class="btn btn--ghost" href="/docs/start/getting-started/">{d.cta}</a>
+    </div>
   </section>
 </Base>
 
@@ -113,37 +109,14 @@ const curl = `curl -X POST https://demo.openagentix.si/v1/events/webhook/demo \\
     font-size: 0.9375rem;
   }
 
-  .code {
-    margin: 2.5rem 0 0;
-  }
-
-  figcaption {
-    font-size: 0.8125rem;
-    color: var(--text-faint);
-    margin-bottom: 0.5rem;
-  }
-
-  pre {
-    margin: 0;
-    padding: 1.25rem;
-    border-radius: var(--radius-m);
-    background: var(--bg-soft);
-    border: 1px solid var(--border);
-    overflow-x: auto;
-    font-size: 0.875rem;
-    line-height: 1.6;
-  }
-
-  .muted {
+  .actions {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 1.25rem;
-    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
   .note {
-    margin: 1.5rem 0 2rem;
+    margin: 2rem 0 1.5rem;
     color: var(--text-muted);
   }
 

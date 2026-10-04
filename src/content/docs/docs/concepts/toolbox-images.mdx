@@ -28,13 +28,14 @@ runtime:
 - **Minimal:** distroless or Alpine base with only the listed binaries (for example `git` + `node`,
   `trivy`, `jira-cli`). No shell where possible.
 - **Locked down:** runs as non-root with a read-only root file system.
-- **Reproducible:** built from a catalogue in the repository and **pinned by digest**.
-- **Verifiable:** signed with cosign, shipped with an SBOM (syft) and vulnerability-scanned (trivy)
-  in CI.
+- **Reproducible:** built from a catalogue in the repository and **pinned by digest** (the
+  catalogue has no digests yet).
+- **Verifiable:** to be signed with cosign, shipped with an SBOM (syft) and vulnerability-scanned
+  (trivy) in CI. None of this is built yet.
 - **Fenced in:** outbound traffic per toolbox is allowlisted (Kubernetes NetworkPolicy or the
   container network).
 
-Secrets are injected per run, scoped to what the run may use, and revoked when the run ends.
+Planned for 0.2: secrets are injected per step, scoped to what the step may use, and revoked when it ends. The credential broker for this is in review.
 
 ## Why not one big image?
 

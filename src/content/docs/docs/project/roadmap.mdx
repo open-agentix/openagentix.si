@@ -1,6 +1,6 @@
 ---
 title: Roadmap
-description: Where openagentix is heading - 0.1 core, worker nodes in 0.2, more runners and harnesses in 0.3, then 1.0.
+description: Where openagentix is heading - 0.1 core, tenants and typed pipelines in 0.2, more runners and integrations in 0.3, then 1.0.
 sidebar:
   order: 1
 ---
@@ -30,41 +30,47 @@ import { Aside } from '@astrojs/starlight/components';
   proxy.
 - **Runners:** `in-process` and `local` (`oax` CLI), with the interfaces for all later runners.
 - **Observability:** Prometheus metrics, OpenTelemetry traces, JSON logs, health endpoints.
-- **Cost attribution:** per tenant, agent, use case and run, with CSV/JSON export.
-- **Delivery:** Docker Compose, Helm chart for Kubernetes and EKS, this website and docs.
+- **Cost attribution:** per agent, use case and run, with CSV/JSON export.
+- **Delivery:** Docker Compose (built from source), a Helm chart for Kubernetes and EKS (images not yet published), this website and docs.
 
-## 0.2 – Next release (on `main`)
+## Also in 0.1, with full docs
+
+- **Change-gated schedules** with HTTP and file probes ([details](/docs/concepts/change-gate/)).
+- **Development guidelines** with deterministic hardening review ([details](/docs/concepts/guidelines/)).
+- **Dark software factory** mode, opt-in, with a fixed notice ([details](/docs/concepts/software-factory/)).
+
+## 0.2 – Next release
+
+Merged on `main`, not released yet:
 
 - **Tenants and access:** tenants as the isolation boundary, roles per tenant and optionally per
   agent ([details](/docs/concepts/tenants-and-access/)).
 - **Bring your own:** provider keys by reference and a model catalog from a pinned models.dev
   snapshot ([details](/docs/concepts/models-and-keys/)); MCP servers per tenant.
+- **Budgets and air gap:** monthly budgets per tenant and use case with hard stop and alerts as
+  events; a fail-closed air-gapped switch.
 - **Typed handovers and conditional steps:** schema-validated outputs and `when` expressions.
 - **Tool profiles:** named read/write profiles per MCP server.
-- **Worker nodes:** `container` runner (Docker, Podman) and `kubernetes-job` runner (also EKS)
-  that spawn one short-lived worker per step, with per-step credentials.
+- **Agent Check and Agent Plan:** advisory, least-privilege decomposition with linting.
+- **Harnesses:** Claude Code behind the policy gate, verified with real runs. The OpenCode adapter
+  is implemented and tested against a fake CLI; verification with the real binary is pending.
+- **Kubernetes Job runner (building block):** one Job per step with a NetworkPolicy. It is not
+  wired into the platform yet.
+- **Guided demo tour** for the public demo at `demo.openagentix.si` (fake data, simulated model).
+
+Still planned for 0.2 (not built or still in review):
+
+- **Container runner and credential broker:** a short-lived worker per step that receives only its
+  own credentials. In review.
 - **Toolbox images** from a catalogue: minimal, non-root, read-only, pinned by digest, signed
   (cosign), with SBOM (syft) and vulnerability scans (trivy); egress allowlisted per toolbox.
-- **Agent Check and Agent Plan:** advisory, least-privilege decomposition with linting.
-- **OpenCode harness:** next to Claude Code behind the policy gate.
-
-## 0.3 – Anywhere
-
-- `aws-lambda`, `github-actions` and `gitlab-ci` runners with signed callbacks.
-- Optional **external harnesses**: Claude Code, OpenCode, Hermes, OpenClaw, all routed through the
-  policy gate.
-- Dedicated Teams and Slack adapters, IMAP polling for mail.
-
-## Features shipped in 0.1 with full docs
-
-- **Change-gated schedules** with HTTP and file probes ([details](/docs/concepts/change-gate/)).
-- **Development guidelines** with deterministic hardening review ([details](/docs/concepts/guidelines/)).
-- **Dark software factory** mode, opt-in ([details](/docs/concepts/software-factory/)).
+- Publishing the API image on GHCR and a GitHub release, then the Helm install test.
 
 ## 0.3 – Enterprise integration
 
 - AWS Lambda, GitHub Actions and GitLab CI runners with signed callbacks.
-- Hermes and OpenClaw harnesses.
+- Optional external harnesses Hermes and OpenClaw (Claude Code and OpenCode: see 0.2), all routed
+  through the policy gate.
 - Dedicated Slack and Teams event adapters, IMAP polling for mail.
 - SCIM provisioning, per-tenant identity providers.
 - Secret managers (Vault, AWS Secrets Manager).
@@ -88,7 +94,7 @@ import { Aside } from '@astrojs/starlight/components';
 - Red-teaming campaigns.
 - Air-gapped offline bundle.
 - Private model hosting (vLLM/Ollama with GPU).
-- Public demo at `demo.openagentix.si`.
+- Demo on release images (a demo with fake data already runs at `demo.openagentix.si`).
 
 The order within this list is not fixed; the platform repository tracks the current plan.
 
@@ -96,7 +102,7 @@ The order within this list is not fixed; the platform repository tracks the curr
 
 - Stable `v1` APIs and `agents.md` schema (`openagentix.io/v1`).
 - Signed releases and images, documented upgrade paths.
-- Chart repository and OCI publishing, public demo at `demo.openagentix.si`.
+- Chart repository and OCI publishing, demo on release images.
 
 Have an idea? Open an issue in the platform repository; larger changes start as an
 [ADR](/docs/project/governance/#decisions).

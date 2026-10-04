@@ -6,6 +6,21 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- Landing page and docs (English and German) state what exists: the architecture scene is marked
+  as the 0.2 target design, planned items (spawned workers, signed toolbox images, egress
+  allowlist, per-step secrets, model second opinion, PDF reports, test and promotion gates) are
+  labelled as planned, Teams is described as an event source through a webhook, and the change gate
+  names only HTTP and file probes.
+- The German site matches the English wording.
+- `main` state of the platform (typed handovers, tool profiles, Agent Check and Agent Plan, Kubernetes
+  Job runner building block, OpenCode adapter, Claude Code harness) replaces "planned" and "stub".
+- The demo page and buttons point to the live demo at `demo.openagentix.si`.
+- Getting started and the Helm page use the real files and commands; the unpublished API image is
+  stated.
+- The static "passed" badges in the "built by an agent" section are removed.
+
 ## [0.1.0] - 2026-08-11
 
 First version of the openagentix website and documentation.
