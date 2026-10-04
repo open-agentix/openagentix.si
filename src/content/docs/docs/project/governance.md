@@ -16,7 +16,7 @@ our goal and vision.**
 agentix-zero is the project's agent account. It writes most of the code, tests and documentation.
 It has no decision rights of its own: every change is reviewed by a human maintainer, and
 maintainers own the roadmap, the architecture decisions, releases and security handling. The
-maintainer and project lead is the project lead.
+project lead acts as the maintainer of this repository.
 
 ## Roles
 

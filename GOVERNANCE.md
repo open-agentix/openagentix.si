@@ -11,17 +11,17 @@ trust our goal and vision.**
 
 agentix-zero is the project's agent account and authors most changes in this repository. It has no
 decision rights of its own: every change is reviewed by a human maintainer before it is released,
-and the maintainers own all decisions. The maintainer and project lead is the project lead.
+and the maintainers own all decisions. The project lead acts as the maintainer of this repository.
 
 ## Maintainers
 
 | Maintainer | Role |
 | --- | --- |
-| the project lead | project lead, reviews and releases, owns decisions |
+| Project lead | reviews and releases, owns decisions |
 | agentix-zero | agent account, authors changes, no decision rights |
 
 ## Decisions
 
 Everyday changes are decided in pull requests with one maintainer approval. Changes to the
-privacy policy, the imprint, the licence or the "no third-party requests" rule need the project
+licence or the "no third-party requests" rule need the project
 lead's approval.

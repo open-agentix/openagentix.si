@@ -20,7 +20,7 @@ This repository builds a static website. Interesting findings include:
 - any request from the built site to a third-party host (the site must not make any),
 - cross-site scripting through content or translation files,
 - supply-chain issues in the build (dependencies, GitHub Actions),
-- leaks of personal data beyond what the privacy policy describes.
+- leaks of personal data (the site collects none).
 
 ## Hardening in place
 

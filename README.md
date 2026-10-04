@@ -12,14 +12,13 @@ results go out as pull requests, ticket updates, messages, reports or metrics.
 - Website and docs (this repository): [open-agentix/openagentix.si](https://github.com/open-agentix/openagentix.si)
 
 agentix-zero is the project's agent account and writes most of this repository. Humans review every
-change and own the decisions; the maintainer is the project lead. See [GOVERNANCE.md](GOVERNANCE.md).
+change and own the decisions; the project lead is the maintainer. See [GOVERNANCE.md](GOVERNANCE.md).
 
 ## What is in here
 
 - **Landing page** (`/`, `/de/`): scroll-driven story of a run, from event to outcome, with an
   animated SVG flow diagram (Web Animations API, pauses on hover, static with reduced motion).
 - **Docs** (`/docs/`): [Starlight](https://starlight.astro.build/), English first, German overview.
-- **Legal pages**: imprint and privacy policy in English and German.
 - **Demo placeholder** (`/demo/`): the live demo comes later on `demo.openagentix.si`.
 
 Built with Astro 5 (static output), TypeScript and pnpm. No third-party requests: fonts, icons and

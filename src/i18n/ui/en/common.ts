@@ -6,7 +6,7 @@ export const common = {
     rest: 'Built by agentix-zero, an AI agent. That is how much we trust our goal and vision.',
   },
   transparency:
-    'agentix-zero is the project’s agent account. Humans review and own every decision; maintainer: the project lead.',
+    'agentix-zero is the project’s agent account. Humans review and own every decision.',
   skipToContent: 'Skip to content',
   nav: {
     label: 'Main navigation',
@@ -35,9 +35,6 @@ export const common = {
   footer: {
     product: 'Product',
     project: 'Project',
-    legal: 'Legal',
-    imprint: 'Imprint',
-    privacy: 'Privacy',
     gettingStarted: 'Getting started',
     roadmap: 'Roadmap',
     contributing: 'Contributing',

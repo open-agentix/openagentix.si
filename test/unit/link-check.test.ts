@@ -12,7 +12,7 @@ describe('link check', () => {
   });
 
   it('resolves relative and absolute hrefs, skips external ones', () => {
-    expect(resolveHref('de/index.html', 'impressum/')).toEqual({ path: 'de/impressum/index.html', hash: '' });
+    expect(resolveHref('de/index.html', 'demo/')).toEqual({ path: 'de/demo/index.html', hash: '' });
     expect(resolveHref('docs/a/index.html', '../b/#x')).toEqual({ path: 'docs/b/index.html', hash: 'x' });
     expect(resolveHref('index.html', '/favicon.svg')).toEqual({ path: 'favicon.svg', hash: '' });
     expect(resolveHref('index.html', '#features')).toEqual({ path: 'index.html', hash: 'features' });
