@@ -45,7 +45,7 @@ const columns = [
         <span class="mark" set:html={logo} />
         <span>openagentix</span>
       </a>
-      <p class="tagline"><strong>{t.common.ownerTagline.lead}</strong> {t.common.ownerTagline.rest}</p>
+      {page !== 'home' && <p class="tagline"><strong>{t.common.ownerTagline.lead}</strong> {t.common.ownerTagline.rest}</p>}
       <p class="fine">{t.common.transparency}</p>
       <p class="fine">{t.common.footer.noTracking}</p>
       <LangSwitch locale={locale} page={page} />

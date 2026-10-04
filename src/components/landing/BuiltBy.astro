@@ -35,7 +35,6 @@ try {
     <div class="copy" data-reveal>
       <p class="eyebrow">{b.eyebrow}</p>
       <h2 id="built-title" class="display">{b.title}</h2>
-      <p class="tagline"><strong>{t.common.ownerTagline.lead}</strong> {t.common.ownerTagline.rest}</p>
       <p class="body">{b.body}</p>
       <p class="transparency">{t.common.transparency}</p>
     </div>
@@ -80,19 +79,8 @@ try {
     align-items: center;
   }
 
-  .tagline {
-    margin-top: 1.5rem;
-    font-size: clamp(1.15rem, 1.7vw, 1.375rem);
-    line-height: 1.5;
-    color: var(--text-muted);
-  }
-
-  .tagline strong {
-    color: var(--text);
-  }
-
   .body {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     color: var(--text-muted);
   }
 
