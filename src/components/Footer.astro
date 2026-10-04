@@ -5,7 +5,7 @@ import pkg from '../../package.json';
 import type { Locale } from '../i18n/config';
 import { pathFor, type PageId, demoUrl } from '../i18n/routes';
 import { format, getDictionary } from '../i18n/translate';
-import { repos } from '../project';
+import { BLOG_URL, repos } from '../project';
 
 interface Props {
   locale: Locale;
@@ -22,6 +22,7 @@ const columns = [
       { href: docs, label: t.common.nav.docs },
       { href: '/docs/start/getting-started/', label: t.common.footer.gettingStarted },
       { href: demoUrl(locale), label: t.common.nav.demo },
+      { href: BLOG_URL, label: t.common.nav.blog },
       { href: '/docs/project/roadmap/', label: t.common.footer.roadmap },
     ],
   },

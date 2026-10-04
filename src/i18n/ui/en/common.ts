@@ -19,6 +19,7 @@ export const common = {
     openSource: 'Open source',
     docs: 'Docs',
     demo: 'Demo',
+    blog: 'Blog',
     github: 'openagentix on GitHub',
     home: 'openagentix home',
   },
