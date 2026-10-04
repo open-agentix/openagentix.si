@@ -6,8 +6,9 @@ sidebar:
 ---
 
 While the [audit gate](/docs/concepts/audit-agent/) judges single tool calls, the **control
-agent** watches whole runs. Its rules are deterministic; an optional reviewer (for example a
-model) can be added as a second opinion, and it can **only make a decision stricter**.
+agent** watches whole runs. Its rules are deterministic code. A hook for a reviewer exists in the
+code, but no reviewer is wired in today; an optional model second opinion that could only make a
+decision stricter is planned (0.4).
 
 ## Actions
 
@@ -25,7 +26,7 @@ model) can be added as a second opinion, and it can **only make a decision stric
 | `policy_denials` | the gate keeps denying | 3 denials |
 | `forbidden_action` | a forbidden action from the policy bundle is attempted | – |
 | `classification` | run data is more sensitive than the provider's clearance | – |
-| `reviewer` | the optional reviewer asks for a stricter action | off |
+| `reviewer` | planned (0.4): an optional reviewer asks for a stricter action | not available |
 
 A kill caused by `forbidden_action`, `classification` or `policy_denials` ends the run as
 `blocked_by_policy`; other kills end it as `failed` with the error code `control_<rule>`.

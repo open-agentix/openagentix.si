@@ -11,13 +11,13 @@ export const landing = {
     lead: 'openagentix turns events into finished work. A webhook, a Kafka message, an e-mail or a schedule starts a run. Agents act through MCP tools. Every call is checked before it runs, written to a tamper-evident audit trail and priced to the cent.',
     ctaDocs: 'Read the docs',
     ctaGithub: 'View on GitHub',
-    ctaDemo: 'Live demo: coming soon',
+    ctaDemo: 'Live demo',
     scrollHint: 'Scroll to see how a run flows',
   },
   diagram: {
     title: 'How a run flows through openagentix',
     description:
-      'Events from Kafka, webhooks, streams, e-mail, Microsoft Teams and cron enter the platform on the left. Inside, one to three agents pass the work along. Every tool call passes the agent’s audit gate first, a global control agent watches budgets and guardrails, and each step is appended to a hash-chained audit trail. Results leave on the right as pull requests, fixed CVEs, updated tickets, chat messages, reports and metrics.',
+      'Events from Kafka, webhooks, Kafka log streams, e-mail, Microsoft Teams (through a webhook) and cron enter the platform on the left. Inside, one to three agents pass the work along. Every tool call passes the agent’s audit gate first, a global control agent watches budgets and guardrails, and each step is appended to a hash-chained audit trail. Results leave on the right through the tools an agent is granted, for example as pull requests, updated tickets, chat messages or reports. The result targets shown are illustrative; declared output targets are planned.',
     pause: 'Pause animation',
     play: 'Play animation',
     platform: 'openagentix',
@@ -37,15 +37,15 @@ export const landing = {
       webhook: 'Webhook',
       stream: 'Kafka stream',
       mail: 'E-mail',
-      teams: 'MS Teams',
+      teams: 'MS Teams (webhook)',
       cron: 'Cron',
     },
     sourceHints: {
       kafka: 'orders.failed',
       webhook: 'Jira · GitHub',
-      stream: 'log stream',
+      stream: 'logs topic',
       mail: 'invoices@',
-      teams: '@agentix',
+      teams: 'via webhook',
       cron: 'nightly 03:00',
     },
     outputs: {
@@ -61,7 +61,7 @@ export const landing = {
       cve: 'critical → 0',
       ticket: 'OPS-482',
       message: '#ops-alerts',
-      report: 'Markdown · PDF',
+      report: 'Markdown',
       metrics: 'Prometheus',
     },
     scenarios: {
@@ -82,11 +82,11 @@ export const landing = {
         agents: { reader: 'Invoice reader', payer: 'Payment agent' },
       },
       incident: {
-        caption: 'Teams mention: analyse the incident logs, post a summary, export metrics.',
+        caption: 'Teams message via webhook: analyse the incident logs, post a summary, export metrics.',
         agents: { analyst: 'Log analyst', summariser: 'Summariser' },
       },
       anomaly: {
-        caption: 'Log stream: spot anomalies, push metrics, write a short report.',
+        caption: 'Kafka log stream: spot anomalies, push metrics, write a short report.',
         agents: { watcher: 'Anomaly watcher' },
       },
     },
@@ -99,7 +99,7 @@ export const landing = {
       {
         label: 'Event in',
         title: 'An event arrives.',
-        body: 'A signed webhook, a Kafka topic, a schedule, an e-mail or a chat mention. openagentix verifies it, stores it and starts a run.',
+        body: 'A signed webhook, a Kafka topic, a schedule or an e-mail. Chat messages arrive through a webhook. openagentix verifies the event, stores it and starts a run.',
       },
       {
         label: 'Audit gate',
@@ -114,12 +114,12 @@ export const landing = {
       {
         label: 'Control agent',
         title: 'A control agent watches every run.',
-        body: 'Budgets, rates, data classes and forbidden actions apply across all runs. It can pause or stop a run. An optional model review can only make the rules stricter.',
+        body: 'Budgets, rates, data classes and forbidden actions apply across all runs. It can pause or stop a run. Its rules are deterministic code today; an optional model second opinion is planned (0.4).',
       },
       {
         label: 'Results out',
         title: 'Results land where your team works.',
-        body: 'A pull request, a fixed CVE, an updated ticket, a Teams or Slack message, a report or metrics for your monitoring. Each one traceable to the event that caused it.',
+        body: 'Agents deliver through the tools they are granted: a pull request, an updated ticket, a chat message or a report. Each one traceable to the event that caused it. Declared output targets are planned.',
       },
     ],
   },
@@ -159,9 +159,9 @@ export const landing = {
     ],
   },
   architecture: {
-    eyebrow: 'Architecture',
+    eyebrow: 'Target architecture · roadmap 0.2',
     title: 'A control node that decides. Workers that only do.',
-    lead: 'The control node holds the registry, the policy gates, the audit chain, costs and metrics, and never executes a tool itself. The work happens in short-lived worker nodes that carry exactly the tools an agent needs.',
+    lead: 'The control node holds the registry, the policy gates, the audit chain, costs and metrics, and never executes a tool itself. Today the worker runs in-process or locally. The spawned, short-lived workers with signed toolbox images shown here are the design for 0.2 and are not built yet.',
     steps: [
       {
         label: 'Control node',
@@ -171,24 +171,24 @@ export const landing = {
       {
         label: 'Spawn',
         title: 'A worker starts with exactly the tools it needs.',
-        body: 'The runner starts the agent’s toolbox image, for example git + node, trivy or jira-cli. Minimal, non-root, read-only, pinned by digest, signed and scanned. Outbound traffic is allowlisted.',
+        body: 'Planned (0.2): the runner starts the agent’s toolbox image, for example git + node, trivy or jira-cli. Minimal, non-root, read-only, pinned by digest, signed and scanned, with allowlisted outbound traffic. Not built yet.',
       },
       {
         label: 'Ask first',
         title: 'The worker asks before every tool call.',
-        body: 'Each call goes to the policy gate on the control node first. Steps stream back over an authenticated channel and land in the audit chain.',
+        body: 'Each call goes to the policy gate first, with the signed run token. Steps are recorded in the audit chain. Today this already holds for the in-process worker; remote workers are planned.',
       },
       {
         label: 'Tear down',
         title: 'Then the worker is gone.',
-        body: 'When the run ends, the worker is removed and its scoped secrets are revoked. Nothing lingers, nothing drifts.',
+        body: 'Planned (0.2): when the run ends, the worker is removed and its per-step secrets are revoked. Not built yet; the credential broker is in review.',
       },
     ],
     controlNode: 'Control node',
     controlParts: ['Registry', 'Policy gates', 'Audit chain', 'Costs', 'Metrics'],
     neverExecutes: 'never executes tools',
-    worker: 'Worker node',
-    toolbox: 'Toolbox image',
+    worker: 'Worker node · planned 0.2',
+    toolbox: 'Toolbox image · planned',
     signed: 'signed',
     scanned: 'scanned',
     sbom: 'SBOM',
@@ -197,7 +197,7 @@ export const landing = {
     policyCheck: 'policy check',
     stepsBack: 'steps streamed back',
     removed: 'removed · secrets revoked',
-    runnersNote: 'Today workers run in-process or locally. Containers and Kubernetes/EKS come next, AWS Lambda and CI runners after that.',
+    runnersNote: 'Today workers run in-process or locally. A Kubernetes Job runner exists on main as a building block, not yet wired into the platform; the container runner and credential broker are in review. AWS Lambda and CI runners come later.',
   },
   reveal: {
     eyebrow: 'The console',
@@ -245,7 +245,7 @@ export const landing = {
       {
         role: 'Agent engineer',
         title: 'Assembles and ships',
-        body: 'Turns the description into a versioned agents.md with tools, budgets, approvals and tests, then promotes it to production.',
+        body: 'Turns the description into a versioned agents.md with tools, budgets and approvals, test-runs it and publishes an immutable version. Test suites and promotion gates are planned.',
       },
       {
         role: 'Auditor',
@@ -256,7 +256,7 @@ export const landing = {
   },
   features: {
     eyebrow: 'Features',
-    title: 'Everything a production agent needs.',
+    title: 'Everything an agent needs to run under control.',
     items: {
       events: {
         title: 'Events in',
@@ -264,11 +264,11 @@ export const landing = {
       },
       mcp: {
         title: 'Bring your own MCP',
-        body: 'Register your MCP servers per tenant, team or agent (next release); container-run servers and read/write profiles are planned. Every agent gets its own tool allowlist and argument rules, enforced in code.',
+        body: 'Register your MCP servers per tenant, team or agent and group their tools into named read/write profiles (both next release, 0.2); servers run as containers are planned. Every agent gets its own tool allowlist and argument rules, enforced in code.',
       },
       rbac: {
         title: 'Tenants and per-agent access',
-        body: 'Tenants isolate agents, runs, keys, audit and costs. Roles are granted per tenant and, if you like, per agent, so people only see the agents they work on. OIDC and LDAP/AD are optional; one person can hold every role.',
+        body: 'Tenants isolate agents, runs, keys, audit and costs (next release, 0.2). Roles are granted per tenant and, if you like, per agent, so people only see the agents they work on. OIDC and LDAP/AD are optional; one person can hold every role.',
       },
       audit: {
         title: 'Revision-safe audit',
@@ -284,15 +284,15 @@ export const landing = {
       },
       metrics: {
         title: 'Metrics and traces',
-        body: 'Prometheus metrics, OpenTelemetry traces and JSON logs, all correlated by run ID.',
+        body: 'Prometheus metrics, OpenTelemetry traces and JSON logs, correlated by run ID. Traces have one span per run today; per-step spans are planned.',
       },
       providers: {
         title: 'Bring your own keys and models',
-        body: 'OpenAI-compatible APIs, Ollama, Anthropic and AWS Bedrock. Keys are references, scoped to the platform, a tenant, a team or an agent. Model lists and prices come from a pinned models.dev snapshot, with local overrides for private models.',
+        body: 'OpenAI-compatible APIs, Ollama, Anthropic and AWS Bedrock. Keys are references. Scoping them to a tenant, team or agent and the model catalog from a pinned models.dev snapshot arrive in the next release (0.2).',
       },
       helm: {
         title: 'Helm and EKS',
-        body: 'One Helm chart with IRSA, NetworkPolicies, restricted PodSecurity, autoscaling and a migration job.',
+        body: 'A Helm chart with IRSA, NetworkPolicies, restricted PodSecurity, autoscaling and a migration job. It renders and lints in CI; an install test follows once the API image is published.',
       },
       approvals: {
         title: 'Human in the loop',
@@ -304,37 +304,37 @@ export const landing = {
       },
       offline: {
         title: 'Air-gapped mode',
-        body: 'No remote prompts, skills or telemetry, and no model list fetched at run time. With local models and your own MCP servers, nothing has to leave your network.',
+        body: 'No remote prompts, skills or telemetry, and no model list fetched at run time. With local models and your own MCP servers, nothing has to leave your network. A fail-closed switch arrives in the next release (0.2); an external harness still needs its own egress.',
       },
       changeGate: {
         title: 'Change-gated schedules',
-        body: 'A schedule can check first, with plain code and no model: a hash of a page, file, API response or query. The run only starts when something changed, so quiet nights cost nothing.',
+        body: 'A schedule can check first, with plain code and no model: a hash of a page or file (API responses and queries are planned). The run only starts when something changed, so quiet nights cost nothing.',
       },
       guidelines: {
         title: 'Guidelines and a hardening agent',
-        body: 'Versioned development guidelines attach to an agent or a tenant. A global hardening agent reviews what development agents produce against company-wide rules and can only make decisions stricter.',
+        body: 'Versioned development guidelines attach to an agent or a tenant. A deterministic hardening review can be run on demand; automatic review of pull requests is planned (0.4).',
       },
       factory: {
         title: 'Dark software factory',
-        body: 'Opt-in: agents take a task from spec to code, tests and pull request with minimal human touch. Recommended for MVP and proof-of-concept development only. Not for production changes without review.',
+        body: 'Opt-in mode with a fixed notice today; a spec, code, tests and pull request template is planned (0.4). Recommended for MVP and proof-of-concept development only. Not for production changes without review.',
       },
     },
   },
   runners: {
     eyebrow: 'Runners',
     title: 'Run agents anywhere.',
-    lead: 'In-process, on a laptop, in containers, on Kubernetes or EKS, in AWS Lambda, GitHub Actions or GitLab CI. Optionally with your favourite harness. Always through the same policy gate.',
+    lead: 'Today in-process or on your own machine. Containers, Kubernetes or EKS, AWS Lambda, GitHub Actions and GitLab CI are on the roadmap. Optionally with your favourite harness. Always through the same policy gate.',
     gate: 'Same policy gate · same audit chain · same budgets',
     items: {
       inProcess: { name: 'In-process', body: 'The default. Runs inside the worker with no extra moving parts.' },
       local: { name: 'Local CLI', body: 'oax run agents.md --event event.json on your own machine.' },
       container: {
         name: 'Containers',
-        body: 'Docker or Podman: one short-lived container per run, read-only, egress allowlisted.',
+        body: 'Planned: Docker or Podman, one short-lived container per step, read-only, egress allowlisted. In review.',
       },
       kubernetes: {
         name: 'Kubernetes / EKS',
-        body: 'A Job per run with its own ServiceAccount, IRSA and NetworkPolicy.',
+        body: 'Planned: one Job per step with its own ServiceAccount, IRSA and NetworkPolicy. A building block is on main, not yet wired into the platform.',
       },
       lambda: { name: 'AWS Lambda', body: 'One function per agent version, attached to your VPC for Bedrock endpoints.' },
       github: {
@@ -345,7 +345,7 @@ export const landing = {
     },
     harness: {
       title: 'Bring your harness. Optional.',
-      body: 'Claude Code, OpenCode, Hermes or OpenClaw can execute an agent. An adapter translates agents.md into the harness configuration and routes every tool call through the openagentix policy gate, so audit, control agent and costs stay identical. The platform works fully without any harness.',
+      body: 'An adapter translates agents.md into the harness configuration and routes every tool call through the openagentix policy gate, so audit, control agent and costs stay identical. Claude Code is verified with real runs (next release, 0.2). The OpenCode adapter is implemented and tested against a fake CLI; real-run verification is pending. Hermes and OpenClaw are planned. The platform works fully without any harness.',
     },
   },
   trust: {
@@ -373,7 +373,7 @@ export const landing = {
   useCases: {
     eyebrow: 'Use cases',
     title: 'From the enterprise to the homelab.',
-    lead: 'One person on a single server can hold every role. A company adds tenants, single sign-on and signed checkpoints. The core stays the same.',
+    lead: 'One person on a single server can hold every role. A company adds tenants, single sign-on and signed checkpoints. The core stays the same. The cases below are examples of what you can build; the repository ships cve-triage and ticket-updater as runnable examples, more are planned.',
     enterprise: {
       title: 'Enterprise',
       items: [
@@ -387,7 +387,7 @@ export const landing = {
         },
         {
           title: 'Incident summaries',
-          body: 'Collect logs and metrics on a Teams mention and post a timeline the on-call engineer can trust.',
+          body: 'Collect logs and metrics on a Teams message (through a webhook relay) and post a timeline the on-call engineer can trust.',
         },
         {
           title: 'Compliance evidence',
@@ -420,10 +420,9 @@ export const landing = {
   builtBy: {
     eyebrow: 'Built by an agent',
     title: 'This platform is built by an agent.',
-    body: 'agentix-zero writes the code, tests and documentation of open-agentix. Every change passes the same kind of gates the platform enforces for your agents, and nothing ships without a human review.',
-    gatesLabel: 'Gates every commit passes',
+    body: 'agentix-zero writes the code, tests and documentation of open-agentix. The project’s rule is that every change goes through a pull request with the same kind of gates the platform enforces for your agents, followed by a human review.',
+    gatesLabel: 'Rules for every change',
     gates: ['Conventional Commit', 'Tests · coverage ≥ 80 %', 'No third-party requests', 'Human review'],
-    passed: 'passed',
     feedLabel: 'Recent commits by agentix-zero',
   },
   openSource: {
@@ -441,17 +440,17 @@ export const landing = {
     roadmap: [
       {
         phase: '0.1 · Core',
-        body: 'Events, agents.md, audit gate, control agent, hash-chained audit, costs, tenants, in-process and local runners.',
+        body: 'Events, agents.md, audit gate, control agent, hash-chained audit, costs, in-process and local runners.',
       },
       {
         phase: '0.2',
-        body: 'Worker nodes in containers and on Kubernetes/EKS, with signed, scanned toolbox images.',
+        body: 'On main: tenants, scoped model keys, monthly budgets, air-gapped switch, typed handovers, tool profiles, Agent Check, Claude Code harness. Planned: container workers and signed toolbox images.',
       },
       {
         phase: '0.3',
-        body: 'AWS Lambda, GitHub Actions and GitLab CI runners; optional external harnesses.',
+        body: 'AWS Lambda, GitHub Actions and GitLab CI runners; Hermes and OpenClaw harnesses; Slack and Teams adapters.',
       },
-      { phase: '1.0', body: 'Stable APIs, signed releases, documented upgrades and a public demo.' },
+      { phase: '1.0', body: 'Stable APIs, signed releases, documented upgrades and a demo on release images.' },
     ],
   },
   cta: {
@@ -459,7 +458,7 @@ export const landing = {
     lead: 'Run openagentix with Docker Compose, connect a webhook and watch the first run land on the record.',
     primary: 'Get started',
     secondary: 'Star on GitHub',
-    demo: 'Live demo coming soon',
+    demo: 'Open the live demo',
   },
   closing: {
     line: 'We trust in SI - super intelligence.',

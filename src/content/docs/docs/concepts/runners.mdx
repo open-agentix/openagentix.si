@@ -15,8 +15,8 @@ budgets: changing the runner changes **where** an agent runs, never **what** it 
 | --- | --- | --- |
 | `in-process` | Runs inside the worker process. The default. | <Badge text="Available in 0.1" variant="success" /> |
 | `local` | Runs on a developer machine: `oax run agents.md --event event.json`. | <Badge text="Available in 0.1" variant="success" /> |
-| `container` | Docker or Podman; one short-lived container per run, read-only root file system, no network except allowlisted egress. | <Badge text="Roadmap 0.2" variant="caution" /> |
-| `kubernetes-job` | One Kubernetes Job per run (also on EKS) with its own ServiceAccount, IRSA and NetworkPolicy. | <Badge text="Roadmap 0.2" variant="caution" /> |
+| `container` | Docker or Podman; one short-lived container per step, read-only root file system, no network except allowlisted egress. Runner and credential broker are in review. | <Badge text="Roadmap 0.2" variant="caution" /> |
+| `kubernetes-job` | One Kubernetes Job per step (also on EKS) with its own ServiceAccount, IRSA and NetworkPolicy. A building block is on `main`; it is not yet wired into the platform. | <Badge text="Roadmap 0.2" variant="caution" /> |
 | `aws-lambda` | One function per agent version, invoked per run, with VPC configuration for Bedrock VPC endpoints. | <Badge text="Roadmap 0.3" variant="caution" /> |
 | `github-actions` | `workflow_dispatch` in a target repository; results are posted back through a signed callback. | <Badge text="Roadmap 0.3" variant="caution" /> |
 | `gitlab-ci` | A pipeline trigger token and the same signed callback. | <Badge text="Roadmap 0.3" variant="caution" /> |

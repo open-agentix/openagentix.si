@@ -11,14 +11,15 @@ so that a confused or manipulated agent still cannot do more than its definition
 ## Principles
 
 1. **Deterministic gates.** Tool calls are allowed or denied by code, using the allowlist and
-   argument rules in `agents.md` plus the global policy bundle. A model can make rules stricter
-   (optional reviewer), never looser.
+   argument rules in `agents.md` plus the global policy bundle. No model decides today; an optional
+   model second opinion that could only make rules stricter is planned (0.4).
 2. **Least privilege per agent.** An agent sees only granted tools, receives only data at or below
-   its tools' and provider's clearance, and (from 0.2) runs in a toolbox image that contains only
-   the binaries it needs.
+   its tools' and provider's clearance. Planned for 0.2: a toolbox image that contains only the
+   binaries it needs.
 3. **Separation of deciding and doing.** The [control node](/docs/concepts/control-node-and-workers/)
-   holds policies, audit and the credentials catalogue and never executes tools. Workers are
-   short-lived and authenticate with signed run tokens.
+   holds policies, audit and the credentials catalogue and never executes tools. Workers
+   authenticate with signed run tokens. Short-lived, spawned workers are planned for 0.2; today the
+   worker runs in-process or locally.
 4. **Everything on the record.** Every decision lands in the hash-chained
    [audit trail](/docs/concepts/audit-trail/) with signed checkpoints.
 
@@ -55,8 +56,8 @@ Redacted values become `[REDACTED]`.
 ## Network
 
 - Providers have an **egress guard**: requests go only to the configured endpoint.
-- Workers have an egress allowlist (`runtime.egress`); with the Helm chart, NetworkPolicies deny
-  everything else by default.
+- `runtime.egress` declares the hosts a worker may reach. Enforcement for spawned workers is
+  planned for 0.2; with the Helm chart, NetworkPolicies deny everything not listed by default.
 - Bedrock can be reached through a VPC interface endpoint or a proxy only.
 
 ## Data classification

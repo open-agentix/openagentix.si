@@ -51,6 +51,7 @@ export const common = {
     available: 'Available in 0.1',
     roadmap: 'Roadmap',
     planned: 'Planned',
+    next: 'Next release',
   },
   notFound: {
     title: 'Page not found',
