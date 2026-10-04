@@ -276,17 +276,14 @@ const first = progress.replace('{current}', '1').replace('{total}', String(steps
     .step {
       min-height: 52svh;
       justify-content: flex-start;
-      padding: 0.75rem 0 0;
-      opacity: 0.45;
-      transition: opacity 0.4s var(--ease-out);
+      padding: 0.75rem 0 0 1.1rem;
     }
 
-    .step.is-active {
-      opacity: 1;
-    }
-
+    /* Inactive steps keep full text contrast; only the accent bar marks the current one. */
     .step::before {
-      display: none;
+      top: 0.75rem;
+      height: 6rem;
+      margin-top: 0;
     }
 
     .step > *,
@@ -308,7 +305,7 @@ const first = progress.replace('{current}', '1').replace('{total}', String(steps
   }
 
   @media (max-width: 820px) and (prefers-reduced-motion: reduce) {
-    .step,
+    .step::before,
     .dot {
       transition: none;
     }
