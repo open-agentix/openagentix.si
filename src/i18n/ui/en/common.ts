@@ -1,5 +1,6 @@
 export const common = {
   siteName: 'openagentix',
+  superIntelligence: 'SuperIntelligence',
   tagline: 'The open-source agent platform you can audit.',
   ownerTagline: {
     lead: 'open-agentix – the agentic platform.',

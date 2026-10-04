@@ -2,6 +2,7 @@ import type { Dictionary } from '../en';
 
 export const common: Dictionary['common'] = {
   siteName: 'openagentix',
+  superIntelligence: 'SuperIntelligence',
   tagline: 'Die Open-Source-Agentenplattform, der Sie nachprüfbar vertrauen können.',
   ownerTagline: {
     lead: 'open-agentix – die agentische Plattform.',
