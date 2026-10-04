@@ -232,7 +232,7 @@ export const landing: Dictionary['landing'] = {
   },
   personas: {
     eyebrow: 'Für das ganze Team',
-    title: 'Vier Rollen, eine gemeinsame Wahrheit.',
+    title: 'Vier Perspektiven, eine gemeinsame Wahrheit.',
     items: [
       {
         role: 'Fachanwender',
@@ -265,20 +265,20 @@ export const landing: Dictionary['landing'] = {
         body: 'Signierte Webhooks, Kafka, Cron, E-Mail, Teams und Slack starten Läufe. Jedes Ereignis wird geprüft und als CloudEvent lückenlos nachverfolgt.',
       },
       mcp: {
-        title: 'MCP-Zugriff',
-        body: 'Agenten nutzen Tools über das Model Context Protocol – mit Allowlists und Argumentregeln pro Agent.',
+        title: 'Eigene MCP-Server mitbringen',
+        body: 'Registrieren Sie Ihre MCP-Server je Mandant, remote oder als Container. Jeder Agent bekommt eigene Tool-Allowlists und Argumentregeln, im Code durchgesetzt.',
       },
       rbac: {
-        title: 'RBAC und Single Sign-on',
-        body: 'Sechs Rollen von Admin bis Viewer, je Team eingegrenzt. OIDC, LDAP/AD und befristete API-Tokens mit festem Umfang.',
+        title: 'Mandanten und Zugriff pro Agent',
+        body: 'Mandanten trennen Agenten, Läufe, Schlüssel, Audit und Kosten. Rollen gibt es je Mandant und auf Wunsch je Agent, sodass Menschen nur die Agenten sehen, an denen sie arbeiten. OIDC und LDAP/AD sind optional; eine Person kann alle Rollen innehaben.',
       },
       audit: {
         title: 'Revisionssicheres Audit',
         body: 'Nur anhängend, per SHA-256 verkettet, mit signierten Checkpoints. Ein Prüfbefehl deckt Manipulationen auf.',
       },
       costs: {
-        title: 'Kostentransparenz',
-        body: 'Tokens, Preise und Tool-Aufrufe pro Schritt. Budgets pro Agent, Team und Monat mit hartem Stopp.',
+        title: 'Kosten pro Agent, Anwendungsfall und Lauf',
+        body: 'Jede Kostenzeile trägt Mandant, Agent, Anwendungsfall, Lauf, Schritt, Modell und Provider. Nach jedem davon auswerten, als CSV oder JSON exportieren und Läufe mit harten Budgets stoppen.',
       },
       runs: {
         title: 'Konfigurierbare Läufe',
@@ -289,8 +289,8 @@ export const landing: Dictionary['landing'] = {
         body: 'Prometheus-Metriken, OpenTelemetry-Traces und JSON-Logs, alles über die Lauf-ID verknüpft.',
       },
       providers: {
-        title: 'Freie Modellwahl',
-        body: 'OpenAI-kompatible APIs, Ollama, Anthropic und AWS Bedrock über VPC-Endpunkt oder Proxy. Dazu ein simulierter Provider für Tests.',
+        title: 'Eigene Schlüssel und Modelle',
+        body: 'OpenAI-kompatible APIs, Ollama, Anthropic und AWS Bedrock. Schlüssel sind Referenzen, begrenzt auf Plattform, Mandant, Team oder Agent. Modelllisten und Preise stammen aus einem festgeschriebenen models.dev-Stand, mit lokalen Anpassungen für private Modelle.',
       },
       helm: {
         title: 'Helm und EKS',
@@ -305,8 +305,20 @@ export const landing: Dictionary['landing'] = {
         body: 'Verbindungen verweisen auf Umgebungsvariablen oder Kubernetes-Secrets. Werte werden in Logs und Audit-Einträgen geschwärzt.',
       },
       offline: {
-        title: 'Kein Nach-Hause-Telefonieren',
-        body: 'Keine nachgeladenen Prompts, Skills oder Telemetrie. Ausgehender Verkehr geht nur an die Provider und Tools, die Sie konfigurieren.',
+        title: 'Air-gapped-Betrieb',
+        body: 'Keine nachgeladenen Prompts, Skills oder Telemetrie und keine Modellliste, die zur Laufzeit geholt wird. Mit lokalen Modellen und eigenen MCP-Servern muss nichts Ihr Netz verlassen.',
+      },
+      changeGate: {
+        title: 'Zeitpläne mit Änderungsprüfung',
+        body: 'Ein Zeitplan kann zuerst prüfen, mit schlichtem Code und ohne Modell: ein Hash von Seite, Datei, API-Antwort oder Abfrage. Der Lauf startet nur, wenn sich etwas geändert hat, ruhige Nächte kosten nichts.',
+      },
+      guidelines: {
+        title: 'Richtlinien und Hardening-Agent',
+        body: 'Versionierte Entwicklungsrichtlinien hängen an einem Agenten oder Mandanten. Ein globaler Hardening-Agent prüft, was Entwicklungs-Agenten liefern, gegen unternehmensweite Regeln und kann Entscheidungen nur verschärfen.',
+      },
+      factory: {
+        title: 'Dark Software Factory',
+        body: 'Optional: Agenten führen eine Aufgabe von der Spezifikation bis zu Code, Tests und Pull Request mit minimalem menschlichem Eingriff. Nur für MVP- und Proof-of-Concept-Entwicklung empfohlen, nicht für Produktionsänderungen ohne Prüfung.',
       },
     },
   },
@@ -349,13 +361,13 @@ export const landing: Dictionary['landing'] = {
     },
     rbac: {
       title: 'Rollen, die zu Ihrer Organisation passen',
-      body: 'Berechtigungen pro Ressource, je Team eingegrenzt. Jede API-Route nennt die nötige Berechtigung, und Tests setzen sie durch.',
+      body: 'Berechtigungen pro Ressource, je Mandant und auf Wunsch je Agent eingegrenzt. Jede API-Route nennt die nötige Berechtigung, und Tests setzen sie durch.',
       role: 'Rolle',
       legend: { manage: 'verwalten', read: 'lesen', none: 'kein Zugriff' },
     },
     costs: {
       title: 'Kosten, die sich erklären lassen',
-      body: 'Pro Lauf, pro Schritt, pro Team. Budgets stoppen einen Lauf, bevor er zu teuer wird.',
+      body: 'Pro Lauf, Schritt, Agent, Anwendungsfall und Mandant. Budgets stoppen einen Lauf, bevor er zu teuer wird.',
       budget: 'Monatsbudget',
       of: 'von',
     },
@@ -363,6 +375,7 @@ export const landing: Dictionary['landing'] = {
   useCases: {
     eyebrow: 'Einsatzbeispiele',
     title: 'Vom Konzern bis zum Homelab.',
+    lead: 'Eine Person auf einem einzelnen Server kann alle Rollen innehaben. Ein Unternehmen ergänzt Mandanten, Single Sign-on und signierte Checkpoints. Der Kern bleibt derselbe.',
     enterprise: {
       title: 'Unternehmen',
       items: [
@@ -429,8 +442,8 @@ export const landing: Dictionary['landing'] = {
     roadmapLink: 'Zur vollständigen Roadmap',
     roadmap: [
       {
-        phase: '0.1 · MVP',
-        body: 'Ereignisse, agents.md, Audit-Gate, Kontroll-Agent, verkettetes Audit, Kosten, Runner im Prozess und lokal.',
+        phase: '0.1 · Kern',
+        body: 'Ereignisse, agents.md, Audit-Gate, Kontroll-Agent, verkettetes Audit, Kosten, Mandanten, Runner im Prozess und lokal.',
       },
       {
         phase: '0.2',

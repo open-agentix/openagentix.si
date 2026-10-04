@@ -8,16 +8,18 @@ interface Props {
   locale: Locale;
 }
 
-const f = getDictionary(Astro.props.locale).landing.features;
+const dict = getDictionary(Astro.props.locale);
+const f = dict.landing.features;
 type Key = keyof typeof f.items;
 // Order and size of the bento tiles; the large ones carry the core promise.
-// Rows of 12 columns: l+m+m (two rows high), s x4, l+m+m, w+w.
-const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' }[] = [
+// Rows of 12 columns: l+m+m (two rows high), s x4, l+m+m, w+w, x+x+x.
+// `planned` tiles describe features that are specified but not shipped yet.
+const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' | 'x'; planned?: boolean }[] = [
   { key: 'audit', icon: 'shield', size: 'l' },
   { key: 'events', icon: 'bolt', size: 'm' },
   { key: 'mcp', icon: 'plug', size: 'm' },
   { key: 'costs', icon: 'coins', size: 's' },
-  { key: 'rbac', icon: 'users', size: 's' },
+  { key: 'rbac', icon: 'users', size: 's', planned: true },
   { key: 'runs', icon: 'sliders', size: 's' },
   { key: 'metrics', icon: 'chart', size: 's' },
   { key: 'providers', icon: 'cpu', size: 'l' },
@@ -25,6 +27,9 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' }[] = [
   { key: 'offline', icon: 'offline', size: 'm' },
   { key: 'helm', icon: 'helm', size: 'w' },
   { key: 'approvals', icon: 'hand', size: 'w' },
+  { key: 'changeGate', icon: 'clock', size: 'x', planned: true },
+  { key: 'guidelines', icon: 'diff', size: 'x', planned: true },
+  { key: 'factory', icon: 'branch', size: 'x', planned: true },
 ];
 ---
 
@@ -40,6 +45,7 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' }[] = [
           <li class:list={['tile', `tile--${t.size}`]} data-reveal>
             <span class="icon-wrap"><Icon name={t.icon} size={t.size === 'l' ? 26 : 22} /></span>
             <h3>{f.items[t.key].title}</h3>
+            {t.planned && <span class="badge badge--roadmap">{dict.common.badges.planned}</span>}
             <p>{f.items[t.key].body}</p>
           </li>
         ))
@@ -89,6 +95,15 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' }[] = [
 
   .tile--w {
     grid-column: span 6;
+  }
+
+  .tile--x {
+    grid-column: span 4;
+  }
+
+  .tile .badge {
+    display: inline-block;
+    margin-top: 0.6rem;
   }
 
   .tile--m {
@@ -149,7 +164,8 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' }[] = [
       grid-row: auto;
     }
 
-    .tile--l {
+    .tile--l,
+    .tile--x {
       grid-column: span 12;
       grid-row: auto;
     }
@@ -159,6 +175,7 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' }[] = [
     .tile,
     .tile--m,
     .tile--w,
+    .tile--x,
     .tile--l {
       grid-column: span 12;
     }

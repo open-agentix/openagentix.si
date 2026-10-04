@@ -2,7 +2,7 @@ export const landing = {
   meta: {
     title: 'openagentix – the open-source agent platform you can audit',
     description:
-      'Self-hosted agent platform: events start runs, agents work through MCP tools, and every call is policy-checked, audited and cost-tracked. Apache-2.0.',
+      'Self-hosted agent platform for homelabs and enterprises: events start runs, agents work through MCP tools, and every call is policy-checked, audited and cost-tracked. Bring your own keys, models and MCP servers. Apache-2.0.',
   },
   hero: {
     eyebrow: 'Open source · Apache-2.0 · Self-hosted',
@@ -230,7 +230,7 @@ export const landing = {
   },
   personas: {
     eyebrow: 'Built for the whole team',
-    title: 'Four roles, one source of truth.',
+    title: 'Four perspectives, one source of truth.',
     items: [
       {
         role: 'Business user',
@@ -263,20 +263,20 @@ export const landing = {
         body: 'Signed webhooks, Kafka, cron, e-mail, Teams and Slack start runs. Every event is verified and becomes a CloudEvent with a full trail.',
       },
       mcp: {
-        title: 'MCP access',
-        body: 'Agents use tools through the Model Context Protocol, with per-agent allowlists and argument constraints.',
+        title: 'Bring your own MCP',
+        body: 'Register your MCP servers per tenant, remote or as a container. Every agent gets its own tool allowlist and argument rules, enforced in code.',
       },
       rbac: {
-        title: 'RBAC and single sign-on',
-        body: 'Six roles from admin to viewer, scoped by team. OIDC, LDAP/AD and scoped, expiring API tokens.',
+        title: 'Tenants and per-agent access',
+        body: 'Tenants isolate agents, runs, keys, audit and costs. Roles are granted per tenant and, if you like, per agent, so people only see the agents they work on. OIDC and LDAP/AD are optional; one person can hold every role.',
       },
       audit: {
         title: 'Revision-safe audit',
         body: 'Append-only and SHA-256 hash-chained, with signed checkpoints. A verify command detects tampering.',
       },
       costs: {
-        title: 'Cost transparency',
-        body: 'Tokens, prices and tool calls per step. Budgets per agent, team and month with a hard stop.',
+        title: 'Cost per agent, use case and run',
+        body: 'Every cost line carries tenant, agent, use case, run, step, model and provider. Aggregate by any of them, export as CSV or JSON, and stop runs with hard budgets.',
       },
       runs: {
         title: 'Configurable runs',
@@ -287,8 +287,8 @@ export const landing = {
         body: 'Prometheus metrics, OpenTelemetry traces and JSON logs, all correlated by run ID.',
       },
       providers: {
-        title: 'Bring your model',
-        body: 'OpenAI-compatible APIs, Ollama, Anthropic and AWS Bedrock through a VPC endpoint or proxy. A simulated provider for tests.',
+        title: 'Bring your own keys and models',
+        body: 'OpenAI-compatible APIs, Ollama, Anthropic and AWS Bedrock. Keys are references, scoped to the platform, a tenant, a team or an agent. Model lists and prices come from a pinned models.dev snapshot, with local overrides for private models.',
       },
       helm: {
         title: 'Helm and EKS',
@@ -303,8 +303,20 @@ export const landing = {
         body: 'Connections point to environment variables or Kubernetes Secrets. Values are redacted in logs and audit entries.',
       },
       offline: {
-        title: 'No phoning home',
-        body: 'No remote prompts, skills or telemetry. Outbound traffic goes only to the providers and tools you configure.',
+        title: 'Air-gapped mode',
+        body: 'No remote prompts, skills or telemetry, and no model list fetched at run time. With local models and your own MCP servers, nothing has to leave your network.',
+      },
+      changeGate: {
+        title: 'Change-gated schedules',
+        body: 'A schedule can check first, with plain code and no model: a hash of a page, file, API response or query. The run only starts when something changed, so quiet nights cost nothing.',
+      },
+      guidelines: {
+        title: 'Guidelines and a hardening agent',
+        body: 'Versioned development guidelines attach to an agent or a tenant. A global hardening agent reviews what development agents produce against company-wide rules and can only make decisions stricter.',
+      },
+      factory: {
+        title: 'Dark software factory',
+        body: 'Opt-in: agents take a task from spec to code, tests and pull request with minimal human touch. Recommended for MVP and proof-of-concept development only. Not for production changes without review.',
       },
     },
   },
@@ -347,13 +359,13 @@ export const landing = {
     },
     rbac: {
       title: 'Roles that match your organisation',
-      body: 'Permissions per resource, scoped by team. Every API route declares the permission it needs, and tests enforce it.',
+      body: 'Permissions per resource, scoped by tenant and optionally by agent. Every API route declares the permission it needs, and tests enforce it.',
       role: 'Role',
       legend: { manage: 'manage', read: 'read', none: 'no access' },
     },
     costs: {
       title: 'Costs you can explain',
-      body: 'Per run, per step, per team. Budgets stop a run before it overspends.',
+      body: 'Per run, step, agent, use case and tenant. Budgets stop a run before it overspends.',
       budget: 'Monthly budget',
       of: 'of',
     },
@@ -361,6 +373,7 @@ export const landing = {
   useCases: {
     eyebrow: 'Use cases',
     title: 'From the enterprise to the homelab.',
+    lead: 'One person on a single server can hold every role. A company adds tenants, single sign-on and signed checkpoints. The core stays the same.',
     enterprise: {
       title: 'Enterprise',
       items: [
@@ -427,8 +440,8 @@ export const landing = {
     roadmapLink: 'See the full roadmap',
     roadmap: [
       {
-        phase: '0.1 · MVP',
-        body: 'Events, agents.md, audit gate, control agent, hash-chained audit, costs, in-process and local runners.',
+        phase: '0.1 · Core',
+        body: 'Events, agents.md, audit gate, control agent, hash-chained audit, costs, tenants, in-process and local runners.',
       },
       {
         phase: '0.2',
