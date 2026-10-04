@@ -13,6 +13,7 @@ import UseCases from './UseCases.astro';
 import BuiltBy from './BuiltBy.astro';
 import OpenSource from './OpenSource.astro';
 import Cta from './Cta.astro';
+import Closing from './Closing.astro';
 import type { Locale } from '../../i18n/config';
 import { getDictionary } from '../../i18n/translate';
 
@@ -38,4 +39,5 @@ const meta = getDictionary(locale).landing.meta;
   <BuiltBy locale={locale} />
   <OpenSource locale={locale} />
   <Cta locale={locale} />
+  <Closing locale={locale} />
 </Base>

@@ -1,0 +1,45 @@
+---
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+
+interface Props {
+  locale: Locale;
+}
+
+const t = getDictionary(Astro.props.locale);
+---
+
+<section class="closing" aria-labelledby="closing-title">
+  <div class="container">
+    <p id="closing-title" class="line">{t.landing.closing.line}</p>
+    <p class="tagline"><strong>{t.common.ownerTagline.lead}</strong> {t.common.ownerTagline.rest}</p>
+  </div>
+</section>
+
+<style>
+  .closing {
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(3rem, 7vw, 5rem);
+    text-align: center;
+  }
+
+  .line {
+    margin: 0;
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--brand-muted-purple);
+  }
+
+  .tagline {
+    margin: 1rem auto 0;
+    max-width: 40rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  .tagline strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+</style>
