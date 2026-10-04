@@ -1,6 +1,6 @@
 ---
 title: Roles and permissions (RBAC)
-description: Six roles, permissions per resource, scoped globally or per team.
+description: Six roles, permissions per resource, scoped globally, per team, per tenant or per agent.
 sidebar:
   order: 9
 ---
@@ -27,7 +27,8 @@ Nobody can change or delete audit entries; the audit trail is append-only by des
 
 A role binding is `{ role, teamId }`. `teamId: null` grants the role globally; otherwise it
 applies to the team's agents, runs and connections. API tokens for machines can carry `scopes`
-that narrow their permissions further.
+that narrow their permissions further. Tenants and per-agent bindings are described in
+[Tenants and per-agent access](/docs/concepts/tenants-and-access/).
 
 ## Sign-in
 

@@ -13,8 +13,8 @@ budgets: changing the runner changes **where** an agent runs, never **what** it 
 
 | Runner | What it does | Status |
 | --- | --- | --- |
-| `in-process` | Runs inside the worker process. The default. | <Badge text="Available in MVP" variant="success" /> |
-| `local` | Runs on a developer machine: `oax run agents.md --event event.json`. | <Badge text="Available in MVP" variant="success" /> |
+| `in-process` | Runs inside the worker process. The default. | <Badge text="Available in 0.1" variant="success" /> |
+| `local` | Runs on a developer machine: `oax run agents.md --event event.json`. | <Badge text="Available in 0.1" variant="success" /> |
 | `container` | Docker or Podman; one short-lived container per run, read-only root file system, no network except allowlisted egress. | <Badge text="Roadmap 0.2" variant="caution" /> |
 | `kubernetes-job` | One Kubernetes Job per run (also on EKS) with its own ServiceAccount, IRSA and NetworkPolicy. | <Badge text="Roadmap 0.2" variant="caution" /> |
 | `aws-lambda` | One function per agent version, invoked per run, with VPC configuration for Bedrock VPC endpoints. | <Badge text="Roadmap 0.3" variant="caution" /> |
@@ -46,6 +46,6 @@ A runner can also hand the agent to an external harness such as Claude Code or O
 fully without them.
 
 <Aside>
-  Runners that are on the roadmap already exist as documented interfaces in the MVP, so their
+  Runners that are on the roadmap already exist as documented interfaces in 0.1, so their
   configuration can be reviewed before they ship.
 </Aside>

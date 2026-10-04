@@ -47,8 +47,9 @@ export const common = {
     version: 'Website v{version}',
   },
   badges: {
-    mvp: 'Available in MVP',
+    available: 'Available in 0.1',
     roadmap: 'Roadmap',
+    planned: 'Planned',
   },
   notFound: {
     title: 'Page not found',
