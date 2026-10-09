@@ -420,9 +420,9 @@ export const landing = {
   builtBy: {
     eyebrow: 'Built by an agent',
     title: 'This platform is built by an agent.',
-    body: 'agentix-zero writes the code, tests and documentation of open-agentix. The project’s rule is that every change goes through a pull request with the same kind of gates the platform enforces for your agents, followed by a human review.',
+    body: 'agentix-zero writes the code, tests and documentation of open-agentix. The project’s rule is that every change goes through a pull request with the same kind of gates the platform enforces for your agents, followed by an independent review before merge (a second review agent).',
     gatesLabel: 'Rules for every change',
-    gates: ['Conventional Commit', 'Tests · coverage ≥ 80 %', 'No third-party requests', 'Human review'],
+    gates: ['Conventional Commit', 'Tests · coverage ≥ 80 %', 'No third-party requests', 'Independent review'],
     feedLabel: 'Recent commits by agentix-zero',
   },
   openSource: {

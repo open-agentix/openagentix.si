@@ -422,9 +422,9 @@ export const landing: Dictionary['landing'] = {
   builtBy: {
     eyebrow: 'Von einem Agenten gebaut',
     title: 'Diese Plattform baut ein Agent.',
-    body: 'agentix-zero schreibt Code, Tests und Dokumentation von open-agentix. Die Projektregel: Jede Änderung läuft über einen Pull Request mit derselben Art von Prüfungen, die die Plattform für Ihre Agenten durchsetzt, gefolgt von einer menschlichen Prüfung.',
+    body: 'agentix-zero schreibt Code, Tests und Dokumentation von open-agentix. Die Projektregel: Jede Änderung läuft über einen Pull Request mit derselben Art von Prüfungen, die die Plattform für Ihre Agenten durchsetzt, gefolgt von einer unabhängigen Prüfung vor dem Merge (durch einen zweiten Review-Agenten).',
     gatesLabel: 'Regeln für jede Änderung',
-    gates: ['Conventional Commit', 'Tests · Abdeckung ≥ 80 %', 'Keine Anfragen an Dritte', 'Menschliche Prüfung'],
+    gates: ['Conventional Commit', 'Tests · Abdeckung ≥ 80 %', 'Keine Anfragen an Dritte', 'Unabhängige Prüfung'],
     feedLabel: 'Letzte Commits von agentix-zero',
   },
   openSource: {
