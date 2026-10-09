@@ -2,13 +2,13 @@ export const landing = {
   meta: {
     title: 'openagentix – the open-source agent platform you can audit',
     description:
-      'Self-hosted agent platform for homelabs and enterprises: events start runs, agents work through MCP tools, and every call is policy-checked, audited and cost-tracked. Bring your own keys, models and MCP servers. Apache-2.0.',
+      'Self-hosted agent platform for homelabs and enterprises: events start runs, agents work through MCP tools, and every tool call is policy-checked, audited and cost-tracked. Bring your own keys, models and MCP servers. Apache-2.0.',
   },
   hero: {
     eyebrow: 'Open source · Apache-2.0 · Self-hosted',
     titleA: 'Agents at work.',
     titleB: 'Every step on the record.',
-    lead: 'openagentix turns events into finished work. A webhook, a Kafka message, an e-mail or a schedule starts a run. Agents act through MCP tools. Every call is checked before it runs, written to a tamper-evident audit trail and priced to the cent.',
+    lead: 'openagentix turns events into finished work. A webhook, a Kafka message, an e-mail or a schedule starts a run. Agents act through MCP tools. Every tool call is checked before it runs, written to a tamper-evident audit trail and priced to the cent.',
     ctaDocs: 'Read the docs',
     ctaGithub: 'View on GitHub',
     ctaDemo: 'Live demo',
@@ -161,7 +161,7 @@ export const landing = {
   architecture: {
     eyebrow: 'Target architecture · roadmap 0.2',
     title: 'A control node that decides. Workers that only do.',
-    lead: 'The control node holds the registry, the policy gates, the audit chain, costs and metrics, and never executes a tool itself. Today the worker runs in-process or locally. The spawned, short-lived workers with signed toolbox images shown here are the design for 0.2 and are not built yet.',
+    lead: 'The control node holds the registry, the policy gates, the audit chain, costs and metrics, and never executes a tool itself. By default the worker runs in-process or locally. The spawned, short-lived workers shown here are on main as an opt-in container runner and ship with 0.2; the signed toolbox images are still planned.',
     steps: [
       {
         label: 'Control node',
@@ -171,23 +171,23 @@ export const landing = {
       {
         label: 'Spawn',
         title: 'A worker starts with exactly the tools it needs.',
-        body: 'Planned (0.2): the runner starts the agent’s toolbox image, for example git + node, trivy or jira-cli. Minimal, non-root, read-only, pinned by digest, signed and scanned, with allowlisted outbound traffic. Not built yet.',
+        body: 'On main, opt-in (OAX_CONTAINER_*), ships with 0.2: the runner starts a hardened container per step, with allowlisted outbound traffic. Toolbox images (git + node, trivy, jira-cli; minimal, signed, scanned, pinned by digest) are still planned.',
       },
       {
         label: 'Ask first',
         title: 'The worker asks before every tool call.',
-        body: 'Each call goes to the policy gate first, with the signed run token. Steps are recorded in the audit chain. Today this already holds for the in-process worker; remote workers are planned.',
+        body: 'Each call goes to the policy gate first, with the signed run token. Steps are recorded in the audit chain. This holds for the in-process worker and for the opt-in container runner.',
       },
       {
         label: 'Tear down',
         title: 'Then the worker is gone.',
-        body: 'Planned (0.2): when the run ends, the worker is removed and its per-step secrets are revoked. Not built yet; the credential broker is in review.',
+        body: 'On main, opt-in, ships with 0.2: when the step ends, the container is removed and its per-step credentials are revoked by the credential broker.',
       },
     ],
     controlNode: 'Control node',
     controlParts: ['Registry', 'Policy gates', 'Audit chain', 'Costs', 'Metrics'],
     neverExecutes: 'never executes tools',
-    worker: 'Worker node · planned 0.2',
+    worker: 'Worker node · opt-in, 0.2',
     toolbox: 'Toolbox image · planned',
     signed: 'signed',
     scanned: 'scanned',
@@ -197,7 +197,7 @@ export const landing = {
     policyCheck: 'policy check',
     stepsBack: 'steps streamed back',
     removed: 'removed · secrets revoked',
-    runnersNote: 'Today workers run in-process or locally. A Kubernetes Job runner exists on main as a building block, not yet wired into the platform; the container runner and credential broker are in review. AWS Lambda and CI runners come later.',
+    runnersNote: 'By default workers run in-process or locally. The container runner and credential broker are on main (opt-in, ship with 0.2). A Kubernetes Job runner exists on main as a building block, not yet wired into the platform. AWS Lambda and CI runners come later.',
   },
   reveal: {
     eyebrow: 'The console',
@@ -235,7 +235,7 @@ export const landing = {
       {
         role: 'Business user',
         title: 'Describes the workflow',
-        body: '“When a Jira ticket with the label payment comes in, check the runbook, then update the ticket.” Written in a dialog, in plain language.',
+        body: '“When a Jira ticket with the label payment comes in, check the runbook, then update the ticket.” Described in plain language in an Agent Plan; an engineer turns it into steps.',
       },
       {
         role: 'Integrator',
@@ -288,7 +288,7 @@ export const landing = {
       },
       providers: {
         title: 'Bring your own keys and models',
-        body: 'OpenAI-compatible APIs, Ollama, Anthropic and AWS Bedrock. Keys are references. Scoping them to a tenant, team or agent and the model catalog from a pinned models.dev snapshot arrive in the next release (0.2).',
+        body: 'OpenAI-compatible APIs (for example Azure OpenAI, OpenRouter, vLLM; not yet verified with real accounts), Ollama, Anthropic and AWS Bedrock. Keys are references. Scoping them to a tenant, team or agent and the model catalog from a pinned models.dev snapshot arrive in the next release (0.2).',
       },
       helm: {
         title: 'Helm and EKS',
@@ -323,14 +323,14 @@ export const landing = {
   runners: {
     eyebrow: 'Runners',
     title: 'Run agents anywhere.',
-    lead: 'Today in-process or on your own machine. Containers, Kubernetes or EKS, AWS Lambda, GitHub Actions and GitLab CI are on the roadmap. Optionally with your favourite harness. Always through the same policy gate.',
+    lead: 'In-process or on your own machine today, containers opt-in on main. Kubernetes or EKS, AWS Lambda, GitHub Actions and GitLab CI are on the roadmap. Optionally with your favourite harness. Always through the same policy gate.',
     gate: 'Same policy gate · same audit chain · same budgets',
     items: {
       inProcess: { name: 'In-process', body: 'The default. Runs inside the worker with no extra moving parts.' },
       local: { name: 'Local CLI', body: 'oax run agents.md --event event.json on your own machine.' },
       container: {
         name: 'Containers',
-        body: 'Planned: Docker or Podman, one short-lived container per step, read-only, egress allowlisted. In review.',
+        body: 'On main, opt-in, ships with 0.2: Docker or Podman, one short-lived container per step, read-only, egress allowlisted.',
       },
       kubernetes: {
         name: 'Kubernetes / EKS',
@@ -345,7 +345,7 @@ export const landing = {
     },
     harness: {
       title: 'Bring your harness. Optional.',
-      body: 'An adapter translates agents.md into the harness configuration and routes every tool call through the openagentix policy gate, so audit, control agent and costs stay identical. Claude Code is verified with real runs (next release, 0.2). The OpenCode adapter is implemented and tested against a fake CLI; real-run verification is pending. Hermes and OpenClaw are planned. The platform works fully without any harness.',
+      body: 'An adapter translates agents.md into the harness configuration and routes every tool call through the openagentix policy gate, so audit, control agent and costs stay identical. Claude Code is verified with real runs (in-process, 2026-10-04; next release, 0.2). The isolated run-node path through the model proxy is implemented; its real-run verification is pending. The OpenCode adapter is implemented and tested against a fake CLI; real-run verification is pending. Hermes and OpenClaw are planned. The platform works fully without any harness.',
     },
   },
   trust: {
@@ -373,7 +373,7 @@ export const landing = {
   useCases: {
     eyebrow: 'Use cases',
     title: 'From the enterprise to the homelab.',
-    lead: 'One person on a single server can hold every role. A company adds tenants, single sign-on and signed checkpoints. The core stays the same. The cases below are examples of what you can build; the repository ships cve-triage and ticket-updater as runnable examples, more are planned.',
+    lead: 'One person on a single server can hold every role. A company adds tenants, single sign-on and signed checkpoints. The core stays the same. The cases below are examples of what you can build; the repository ships cve-triage, ticket-triage, ticket-updater and code-quality-reviewer as runnable examples, more are planned.',
     enterprise: {
       title: 'Enterprise',
       items: [
@@ -420,9 +420,9 @@ export const landing = {
   builtBy: {
     eyebrow: 'Built by an agent',
     title: 'This platform is built by an agent.',
-    body: 'agentix-zero writes the code, tests and documentation of open-agentix. The project’s rule is that every change goes through a pull request with the same kind of gates the platform enforces for your agents, followed by a human review.',
+    body: 'agentix-zero writes the code, tests and documentation of open-agentix. The project’s rule is that every change goes through a pull request with the same kind of gates the platform enforces for your agents, followed by an independent review before merge (a second review agent).',
     gatesLabel: 'Rules for every change',
-    gates: ['Conventional Commit', 'Tests · coverage ≥ 80 %', 'No third-party requests', 'Human review'],
+    gates: ['Conventional Commit', 'Tests · coverage ≥ 80 %', 'No third-party requests', 'Independent review'],
     feedLabel: 'Recent commits by agentix-zero',
   },
   openSource: {
@@ -444,7 +444,7 @@ export const landing = {
       },
       {
         phase: '0.2',
-        body: 'On main: tenants, scoped model keys, monthly budgets, air-gapped switch, typed handovers, tool profiles, Agent Check, Claude Code harness. Planned: container workers and signed toolbox images.',
+        body: 'On main: tenants, scoped model keys, monthly budgets, air-gapped switch, typed handovers, tool profiles, Agent Check, Claude Code harness. Container workers: opt-in on main. Planned: signed toolbox images.',
       },
       {
         phase: '0.3',

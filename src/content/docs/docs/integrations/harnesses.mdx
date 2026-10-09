@@ -11,7 +11,9 @@ sidebar:
 import { Aside, Badge } from '@astrojs/starlight/components';
 
 <Badge text="Next release (0.2)" variant="success" /> Claude Code runs as an external harness
-behind the policy gate (`oax run --harness claude-code`), verified with real runs. The OpenCode
+behind the policy gate (`oax run --harness claude-code`), verified with real runs (in-process,
+2026-10-04). The isolated run-node path through the model proxy (off by default) is implemented; its
+real-run verification is pending. The OpenCode
 adapter is implemented on `main` and tested against a fake CLI; verification with the real binary
 is pending. Hermes and OpenClaw are planned for 0.3; today they are typed stubs.
 

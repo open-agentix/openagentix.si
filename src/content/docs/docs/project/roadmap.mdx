@@ -7,13 +7,17 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="note" title="Mirrored page">
-  This page mirrors `ROADMAP.md` in the
+<Aside type="note" title="Summary page">
+  This page summarises `ROADMAP.md` in the
   [platform repository](https://github.com/open-agentix/open-agentix), which is the source of truth
-  and is tracked as GitHub milestones and issues. If the two differ, the platform repository wins.
+  and is tracked as GitHub milestones and issues. It is shorter and can lag behind; if the two
+  differ, the platform repository wins.
 </Aside>
 
-## 0.1 – Core (released 2026-08-11)
+## 0.1 – Core (tagged v0.1.0 on 2026-10-04; built from source, release images follow with 0.2)
+
+Version 0.1.0 is a Git tag. There is no GitHub release object and no published release image yet;
+build and run it from source with Docker Compose.
 
 - **Control node:** API (Fastify, OpenAPI 3.1), PostgreSQL, run queue, console (React), OIDC/LDAP
   sign-in, RBAC with six roles, API tokens.
@@ -24,7 +28,8 @@ import { Aside } from '@astrojs/starlight/components';
 - **Guardrails:** per-agent audit gate, global control agent, approvals, data classification.
 - **Audit:** append-only SHA-256 hash chain with Ed25519-signed checkpoints and verification.
 - **Costs:** per step and run, price table, budgets with hard stop.
-- **Providers:** OpenAI-compatible, Ollama, AWS Bedrock (VPC endpoint, proxy, IRSA), Anthropic,
+- **Providers:** OpenAI-compatible (for example Azure OpenAI, OpenRouter, vLLM; not yet verified with
+  real accounts), Ollama, AWS Bedrock (VPC endpoint, proxy, IRSA), Anthropic,
   simulated.
 - **MCP:** client with per-agent allowlists, timeouts and result limits; the policy gate as an MCP
   proxy.
@@ -52,16 +57,21 @@ Merged on `main`, not released yet:
 - **Typed handovers and conditional steps:** schema-validated outputs and `when` expressions.
 - **Tool profiles:** named read/write profiles per MCP server.
 - **Agent Check and Agent Plan:** advisory, least-privilege decomposition with linting.
-- **Harnesses:** Claude Code behind the policy gate, verified with real runs. The OpenCode adapter
-  is implemented and tested against a fake CLI; verification with the real binary is pending.
+- **Harnesses:** Claude Code behind the policy gate, verified with real runs (in-process, 2026-10-04).
+  Harness steps in an isolated run node go through the model proxy (off by default); that path is
+  implemented, but its real-run verification is pending. The OpenCode adapter is implemented and
+  tested against a fake CLI; verification with the real binary is pending.
 - **Kubernetes Job runner (building block):** one Job per step with a NetworkPolicy. It is not
   wired into the platform yet.
+- **Container runner and credential broker:** one short-lived, hardened container per isolated step
+  that receives only its own credentials, revoked when the step ends. On `main`, opt-in
+  (`OAX_CONTAINER_*`), ships with 0.2. Hardening follow-ups are tracked in the platform repository.
 - **Guided demo tour** for the public demo at `demo.openagentix.si` (fake data, simulated model).
 
-Still planned for 0.2 (not built or still in review):
+Still planned for 0.2 (not built):
 
-- **Container runner and credential broker:** a short-lived worker per step that receives only its
-  own credentials. In review.
+- **More change-gate probes:** API responses with secrets, SQL queries, MCP reads. Today only HTTP
+  and file probes exist.
 - **Toolbox images** from a catalogue: minimal, non-root, read-only, pinned by digest, signed
   (cosign), with SBOM (syft) and vulnerability scans (trivy); egress allowlisted per toolbox.
 - Publishing the API image on GHCR and a GitHub release, then the Helm install test.

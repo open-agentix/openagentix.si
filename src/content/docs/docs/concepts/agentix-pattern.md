@@ -53,7 +53,7 @@ handovers and conditional steps (`when`), named read/write tool profiles per MCP
 Check / Agent Plan generation (advisory, with a deterministic least-privilege lint).
 
 <span class="oax-badge oax-badge--roadmap">Roadmap</span> Per-step credentials and isolated workers
-(0.2; the runner and credential broker are in review). See the
+(0.2; the container runner and credential broker are on `main`, opt-in). See the
 [roadmap](/docs/project/roadmap/).
 
 ## References

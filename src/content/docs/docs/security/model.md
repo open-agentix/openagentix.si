@@ -15,11 +15,11 @@ so that a confused or manipulated agent still cannot do more than its definition
    model second opinion that could only make rules stricter is planned (0.4).
 2. **Least privilege per agent.** An agent sees only granted tools, receives only data at or below
    its tools' and provider's clearance. Planned for 0.2: a toolbox image that contains only the
-   binaries it needs.
+   binaries it needs (toolbox images are still planned).
 3. **Separation of deciding and doing.** The [control node](/docs/concepts/control-node-and-workers/)
    holds policies, audit and the credentials catalogue and never executes tools. Workers
-   authenticate with signed run tokens. Short-lived, spawned workers are planned for 0.2; today the
-   worker runs in-process or locally.
+   authenticate with signed run tokens. Short-lived, spawned workers (container runner) are on `main`, opt-in, and ship
+   with 0.2; by default the worker still runs in-process or locally.
 4. **Everything on the record.** Every decision lands in the hash-chained
    [audit trail](/docs/concepts/audit-trail/) with signed checkpoints.
 
@@ -35,8 +35,8 @@ treated as **data**, and system prompts carry an injection guard.
 
 Secrets never appear in prompts, agent files or the audit trail. Configurations refer to them by
 name; the platform resolves `jira.token` from the environment variable `OAX_SECRET_JIRA_TOKEN` or
-the file `$OAX_SECRETS_DIR/jira.token` (for example a mounted Kubernetes Secret). Planned for 0.2:
-each step's worker receives only that step's secrets, revoked when the step ends. Today the
+the file `$OAX_SECRETS_DIR/jira.token` (for example a mounted Kubernetes Secret). With the opt-in
+container runner (on `main`, ships with 0.2), each step's worker receives only that step's secrets, revoked when the step ends. By default the
 in-process worker resolves the secret references of a run's MCP connections inside the worker
 process; secret values never enter prompts, steps or audit payloads.
 
@@ -57,7 +57,7 @@ Redacted values become `[REDACTED]`.
 
 - Providers have an **egress guard**: requests go only to the configured endpoint.
 - `runtime.egress` declares the hosts a worker may reach. Enforcement for spawned workers is
-  planned for 0.2; with the Helm chart, NetworkPolicies deny everything not listed by default.
+  part of the opt-in container runner (on `main`, ships with 0.2); with the Helm chart, NetworkPolicies deny everything not listed by default.
 - Bedrock can be reached through a VPC interface endpoint or a proxy only.
 
 ## Data classification

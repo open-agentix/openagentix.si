@@ -21,9 +21,9 @@ tools an agent is granted, for example as pull requests, ticket updates, message
   is not yet published on GHCR, so build from source with Docker Compose. `main` already contains
   more, which ships in 0.2: tenants, model keys per scope, monthly budgets, air-gapped mode,
   typed handovers and `when` conditions, tool profiles, Agent Check and Agent Plan, the Claude
-  Code harness (verified with real runs), an OpenCode adapter (implemented, real-run verification
+  Code harness (verified with real runs in-process; the isolated run-node path is implemented, its real-run verification pending), an OpenCode adapter (implemented, real-run verification
   pending) and a Kubernetes Job runner as a building block. The container runner and credential
-  broker are still in review. Pages mark what is **available**, what is **in the next release**
+  broker are on `main` too (opt-in, shipping with 0.2); toolbox images are still planned. Pages mark what is **available**, what is **in the next release**
   and what is on the **roadmap**. Names of settings may still change before 1.0.
 </Aside>
 
