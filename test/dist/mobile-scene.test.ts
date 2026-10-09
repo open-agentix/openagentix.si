@@ -9,7 +9,11 @@ function allCss(): string {
   const inline = ['index.html', 'de/index.html'].flatMap((f) =>
     Array.from(read(f).matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g), (m) => m[1]!),
   );
-  return [...sheets, ...inline].join('\n');
+  // The CSS minifier may rewrite legacy media features into range syntax; compare in one notation.
+  return [...sheets, ...inline]
+    .join('\n')
+    .replace(/\(width<=(\d+)px\)/g, '(max-width:$1px)')
+    .replace(/\(height<=(\d+)px\)/g, '(max-height:$1px)');
 }
 
 describe('how-it-works scene on phones (structure, no browser)', () => {
@@ -29,7 +33,8 @@ describe('how-it-works scene on phones (structure, no browser)', () => {
     const css = allCss().replace(/\s+/g, '');
     expect(css).toContain('@media(max-width:820px)');
     expect(css).toContain('aspect-ratio:440/372');
-    expect(css).toMatch(/44svh/);
+    // The minifier may fold calc(44svh * 440 / 372) into 52.043svh.
+    expect(css).toMatch(/44svh|52\.04\d*svh/);
     expect(css).toContain('(max-height:520px)and(orientation:landscape)');
     expect(css).toMatch(/min-height:52svh/);
   });

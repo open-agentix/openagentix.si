@@ -3,7 +3,7 @@
 const group = (label, de, directory) => ({
   label,
   translations: { de },
-  autogenerate: { directory },
+  items: [{ autogenerate: { directory } }],
 });
 
 export const docsSidebar = [

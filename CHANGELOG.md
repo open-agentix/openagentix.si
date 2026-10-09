@@ -8,6 +8,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- Build toolchain upgraded to Astro 7, Starlight 0.42 and Vitest 5. Building the site now requires
+  Node.js 22.12 or newer (Node.js 20 is dropped; CI covers 22 and 24).
 - Landing page and docs (English and German) state what exists: the architecture scene is marked
   as the 0.2 target design, planned items (spawned workers, signed toolbox images, egress
   allowlist, per-step secrets, model second opinion, PDF reports, test and promotion gates) are
