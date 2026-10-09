@@ -288,7 +288,7 @@ export const landing = {
       },
       providers: {
         title: 'Bring your own keys and models',
-        body: 'OpenAI-compatible APIs, Ollama, Anthropic and AWS Bedrock. Keys are references. Scoping them to a tenant, team or agent and the model catalog from a pinned models.dev snapshot arrive in the next release (0.2).',
+        body: 'OpenAI-compatible APIs (for example Azure OpenAI, OpenRouter, vLLM; not yet verified with real accounts), Ollama, Anthropic and AWS Bedrock. Keys are references. Scoping them to a tenant, team or agent and the model catalog from a pinned models.dev snapshot arrive in the next release (0.2).',
       },
       helm: {
         title: 'Helm and EKS',

@@ -28,7 +28,8 @@ build and run it from source with Docker Compose.
 - **Guardrails:** per-agent audit gate, global control agent, approvals, data classification.
 - **Audit:** append-only SHA-256 hash chain with Ed25519-signed checkpoints and verification.
 - **Costs:** per step and run, price table, budgets with hard stop.
-- **Providers:** OpenAI-compatible, Ollama, AWS Bedrock (VPC endpoint, proxy, IRSA), Anthropic,
+- **Providers:** OpenAI-compatible (for example Azure OpenAI, OpenRouter, vLLM; not yet verified with
+  real accounts), Ollama, AWS Bedrock (VPC endpoint, proxy, IRSA), Anthropic,
   simulated.
 - **MCP:** client with per-agent allowlists, timeouts and result limits; the policy gate as an MCP
   proxy.

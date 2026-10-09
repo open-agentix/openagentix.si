@@ -290,7 +290,7 @@ export const landing: Dictionary['landing'] = {
       },
       providers: {
         title: 'Eigene Schlüssel und Modelle',
-        body: 'OpenAI-kompatible APIs, Ollama, Anthropic und AWS Bedrock. Schlüssel sind Referenzen. Ihre Begrenzung auf Mandant, Team oder Agent und der Modellkatalog aus einem festgeschriebenen models.dev-Stand kommen im nächsten Release (0.2).',
+        body: 'OpenAI-kompatible APIs (zum Beispiel Azure OpenAI, OpenRouter, vLLM; noch nicht mit echten Konten geprüft), Ollama, Anthropic und AWS Bedrock. Schlüssel sind Referenzen. Ihre Begrenzung auf Mandant, Team oder Agent und der Modellkatalog aus einem festgeschriebenen models.dev-Stand kommen im nächsten Release (0.2).',
       },
       helm: {
         title: 'Helm und EKS',
