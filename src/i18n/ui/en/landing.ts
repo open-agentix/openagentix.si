@@ -345,7 +345,7 @@ export const landing = {
     },
     harness: {
       title: 'Bring your harness. Optional.',
-      body: 'An adapter translates agents.md into the harness configuration and routes every tool call through the openagentix policy gate, so audit, control agent and costs stay identical. Claude Code is verified with real runs (next release, 0.2). The OpenCode adapter is implemented and tested against a fake CLI; real-run verification is pending. Hermes and OpenClaw are planned. The platform works fully without any harness.',
+      body: 'An adapter translates agents.md into the harness configuration and routes every tool call through the openagentix policy gate, so audit, control agent and costs stay identical. Claude Code is verified with real runs (in-process, 2026-10-04; next release, 0.2). The isolated run-node path through the model proxy is implemented; its real-run verification is pending. The OpenCode adapter is implemented and tested against a fake CLI; real-run verification is pending. Hermes and OpenClaw are planned. The platform works fully without any harness.',
     },
   },
   trust: {

@@ -347,7 +347,7 @@ export const landing: Dictionary['landing'] = {
     },
     harness: {
       title: 'Eigenes Harness mitbringen. Optional.',
-      body: 'Ein Adapter übersetzt die agents.md in die Konfiguration des Harness und leitet jeden Tool-Aufruf durch das Policy-Gate von openagentix. Audit, Kontroll-Agent und Kosten bleiben dadurch identisch. Claude Code ist mit echten Läufen verifiziert (nächstes Release, 0.2). Der OpenCode-Adapter ist implementiert und gegen eine Attrappen-CLI getestet; die Prüfung mit echtem Programm steht aus. Hermes und OpenClaw sind geplant. Die Plattform funktioniert vollständig ohne Harness.',
+      body: 'Ein Adapter übersetzt die agents.md in die Konfiguration des Harness und leitet jeden Tool-Aufruf durch das Policy-Gate von openagentix. Audit, Kontroll-Agent und Kosten bleiben dadurch identisch. Claude Code ist mit echten Läufen im Prozess verifiziert (2026-10-04; nächstes Release, 0.2). Der isolierte Run-Node-Pfad über den Model-Proxy ist implementiert; die Prüfung mit echtem Lauf steht aus. Der OpenCode-Adapter ist implementiert und gegen eine Attrappen-CLI getestet; die Prüfung mit echtem Programm steht aus. Hermes und OpenClaw sind geplant. Die Plattform funktioniert vollständig ohne Harness.',
     },
   },
   trust: {

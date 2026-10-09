@@ -56,8 +56,10 @@ Merged on `main`, not released yet:
 - **Typed handovers and conditional steps:** schema-validated outputs and `when` expressions.
 - **Tool profiles:** named read/write profiles per MCP server.
 - **Agent Check and Agent Plan:** advisory, least-privilege decomposition with linting.
-- **Harnesses:** Claude Code behind the policy gate, verified with real runs. The OpenCode adapter
-  is implemented and tested against a fake CLI; verification with the real binary is pending.
+- **Harnesses:** Claude Code behind the policy gate, verified with real runs (in-process, 2026-10-04).
+  Harness steps in an isolated run node go through the model proxy (off by default); that path is
+  implemented, but its real-run verification is pending. The OpenCode adapter is implemented and
+  tested against a fake CLI; verification with the real binary is pending.
 - **Kubernetes Job runner (building block):** one Job per step with a NetworkPolicy. It is not
   wired into the platform yet.
 - **Container runner and credential broker:** one short-lived, hardened container per isolated step
