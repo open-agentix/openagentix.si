@@ -20,12 +20,12 @@ sources:
       schedule: "0 * * * *"
       changeCheck:
         probe:
-          type: http              # http | file | api | query | mcp-read
+          type: http              # http | file (api, query, mcp-read are planned)
           url: https://status.example/api/summary
           jsonPointer: /version
 ```
 
-_API responses and queries are planned for 0.2._
+_API responses with secrets, queries and MCP reads are planned and not built yet. The platform `ROADMAP.md` lists them under 0.2; one code comment still says 0.3._
 
 - The probe result is hashed (or diffed) and compared with the digest of the previous run.
 - Only if the digest differs does the run start and an event get emitted.
