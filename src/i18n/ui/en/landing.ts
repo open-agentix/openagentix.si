@@ -373,7 +373,7 @@ export const landing = {
   useCases: {
     eyebrow: 'Use cases',
     title: 'From the enterprise to the homelab.',
-    lead: 'One person on a single server can hold every role. A company adds tenants, single sign-on and signed checkpoints. The core stays the same. The cases below are examples of what you can build; the repository ships cve-triage and ticket-updater as runnable examples, more are planned.',
+    lead: 'One person on a single server can hold every role. A company adds tenants, single sign-on and signed checkpoints. The core stays the same. The cases below are examples of what you can build; the repository ships cve-triage, ticket-triage, ticket-updater and code-quality-reviewer as runnable examples, more are planned.',
     enterprise: {
       title: 'Enterprise',
       items: [

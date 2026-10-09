@@ -375,7 +375,7 @@ export const landing: Dictionary['landing'] = {
   useCases: {
     eyebrow: 'Einsatzbeispiele',
     title: 'Vom Konzern bis zum Homelab.',
-    lead: 'Eine Person auf einem einzelnen Server kann alle Rollen innehaben. Ein Unternehmen ergänzt Mandanten, Single Sign-on und signierte Checkpoints. Der Kern bleibt derselbe. Die folgenden Fälle sind Beispiele dafür, was sich bauen lässt; das Repository liefert cve-triage und ticket-updater als lauffähige Beispiele, weitere sind geplant.',
+    lead: 'Eine Person auf einem einzelnen Server kann alle Rollen innehaben. Ein Unternehmen ergänzt Mandanten, Single Sign-on und signierte Checkpoints. Der Kern bleibt derselbe. Die folgenden Fälle sind Beispiele dafür, was sich bauen lässt; das Repository liefert cve-triage, ticket-triage, ticket-updater und code-quality-reviewer als lauffähige Beispiele, weitere sind geplant.',
     enterprise: {
       title: 'Unternehmen',
       items: [
