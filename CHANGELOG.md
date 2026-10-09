@@ -20,6 +20,13 @@ All notable changes to this project are documented here. The format follows
 - Getting started and the Helm page use the real files and commands; the unpublished API image is
   stated.
 - The static "passed" badges in the "built by an agent" section are removed.
+- Honesty fixes (English and German): the roadmap states that 0.1 was tagged `v0.1.0` on 2026-10-04
+  (built from source, no release images yet) and is a summary of `ROADMAP.md`; the container runner
+  and credential broker are shown as on `main`, opt-in; the Claude Code verification is scoped to the
+  in-process path; the pre-merge review is described as an independent agent review; the pre-run
+  check claim names tool calls; the business-user workflow is an Agent Plan, not a dialog; extra
+  change-gate probes are planned, not built; OpenAI-compatible provider families and all four example
+  agents are named.
 
 ## [0.1.0] - 2026-08-11
 
