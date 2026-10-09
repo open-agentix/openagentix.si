@@ -237,7 +237,7 @@ export const landing: Dictionary['landing'] = {
       {
         role: 'Fachanwender',
         title: 'Beschreibt den Ablauf',
-        body: '„Wenn ein Jira-Ticket mit dem Label payment eingeht, prüfe das Runbook und aktualisiere dann das Ticket.“ Im Dialog, in ganz normaler Sprache.',
+        body: '„Wenn ein Jira-Ticket mit dem Label payment eingeht, prüfe das Runbook und aktualisiere dann das Ticket.“ In normaler Sprache in einem Agent Plan beschrieben; ein Engineer macht daraus die Schritte.',
       },
       {
         role: 'Integrator',

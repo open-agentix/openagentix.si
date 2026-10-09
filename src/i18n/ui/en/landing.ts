@@ -235,7 +235,7 @@ export const landing = {
       {
         role: 'Business user',
         title: 'Describes the workflow',
-        body: '“When a Jira ticket with the label payment comes in, check the runbook, then update the ticket.” Written in a dialog, in plain language.',
+        body: '“When a Jira ticket with the label payment comes in, check the runbook, then update the ticket.” Described in plain language in an Agent Plan; an engineer turns it into steps.',
       },
       {
         role: 'Integrator',
