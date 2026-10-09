@@ -51,7 +51,7 @@ are tagged `vX.Y.Z`.
 
 ## Local setup
 
-Requirements: Node.js 22 LTS (20.19+ works), pnpm (version pinned in `package.json`).
+Requirements: Node.js 22.12+ (22 and 24 LTS), pnpm (version pinned in `package.json`).
 
 ```sh
 pnpm install --frozen-lockfile

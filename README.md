@@ -39,8 +39,7 @@ pnpm dev
 | `pnpm test:dist` | checks on `dist/`: no third-party requests, internal links, performance budget, hreflang |
 | `pnpm lhci` | Lighthouse CI with the budgets in `lighthouserc.json` (uses a local Chrome; `CHROME_PATH`) |
 
-Node.js 22 LTS is the target (20.19+ works). Astro is pinned to the 5.x line because Astro 6+
-requires Node.js 22.12; the upgrade is a Dependabot pull request away once all build hosts run 22.
+Node.js 22.12+ is required (22 and 24 LTS are tested in CI). Astro 7 and Vitest 5 dropped Node.js 20.
 
 ### Languages
 
