@@ -163,7 +163,7 @@ export const landing: Dictionary['landing'] = {
   architecture: {
     eyebrow: 'Zielarchitektur · Roadmap 0.2',
     title: 'Ein Kontrollknoten, der entscheidet. Worker, die nur ausführen.',
-    lead: 'Der Kontrollknoten hält Registry, Policy-Gates, Audit-Kette, Kosten und Metriken – und führt selbst nie ein Tool aus. Heute läuft der Worker im Prozess oder lokal. Die hier gezeigten gestarteten, kurzlebigen Worker mit signierten Toolbox-Images sind der Entwurf für 0.2 und noch nicht gebaut.',
+    lead: 'Der Kontrollknoten hält Registry, Policy-Gates, Audit-Kette, Kosten und Metriken – und führt selbst nie ein Tool aus. Standardmäßig läuft der Worker im Prozess oder lokal. Die hier gezeigten gestarteten, kurzlebigen Worker liegen auf main als optionaler Container-Runner und erscheinen mit 0.2; die signierten Toolbox-Images sind weiterhin geplant.',
     steps: [
       {
         label: 'Kontrollknoten',
@@ -173,23 +173,23 @@ export const landing: Dictionary['landing'] = {
       {
         label: 'Start',
         title: 'Ein Worker startet – mit genau den nötigen Tools.',
-        body: 'Geplant (0.2): Der Runner startet das Toolbox-Image des Agenten, etwa git + node, trivy oder jira-cli. Minimal, ohne root, schreibgeschützt, per Digest fixiert, signiert und gescannt, mit Allowlist für ausgehenden Verkehr. Noch nicht gebaut.',
+        body: 'Auf main, optional (OAX_CONTAINER_*), erscheint mit 0.2: Der Runner startet pro Schritt einen gehärteten Container, mit Allowlist für ausgehenden Verkehr. Toolbox-Images (git + node, trivy, jira-cli; minimal, signiert, gescannt, per Digest fixiert) sind weiterhin geplant.',
       },
       {
         label: 'Erst fragen',
         title: 'Vor jedem Tool-Aufruf fragt der Worker nach.',
-        body: 'Jeder Aufruf geht zuerst mit dem signierten Lauf-Token an das Policy-Gate. Die Schritte landen in der Audit-Kette. Heute gilt das schon für den Worker im Prozess; entfernte Worker sind geplant.',
+        body: 'Jeder Aufruf geht zuerst mit dem signierten Lauf-Token an das Policy-Gate. Die Schritte landen in der Audit-Kette. Das gilt für den Worker im Prozess und für den optionalen Container-Runner.',
       },
       {
         label: 'Abbau',
         title: 'Danach ist der Worker weg.',
-        body: 'Geplant (0.2): Endet der Lauf, wird der Worker entfernt und seine Secrets pro Schritt werden widerrufen. Noch nicht gebaut; der Credential-Broker ist in Prüfung.',
+        body: 'Auf main, optional, erscheint mit 0.2: Endet der Schritt, wird der Container entfernt und seine Zugangsdaten pro Schritt werden vom Credential-Broker widerrufen.',
       },
     ],
     controlNode: 'Kontrollknoten',
     controlParts: ['Registry', 'Policy-Gates', 'Audit-Kette', 'Kosten', 'Metriken'],
     neverExecutes: 'führt nie Tools aus',
-    worker: 'Worker-Knoten · geplant 0.2',
+    worker: 'Worker-Knoten · optional, 0.2',
     toolbox: 'Toolbox-Image · geplant',
     signed: 'signiert',
     scanned: 'gescannt',
@@ -199,7 +199,7 @@ export const landing: Dictionary['landing'] = {
     policyCheck: 'Policy-Prüfung',
     stepsBack: 'Schritte zurückgemeldet',
     removed: 'entfernt · Secrets widerrufen',
-    runnersNote: 'Heute laufen Worker im Prozess oder lokal. Ein Kubernetes-Job-Runner liegt auf main als Baustein vor, noch nicht in die Plattform eingebunden; Container-Runner und Credential-Broker sind in Prüfung. AWS Lambda und CI-Runner folgen später.',
+    runnersNote: 'Standardmäßig laufen Worker im Prozess oder lokal. Container-Runner und Credential-Broker liegen auf main (optional, erscheinen mit 0.2). Ein Kubernetes-Job-Runner liegt auf main als Baustein vor, noch nicht in die Plattform eingebunden. AWS Lambda und CI-Runner folgen später.',
   },
   reveal: {
     eyebrow: 'Die Konsole',
@@ -325,14 +325,14 @@ export const landing: Dictionary['landing'] = {
   runners: {
     eyebrow: 'Runner',
     title: 'Agenten laufen überall.',
-    lead: 'Heute im Prozess oder auf dem eigenen Rechner. Container, Kubernetes oder EKS, AWS Lambda, GitHub Actions und GitLab CI stehen auf der Roadmap. Auf Wunsch mit Ihrem Lieblings-Harness. Immer durch dasselbe Policy-Gate.',
+    lead: 'Heute im Prozess oder auf dem eigenen Rechner, Container optional auf main. Kubernetes oder EKS, AWS Lambda, GitHub Actions und GitLab CI stehen auf der Roadmap. Auf Wunsch mit Ihrem Lieblings-Harness. Immer durch dasselbe Policy-Gate.',
     gate: 'Dasselbe Policy-Gate · dieselbe Audit-Kette · dieselben Budgets',
     items: {
       inProcess: { name: 'Im Prozess', body: 'Der Standard. Läuft direkt im Worker, ohne zusätzliche Komponenten.' },
       local: { name: 'Lokale CLI', body: 'oax run agents.md --event event.json auf dem eigenen Rechner.' },
       container: {
         name: 'Container',
-        body: 'Geplant: Docker oder Podman, ein kurzlebiger Container pro Schritt, schreibgeschützt, ausgehender Verkehr nur per Allowlist. In Prüfung.',
+        body: 'Auf main, optional, erscheint mit 0.2: Docker oder Podman, ein kurzlebiger Container pro Schritt, schreibgeschützt, ausgehender Verkehr nur per Allowlist.',
       },
       kubernetes: {
         name: 'Kubernetes / EKS',
@@ -446,7 +446,7 @@ export const landing: Dictionary['landing'] = {
       },
       {
         phase: '0.2',
-        body: 'Auf main: Mandanten, Modellschlüssel pro Geltungsbereich, Monatsbudgets, Air-Gap-Schalter, typisierte Übergaben, Tool-Profile, Agent Check, Claude-Code-Harness. Geplant: Container-Worker und signierte Toolbox-Images.',
+        body: 'Auf main: Mandanten, Modellschlüssel pro Geltungsbereich, Monatsbudgets, Air-Gap-Schalter, typisierte Übergaben, Tool-Profile, Agent Check, Claude-Code-Harness. Container-Worker: optional auf main. Geplant: signierte Toolbox-Images.',
       },
       {
         phase: '0.3',

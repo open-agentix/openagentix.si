@@ -60,12 +60,13 @@ Merged on `main`, not released yet:
   is implemented and tested against a fake CLI; verification with the real binary is pending.
 - **Kubernetes Job runner (building block):** one Job per step with a NetworkPolicy. It is not
   wired into the platform yet.
+- **Container runner and credential broker:** one short-lived, hardened container per isolated step
+  that receives only its own credentials, revoked when the step ends. On `main`, opt-in
+  (`OAX_CONTAINER_*`), ships with 0.2. Hardening follow-ups are tracked in the platform repository.
 - **Guided demo tour** for the public demo at `demo.openagentix.si` (fake data, simulated model).
 
-Still planned for 0.2 (not built or still in review):
+Still planned for 0.2 (not built):
 
-- **Container runner and credential broker:** a short-lived worker per step that receives only its
-  own credentials. In review.
 - **Toolbox images** from a catalogue: minimal, non-root, read-only, pinned by digest, signed
   (cosign), with SBOM (syft) and vulnerability scans (trivy); egress allowlisted per toolbox.
 - Publishing the API image on GHCR and a GitHub release, then the Helm install test.

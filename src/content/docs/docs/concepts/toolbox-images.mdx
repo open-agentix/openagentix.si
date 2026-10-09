@@ -11,7 +11,8 @@ sidebar:
 import { Aside, Badge } from '@astrojs/starlight/components';
 
 <Badge text="Roadmap 0.2" variant="caution" /> In 0.1, workers run in-process or locally and use
-the tools available there. Toolbox images arrive with the container and Kubernetes runners.
+the tools available there. The container runner is on `main` (opt-in, ships with 0.2) and uses a
+generic run-node image; toolbox images are still planned.
 
 An agent declares the toolbox it needs in its [`agents.md`](/docs/reference/agents-md/):
 
@@ -35,7 +36,7 @@ runtime:
 - **Fenced in:** outbound traffic per toolbox is allowlisted (Kubernetes NetworkPolicy or the
   container network).
 
-Planned for 0.2: secrets are injected per step, scoped to what the step may use, and revoked when it ends. The credential broker for this is in review.
+Secrets are injected per step, scoped to what the step may use, and revoked when it ends. The credential broker for this is on `main`, opt-in with the container runner, and ships with 0.2.
 
 ## Why not one big image?
 

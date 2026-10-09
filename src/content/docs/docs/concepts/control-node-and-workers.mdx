@@ -28,8 +28,8 @@ Each run (or each group of steps of a run) is executed by a **short-lived worker
    references to the secrets it may use;
 2. calls the model provider and **asks the control node's policy gate before every tool call**;
 3. streams every step back over an authenticated channel (mTLS or the signed run token);
-4. is torn down when the run ends; its scoped secrets are revoked (container and Kubernetes
-   runners, planned for 0.2; not built yet).
+4. is torn down when the step ends; its scoped secrets are revoked (container runner: on `main`,
+   opt-in, ships with 0.2; the Kubernetes runner is not wired in yet).
 
 ```text
             ┌──────────────── control node ────────────────┐
@@ -48,7 +48,8 @@ Each run (or each group of steps of a run) is executed by a **short-lived worker
 
 Planned for 0.2: workers run in [toolbox images](/docs/concepts/toolbox-images/), minimal images
 that contain only the binaries an agent declares in `runtime.toolbox`, built from a catalogue,
-pinned by digest, signed and scanned. Today there are no toolbox images.
+pinned by digest, signed and scanned. Toolbox images are still planned; the container runner on
+`main` starts a generic, hardened run-node image.
 
 ## What is available when
 
@@ -57,7 +58,8 @@ pinned by digest, signed and scanned. Today there are no toolbox images.
 | Control node with the same interfaces as later releases | <Badge text="Available in 0.1" variant="success" /> |
 | In-process and local workers | <Badge text="Available in 0.1" variant="success" /> |
 | Kubernetes Job runner as a building block on `main`, not wired into the platform | <Badge text="Roadmap 0.2" variant="caution" /> |
-| Spawned workers in containers, per-step credentials and toolbox images (runner and credential broker in review) | <Badge text="Roadmap 0.2" variant="caution" /> |
+| Spawned workers in containers with per-step credentials (container runner and credential broker: on `main`, opt-in, ships with 0.2) | <Badge text="Next release (0.2)" variant="success" /> |
+| Toolbox images (signed, scanned, pinned by digest) | <Badge text="Roadmap 0.2" variant="caution" /> |
 | AWS Lambda and CI workers | <Badge text="Roadmap 0.3" variant="caution" /> |
 
 <Aside>

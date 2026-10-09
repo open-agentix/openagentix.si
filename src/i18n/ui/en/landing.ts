@@ -161,7 +161,7 @@ export const landing = {
   architecture: {
     eyebrow: 'Target architecture · roadmap 0.2',
     title: 'A control node that decides. Workers that only do.',
-    lead: 'The control node holds the registry, the policy gates, the audit chain, costs and metrics, and never executes a tool itself. Today the worker runs in-process or locally. The spawned, short-lived workers with signed toolbox images shown here are the design for 0.2 and are not built yet.',
+    lead: 'The control node holds the registry, the policy gates, the audit chain, costs and metrics, and never executes a tool itself. By default the worker runs in-process or locally. The spawned, short-lived workers shown here are on main as an opt-in container runner and ship with 0.2; the signed toolbox images are still planned.',
     steps: [
       {
         label: 'Control node',
@@ -171,23 +171,23 @@ export const landing = {
       {
         label: 'Spawn',
         title: 'A worker starts with exactly the tools it needs.',
-        body: 'Planned (0.2): the runner starts the agent’s toolbox image, for example git + node, trivy or jira-cli. Minimal, non-root, read-only, pinned by digest, signed and scanned, with allowlisted outbound traffic. Not built yet.',
+        body: 'On main, opt-in (OAX_CONTAINER_*), ships with 0.2: the runner starts a hardened container per step, with allowlisted outbound traffic. Toolbox images (git + node, trivy, jira-cli; minimal, signed, scanned, pinned by digest) are still planned.',
       },
       {
         label: 'Ask first',
         title: 'The worker asks before every tool call.',
-        body: 'Each call goes to the policy gate first, with the signed run token. Steps are recorded in the audit chain. Today this already holds for the in-process worker; remote workers are planned.',
+        body: 'Each call goes to the policy gate first, with the signed run token. Steps are recorded in the audit chain. This holds for the in-process worker and for the opt-in container runner.',
       },
       {
         label: 'Tear down',
         title: 'Then the worker is gone.',
-        body: 'Planned (0.2): when the run ends, the worker is removed and its per-step secrets are revoked. Not built yet; the credential broker is in review.',
+        body: 'On main, opt-in, ships with 0.2: when the step ends, the container is removed and its per-step credentials are revoked by the credential broker.',
       },
     ],
     controlNode: 'Control node',
     controlParts: ['Registry', 'Policy gates', 'Audit chain', 'Costs', 'Metrics'],
     neverExecutes: 'never executes tools',
-    worker: 'Worker node · planned 0.2',
+    worker: 'Worker node · opt-in, 0.2',
     toolbox: 'Toolbox image · planned',
     signed: 'signed',
     scanned: 'scanned',
@@ -197,7 +197,7 @@ export const landing = {
     policyCheck: 'policy check',
     stepsBack: 'steps streamed back',
     removed: 'removed · secrets revoked',
-    runnersNote: 'Today workers run in-process or locally. A Kubernetes Job runner exists on main as a building block, not yet wired into the platform; the container runner and credential broker are in review. AWS Lambda and CI runners come later.',
+    runnersNote: 'By default workers run in-process or locally. The container runner and credential broker are on main (opt-in, ship with 0.2). A Kubernetes Job runner exists on main as a building block, not yet wired into the platform. AWS Lambda and CI runners come later.',
   },
   reveal: {
     eyebrow: 'The console',
@@ -323,14 +323,14 @@ export const landing = {
   runners: {
     eyebrow: 'Runners',
     title: 'Run agents anywhere.',
-    lead: 'Today in-process or on your own machine. Containers, Kubernetes or EKS, AWS Lambda, GitHub Actions and GitLab CI are on the roadmap. Optionally with your favourite harness. Always through the same policy gate.',
+    lead: 'In-process or on your own machine today, containers opt-in on main. Kubernetes or EKS, AWS Lambda, GitHub Actions and GitLab CI are on the roadmap. Optionally with your favourite harness. Always through the same policy gate.',
     gate: 'Same policy gate · same audit chain · same budgets',
     items: {
       inProcess: { name: 'In-process', body: 'The default. Runs inside the worker with no extra moving parts.' },
       local: { name: 'Local CLI', body: 'oax run agents.md --event event.json on your own machine.' },
       container: {
         name: 'Containers',
-        body: 'Planned: Docker or Podman, one short-lived container per step, read-only, egress allowlisted. In review.',
+        body: 'On main, opt-in, ships with 0.2: Docker or Podman, one short-lived container per step, read-only, egress allowlisted.',
       },
       kubernetes: {
         name: 'Kubernetes / EKS',
@@ -444,7 +444,7 @@ export const landing = {
       },
       {
         phase: '0.2',
-        body: 'On main: tenants, scoped model keys, monthly budgets, air-gapped switch, typed handovers, tool profiles, Agent Check, Claude Code harness. Planned: container workers and signed toolbox images.',
+        body: 'On main: tenants, scoped model keys, monthly budgets, air-gapped switch, typed handovers, tool profiles, Agent Check, Claude Code harness. Container workers: opt-in on main. Planned: signed toolbox images.',
       },
       {
         phase: '0.3',

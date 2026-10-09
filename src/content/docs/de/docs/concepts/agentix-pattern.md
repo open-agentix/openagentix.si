@@ -55,7 +55,7 @@ Agent Check und die Erzeugung von Agent Plans (beratend, mit deterministischem
 Least-Privilege-Lint).
 
 <span class="oax-badge oax-badge--roadmap">Roadmap</span> Zugangsdaten pro Schritt und isolierte
-Worker (0.2; Runner und Credential-Broker sind in Prüfung). Siehe die
+Worker (0.2; Container-Runner und Credential-Broker sind auf `main`, optional). Siehe die
 [Roadmap](/docs/project/roadmap/).
 
 ## Quellen
