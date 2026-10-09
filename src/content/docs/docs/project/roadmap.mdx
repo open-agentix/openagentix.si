@@ -7,13 +7,17 @@ sidebar:
 
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="note" title="Mirrored page">
-  This page mirrors `ROADMAP.md` in the
+<Aside type="note" title="Summary page">
+  This page summarises `ROADMAP.md` in the
   [platform repository](https://github.com/open-agentix/open-agentix), which is the source of truth
-  and is tracked as GitHub milestones and issues. If the two differ, the platform repository wins.
+  and is tracked as GitHub milestones and issues. It is shorter and can lag behind; if the two
+  differ, the platform repository wins.
 </Aside>
 
-## 0.1 – Core (released 2026-08-11)
+## 0.1 – Core (tagged v0.1.0 on 2026-10-04; built from source, release images follow with 0.2)
+
+Version 0.1.0 is a Git tag. There is no GitHub release object and no published release image yet;
+build and run it from source with Docker Compose.
 
 - **Control node:** API (Fastify, OpenAPI 3.1), PostgreSQL, run queue, console (React), OIDC/LDAP
   sign-in, RBAC with six roles, API tokens.
