@@ -4,13 +4,13 @@ export const landing: Dictionary['landing'] = {
   meta: {
     title: 'openagentix – die Open-Source-Agentenplattform mit lückenlosem Audit',
     description:
-      'Selbst gehostete Agentenplattform: Ereignisse starten Läufe, Agenten arbeiten über MCP-Tools, und jeder Aufruf wird vorab geprüft, protokolliert und mit Kosten erfasst. Apache-2.0.',
+      'Selbst gehostete Agentenplattform: Ereignisse starten Läufe, Agenten arbeiten über MCP-Tools, und jeder Tool-Aufruf wird vorab geprüft, protokolliert und mit Kosten erfasst. Apache-2.0.',
   },
   hero: {
     eyebrow: 'Open Source · Apache-2.0 · Selbst gehostet',
     titleA: 'Agenten bei der Arbeit.',
     titleB: 'Jeder Schritt nachvollziehbar.',
-    lead: 'openagentix macht aus Ereignissen erledigte Arbeit. Ein Webhook, eine Kafka-Nachricht, eine E-Mail oder ein Zeitplan startet einen Lauf. Agenten handeln über MCP-Tools. Jeder Aufruf wird vor der Ausführung geprüft, fälschungssicher protokolliert und auf den Cent genau abgerechnet.',
+    lead: 'openagentix macht aus Ereignissen erledigte Arbeit. Ein Webhook, eine Kafka-Nachricht, eine E-Mail oder ein Zeitplan startet einen Lauf. Agenten handeln über MCP-Tools. Jeder Tool-Aufruf wird vor der Ausführung geprüft, fälschungssicher protokolliert und auf den Cent genau abgerechnet.',
     ctaDocs: 'Zur Doku',
     ctaGithub: 'Auf GitHub ansehen',
     ctaDemo: 'Live-Demo',
@@ -178,7 +178,7 @@ export const landing: Dictionary['landing'] = {
       {
         label: 'Erst fragen',
         title: 'Vor jedem Tool-Aufruf fragt der Worker nach.',
-        body: 'Jeder Aufruf geht zuerst mit dem signierten Lauf-Token an das Policy-Gate. Die Schritte landen in der Audit-Kette. Das gilt für den Worker im Prozess und für den optionalen Container-Runner.',
+        body: 'Jeder Tool-Aufruf geht zuerst mit dem signierten Lauf-Token an das Policy-Gate. Die Schritte landen in der Audit-Kette. Das gilt für den Worker im Prozess und für den optionalen Container-Runner.',
       },
       {
         label: 'Abbau',

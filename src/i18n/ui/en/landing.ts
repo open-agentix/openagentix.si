@@ -2,13 +2,13 @@ export const landing = {
   meta: {
     title: 'openagentix – the open-source agent platform you can audit',
     description:
-      'Self-hosted agent platform for homelabs and enterprises: events start runs, agents work through MCP tools, and every call is policy-checked, audited and cost-tracked. Bring your own keys, models and MCP servers. Apache-2.0.',
+      'Self-hosted agent platform for homelabs and enterprises: events start runs, agents work through MCP tools, and every tool call is policy-checked, audited and cost-tracked. Bring your own keys, models and MCP servers. Apache-2.0.',
   },
   hero: {
     eyebrow: 'Open source · Apache-2.0 · Self-hosted',
     titleA: 'Agents at work.',
     titleB: 'Every step on the record.',
-    lead: 'openagentix turns events into finished work. A webhook, a Kafka message, an e-mail or a schedule starts a run. Agents act through MCP tools. Every call is checked before it runs, written to a tamper-evident audit trail and priced to the cent.',
+    lead: 'openagentix turns events into finished work. A webhook, a Kafka message, an e-mail or a schedule starts a run. Agents act through MCP tools. Every tool call is checked before it runs, written to a tamper-evident audit trail and priced to the cent.',
     ctaDocs: 'Read the docs',
     ctaGithub: 'View on GitHub',
     ctaDemo: 'Live demo',
