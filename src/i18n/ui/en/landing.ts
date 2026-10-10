@@ -318,6 +318,14 @@ export const landing = {
         title: 'Dark software factory',
         body: 'Opt-in mode with a fixed notice today; a spec, code, tests and pull request template is planned (0.4). Recommended for MVP and proof-of-concept development only. Not for production changes without review.',
       },
+      fourEyes: {
+        title: 'Four-eyes publishing for agents',
+        body: 'Agents are developed as drafts. With a four-eyes policy enabled for a tenant, publishing needs the approval of another person: reviewers see the exact changes to agents.md, comment on single lines, and approve, request changes or reject, much like a pull-request review. An approval is bound to the exact content, so any later edit needs a new approval. Today agents have drafts and immutable published versions, and the author can publish their own draft; review and approval are not built yet.',
+      },
+      credentialStore: {
+        title: 'Credentials like in a CI server, encrypted',
+        body: 'Tokens and secrets stored per team or tenant, encrypted with a key per tenant and referenced by name in agents. Runs can use the values, nobody can read them back. Personal tokens are possible for development and stay out of published agents unless the tenant policy explicitly allows it. HashiCorp Vault and AWS Secrets Manager are planned as alternative secret backends. Today secrets come from the operator\'s environment or mounted files; the encrypted store is not built yet.',
+      },
     },
   },
   runners: {
@@ -449,6 +457,10 @@ export const landing = {
       {
         phase: '0.3',
         body: 'AWS Lambda, GitHub Actions and GitLab CI runners; Hermes and OpenClaw harnesses; Slack and Teams adapters.',
+      },
+      {
+        phase: '0.4',
+        body: 'Planned: agent lifecycle with Agent Build, evaluations, version approval and four-eyes publishing with review comments; encrypted team and tenant secrets with Vault and AWS Secrets Manager backends.',
       },
       { phase: '1.0', body: 'Stable APIs, signed releases, documented upgrades and a demo on release images.' },
     ],

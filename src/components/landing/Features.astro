@@ -12,7 +12,7 @@ const dict = getDictionary(Astro.props.locale);
 const f = dict.landing.features;
 type Key = keyof typeof f.items;
 // Order and size of the bento tiles; the large ones carry the core promise.
-// Rows of 12 columns: l+m+m (two rows high), s x4, l+m+m, w+w, x+x+x.
+// Rows of 12 columns: l+m+m (two rows high), s x4, l+m+m, w+w, x+x+x, w+w.
 // `planned` tiles describe features that are specified but not shipped yet.
 const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' | 'x'; planned?: boolean }[] = [
   { key: 'audit', icon: 'shield', size: 'l' },
@@ -30,6 +30,8 @@ const tiles: { key: Key; icon: IconName; size: 'l' | 'm' | 's' | 'w' | 'x'; plan
   { key: 'changeGate', icon: 'clock', size: 'x' },
   { key: 'guidelines', icon: 'diff', size: 'x' },
   { key: 'factory', icon: 'branch', size: 'x' },
+  { key: 'fourEyes', icon: 'hand', size: 'w', planned: true },
+  { key: 'credentialStore', icon: 'key', size: 'w', planned: true },
 ];
 ---
 
