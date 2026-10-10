@@ -11,6 +11,13 @@ All notable changes to this project are documented here. The format follows
 - Docs and footer (English and German), README and `GOVERNANCE.md`: describe how changes are really
   reviewed (independent review by a second review agent, no guarantee of a human read before
   merge) and add a "How changes are reviewed" section to the governance page.
+
+### Changed
+
+- Agent lifecycle governance (four-eyes publish approval with review comments, development vs
+  published agents, encrypted personal, team and tenant secrets, Vault and AWS Secrets Manager
+  backends) is shown as planned on the landing page (English and German), the roadmap and the
+  security model, with what exists today stated next to it. Nothing of it is built yet (ADR 0017).
 - Build toolchain upgraded to Astro 7, Starlight 0.42 and Vitest 5. Building the site now requires
   Node.js 22.12 or newer (Node.js 20 is dropped; CI covers 22 and 24).
 - Landing page and docs (English and German) state what exists: the architecture scene is marked

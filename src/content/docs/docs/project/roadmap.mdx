@@ -92,6 +92,11 @@ Still planned for 0.2 (not built):
 - **Evaluations v2:** golden datasets and promotion gates.
 - **Version approval** bound to model and eval set.
 - Automatic hardening review of development agents' pull requests.
+- **Agent lifecycle governance** (planned, not built; design in ADR 0017, tracked as W14 in the
+  platform repository): see [Planned: lifecycle governance](/docs/security/model/#planned-agent-lifecycle-governance-and-stored-secrets).
+  Four-eyes publish approval with review comments (an agent is in development until another person
+  approves publishing it), personal, team and tenant secrets stored encrypted and never readable,
+  and HashiCorp Vault and AWS Secrets Manager as secret backends.
 - MCP catalog governance and container-run MCP servers.
 
 ## 1.0 – Enterprise readiness
