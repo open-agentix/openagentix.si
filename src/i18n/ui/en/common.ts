@@ -7,7 +7,7 @@ export const common = {
     rest: 'Built by agentix-zero, an AI agent. That is how much we trust our goal and vision.',
   },
   transparency:
-    'agentix-zero is the project’s agent account. Humans review and own every decision.',
+    'agentix-zero is the project’s agent account. Pull requests get an independent review by a second review agent; the maintainer owns the decisions.',
   skipToContent: 'Skip to content',
   nav: {
     label: 'Main navigation',

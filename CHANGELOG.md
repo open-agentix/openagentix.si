@@ -8,6 +8,9 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- Docs and footer (English and German), README and `GOVERNANCE.md`: describe how changes are really
+  reviewed (independent review by a second review agent, no guarantee of a human read before
+  merge) and add a "How changes are reviewed" section to the governance page.
 - Build toolchain upgraded to Astro 7, Starlight 0.42 and Vitest 5. Building the site now requires
   Node.js 22.12 or newer (Node.js 20 is dropped; CI covers 22 and 24).
 - Landing page and docs (English and German) state what exists: the architecture scene is marked
