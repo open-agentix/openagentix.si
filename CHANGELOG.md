@@ -8,6 +8,12 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- Docs and footer (English and German), README and `GOVERNANCE.md`: describe how changes are really
+  reviewed (independent review by a second review agent, no guarantee of a human read before
+  merge) and add a "How changes are reviewed" section to the governance page.
+
+### Changed
+
 - Agent lifecycle governance (four-eyes publish approval with review comments, development vs
   published agents, encrypted personal, team and tenant secrets, Vault and AWS Secrets Manager
   backends) is shown as planned on the landing page (English and German), the roadmap and the

@@ -11,8 +11,11 @@ results go out as pull requests, ticket updates, messages, reports or metrics.
 - Helm chart: [open-agentix/open-agentix-helm](https://github.com/open-agentix/open-agentix-helm)
 - Website and docs (this repository): [open-agentix/openagentix.si](https://github.com/open-agentix/openagentix.si)
 
-agentix-zero is the project's agent account and writes most of this repository. Humans review every
-change and own the decisions; the project lead is the maintainer. See [GOVERNANCE.md](GOVERNANCE.md).
+agentix-zero is the project's agent account and writes most of this repository. Each pull request is
+reviewed by a second, independent review agent before merge; there is no guarantee that a human
+reads every change. The maintainer (the project lead) sets the direction, can inspect, revert and
+block changes at any time, and owns the decisions and releases. See
+[How changes are reviewed](GOVERNANCE.md#how-changes-are-reviewed).
 
 ## What is in here
 
