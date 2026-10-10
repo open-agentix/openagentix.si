@@ -320,6 +320,14 @@ export const landing: Dictionary['landing'] = {
         title: 'Dark Software Factory',
         body: 'Optionaler Modus, heute mit festem Hinweis; eine Vorlage für Spezifikation, Code, Tests und Pull Request ist geplant (0.4). Nur für MVP- und Proof-of-Concept-Entwicklung empfohlen, nicht für Produktionsänderungen ohne Prüfung.',
       },
+      fourEyes: {
+        title: 'Vier-Augen-Prinzip beim Veröffentlichen von Agenten',
+        body: 'Agenten werden als Entwurf entwickelt. Ist das Vier-Augen-Prinzip für einen Mandanten aktiv, muss eine andere Person die Veröffentlichung freigeben: Prüfer sehen die genauen Änderungen an agents.md, kommentieren einzelne Zeilen und geben frei, fordern Änderungen an oder lehnen ab, ähnlich einem Pull-Request-Review. Die Freigabe gilt genau für diesen Inhalt, jede spätere Änderung braucht eine neue Freigabe. Heute haben Agenten Entwürfe und unveränderliche veröffentlichte Versionen, und die Autorin oder der Autor kann den eigenen Entwurf veröffentlichen; Review und Freigabe sind noch nicht gebaut.',
+      },
+      credentialStore: {
+        title: 'Zugangsdaten wie in einem CI-Server, verschlüsselt',
+        body: 'Tokens und Secrets werden je Team oder Mandant verschlüsselt gespeichert (eigener Schlüssel je Mandant) und in Agenten nur über ihren Namen referenziert. Läufe können sie nutzen, auslesen kann sie niemand. Persönliche Tokens sind für die Entwicklung möglich und bleiben aus veröffentlichten Agenten heraus, solange die Mandanten-Richtlinie das nicht ausdrücklich erlaubt. HashiCorp Vault und AWS Secrets Manager sind als alternative Secret-Speicher geplant. Heute kommen Secrets aus der Umgebung oder eingebundenen Dateien des Betreibers; der verschlüsselte Secret-Speicher ist noch nicht gebaut.',
+      },
     },
   },
   runners: {
@@ -451,6 +459,10 @@ export const landing: Dictionary['landing'] = {
       {
         phase: '0.3',
         body: 'Runner für AWS Lambda, GitHub Actions und GitLab CI; Hermes- und OpenClaw-Harnesses; Slack- und Teams-Adapter.',
+      },
+      {
+        phase: '0.4',
+        body: 'Geplant: Agenten-Lebenszyklus mit Agent Build, Evaluierungen, Versionsfreigabe und Vier-Augen-Veröffentlichung mit Review-Kommentaren; verschlüsselte Team- und Mandanten-Secrets mit Vault- und AWS-Secrets-Manager-Anbindung.',
       },
       { phase: '1.0', body: 'Stabile APIs, signierte Releases, dokumentierte Upgrades und eine Demo auf Release-Images.' },
     ],

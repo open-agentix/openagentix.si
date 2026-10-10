@@ -66,6 +66,40 @@ Events, agents, tools and providers carry a classification (`public` < `internal
 `confidential` < `restricted`). Data may only flow to a tool or provider whose clearance is equal or
 higher; violations are blocked before the call.
 
+## Planned: agent lifecycle governance and stored secrets
+
+<span class="oax-badge oax-badge--roadmap">Planned</span> Everything in this section is design only
+(ADR 0017 in the platform repository, tracked as W14 in the roadmap, target 0.4). None of it is
+built yet.
+
+**Today:**
+
+- An agent has one editable draft. Publishing turns the draft into an immutable, numbered version
+  with a content digest; a published version cannot be changed. Runs use published versions only.
+- Roles control who may write and publish. The `agent-engineer` role has both permissions, so the
+  author can publish their own draft. There is no publish review and no approval record.
+- Approvals exist at run time for tools marked as approval-required.
+- Secrets are referenced by name and come from the operator's environment or mounted files. The
+  platform stores no secret values and has no encrypted secret store.
+
+**Planned:**
+
+- **Development and published agents.** An agent stays in development until it is published.
+  Edits never reach production until the next approved publish.
+- **Four-eyes publish approval**, a tenant setting. Another person must approve publishing. Reviewers
+  see the exact changes to `agents.md`, comment on single lines, and approve, request changes or
+  reject, much like a pull-request review. Nobody can approve their own work. The approval is
+  bound to the exact content, so any later edit needs a new approval.
+- **Versioned, immutable published agents** that record the version number, the content digest and
+  who approved them in the audit trail.
+- **Personal, team and tenant secrets**, stored encrypted with a key per tenant and referenced by
+  name. Runs can use a value; after it is saved nobody can read it back, and it is never shown to
+  models. Personal tokens are possible for development and stay out of published agents unless the
+  tenant policy explicitly allows it.
+- **HashiCorp Vault and AWS Secrets Manager** as alternative secret backends.
+- **Git-managed agents** will use the same review; whether a review in a Git host can count as the
+  approval is a later, optional part of the design.
+
 ## Reporting a vulnerability
 
 Please report privately through GitHub security advisories of the affected repository. See the
