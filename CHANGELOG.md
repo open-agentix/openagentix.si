@@ -8,6 +8,12 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
+- Docs: the "Metrics, traces and logs" page describes the implemented OpenTelemetry trace model,
+  sampling, the metadata-only guarantee and the multi-tenant collector approach, and states that
+  content capture and tenant-owned exporters are not built (ADR 0015 S9).
+
+### Changed
+
 - Docs and footer (English and German), README and `GOVERNANCE.md`: describe how changes are really
   reviewed (independent review by a second review agent, no guarantee of a human read before
   merge) and add a "How changes are reviewed" section to the governance page.
