@@ -11,5 +11,6 @@ export const GITHUB_ORG = 'https://github.com/open-agentix';
 export const repos = {
   platform: { name: 'open-agentix', url: `${GITHUB_ORG}/open-agentix` },
   helm: { name: 'open-agentix-helm', url: `${GITHUB_ORG}/open-agentix-helm` },
+  awp: { name: 'agenticWorkflowProtocol.org', url: `${GITHUB_ORG}/agenticWorkflowProtocol.org` },
   website: { name: 'openagentix.si', url: `${GITHUB_ORG}/openagentix.si` },
 } as const;

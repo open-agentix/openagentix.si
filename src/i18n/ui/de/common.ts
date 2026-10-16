@@ -41,6 +41,7 @@ export const common: Dictionary['common'] = {
     project: 'Projekt',
     gettingStarted: 'Erste Schritte',
     roadmap: 'Roadmap',
+    awp: 'Agentic Workflow Protocol (Entwurf)',
     contributing: 'Mitmachen',
     security: 'Sicherheitsrichtlinie',
     license: 'Website-Code: Apache-2.0 · Doku: CC BY 4.0',
