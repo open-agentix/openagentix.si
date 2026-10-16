@@ -39,6 +39,7 @@ export const common = {
     project: 'Project',
     gettingStarted: 'Getting started',
     roadmap: 'Roadmap',
+    awp: 'Agentic Workflow Protocol (draft)',
     contributing: 'Contributing',
     security: 'Security policy',
     license: 'Site code: Apache-2.0 · Docs: CC BY 4.0',

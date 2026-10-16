@@ -6,6 +6,11 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Docs: page "Agentic Workflow Protocol (AWP)" and a footer link describe the draft specification and
+  that openagentix is one implementation, not yet conformant to any profile.
+
 ### Changed
 
 - Docs: the "Metrics, traces and logs" page describes the implemented OpenTelemetry trace model,
