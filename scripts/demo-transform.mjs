@@ -14,10 +14,11 @@ const demoPaths = new Map([
   ['/de/demo/', '/de/'],
 ]);
 
-// Root-relative files that are shipped with the demo site itself.
-const local = /^\/(?:_astro\/|favicon\.svg$|robots\.txt$)/;
+// Root-relative files that are shipped with the demo site itself. Auth/login routes also stay on the
+// demo host, otherwise the standalone demo would redirect users back to the marketing site.
+const local = /^\/(?:_astro\/|favicon\.svg$|robots\.txt$|(?:de\/)?(?:login|logout|signup|register|auth|oauth|callback|session|api)(?:\/|$))/;
 
-/** Rewrites one root-relative URL: demo pages move to the host root, everything else points to the main site. */
+/** Rewrites one root-relative URL: demo pages move to the host root, auth routes stay local, everything else points to the main site. */
 export function rewritePath(path) {
   if (local.test(path)) return path;
   const [pathname, rest = ''] = splitSuffix(path);
