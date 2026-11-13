@@ -71,7 +71,7 @@ When the live demo with a backend exists, it replaces this static page; the link
 ## 4. Blog: `blog.openagentix.si`
 
 The blog lives in its own repository (`open-agentix/blog.openagentix.si`) with its own Pages site
-and custom domain. The website only links to it and never loads anything from it.
+and custom domain. The Pages workflow loads the blog's public `news.json` on the build server, hourly and on each build, to include the four most recent published posts. If the blog is unavailable, it retains the last checked-in published snapshot in `src/data/news-fallback.json`. The blog build generates the feed with its existing publication schedule. Visitors' browsers make no cross-origin requests.
 
 ## 5. Privacy
 
