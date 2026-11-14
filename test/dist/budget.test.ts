@@ -22,8 +22,9 @@ describe('performance budget', () => {
     expect(budgetViolations(measured)).toEqual([]);
   });
 
-  it('ships no legacy raster images', () => {
-    expect([...files].filter((f) => forbiddenImage.test(f))).toEqual([]);
+  it('ships only the bounded concept illustration as a raster image', () => {
+    expect([...files].filter((f) => forbiddenImage.test(f))).toEqual(['images/wearable-agents-cover.jpg']);
+    expect(readBytes('images/wearable-agents-cover.jpg').length).toBeLessThan(250 * 1024);
   });
 
   it('ships only subset fonts', () => {
