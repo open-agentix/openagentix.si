@@ -16,6 +16,7 @@ export const collection = {
   archived: 'Archived',
   sourceAvailable: 'Source available',
   openSource: 'Open source',
+  website: 'Website',
   code: 'Explore repository',
   prismDescription: 'A self-hosted gateway for managing and routing requests to language models. The project is archived and remains available to explore.',
   glassDescription: 'A local control center for coding agents, designed to bring conversations and decisions to wearable displays.',

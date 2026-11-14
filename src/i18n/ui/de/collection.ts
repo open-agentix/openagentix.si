@@ -17,6 +17,7 @@ export const collection: Dictionary['collection'] = {
   archived: 'Archiviert',
   sourceAvailable: 'Quelloffen verfügbar',
   openSource: 'Open Source',
+  website: 'Website',
   code: 'Repository ansehen',
   prismDescription: 'Ein selbst gehostetes Gateway zur Verwaltung und Weiterleitung von Sprachmodell-Anfragen. Das Projekt ist archiviert und bleibt einsehbar.',
   glassDescription: 'Eine lokale Steuerzentrale für Coding-Agenten, die Chats und Entscheidungen auf Wearable-Displays bringt.',

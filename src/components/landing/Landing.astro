@@ -13,9 +13,9 @@ const blogLocale = locale === 'de' ? 'de' : 'en';
 const posts = fallback[blogLocale];
 const date = (value: string) => new Intl.DateTimeFormat(locale === 'de' ? 'de-DE' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(value));
 const products = [
-  { number: '01', name: 'OpenGlassUI', category: t.glassCategory, icon: '◉', description: t.glassDescription, url: 'https://github.com/weisser-dev/openglassui', state: t.active, license: t.openSource, className: 'glass' },
-  { number: '02', name: 'Awesome OpenCode', category: t.awesomeCategory, icon: '✳', description: t.awesomeDescription, url: 'https://github.com/weisser-dev/awesome-opencode', state: t.active, license: t.openSource, className: 'awesome' },
-  { number: '03', name: 'Open Model Prism', category: t.prismCategory, icon: '◇', description: t.prismDescription, url: 'https://github.com/weisser-dev/open-model-prism', state: t.archived, license: t.sourceAvailable, className: 'prism' },
+  { number: '01', name: 'OpenGlassUI', category: t.glassCategory, icon: '◉', description: t.glassDescription, url: 'https://github.com/weisser-dev/openglassui', website: 'https://weisser-dev.github.io/openglassui/', state: t.active, license: t.openSource, className: 'glass' },
+  { number: '02', name: 'Awesome OpenCode', category: t.awesomeCategory, icon: '✳', description: t.awesomeDescription, url: 'https://github.com/weisser-dev/awesome-opencode', website: null, state: t.active, license: t.openSource, className: 'awesome' },
+  { number: '03', name: 'Open Model Prism', category: t.prismCategory, icon: '◇', description: t.prismDescription, url: 'https://github.com/weisser-dev/open-model-prism', website: 'https://weisser-dev.github.io/open-model-prism/', state: t.archived, license: t.sourceAvailable, className: 'prism' },
 ];
 ---
 <Base locale={locale} page="home" title={t.metaTitle} description={t.metaDescription}>
@@ -39,7 +39,7 @@ const products = [
       {products.map((product) => <article class:list={['product-card', product.className]}>
         <div class="product-top"><span class="product-icon" aria-hidden="true">{product.icon}</span><span class:list={['product-state', { archived: product.state === t.archived }]}><span></span>{product.state}</span></div>
         <div class="product-copy"><p class="product-category">{product.category}</p><h3>{product.name}</h3><p>{product.description}</p></div>
-        <div class="product-bottom"><span>{product.license}</span><a href={product.url} aria-label={`${t.code}: ${product.name}`}>{t.code} <span>↗</span></a></div>
+        <div class="product-bottom"><span>{product.license}</span><div class="product-links">{product.website && <a href={product.website} aria-label={`${t.website}: ${product.name}`}>{t.website} <span>↗</span></a>}<a href={product.url} aria-label={`${t.code}: ${product.name}`}>{t.code} <span>↗</span></a></div></div>
       </article>)}
     </div>
   </section>
