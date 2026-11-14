@@ -5,7 +5,7 @@ export const collection: Dictionary['collection'] = {
   metaDescription: 'Entdecke unabhängige Werkzeuge, Experimente und Open-Source-Projekte von OpenAgentix.',
   eyebrow: 'UNABHÄNGIGE SOFTWARE · OFFEN ENTWICKELT',
   headline: 'Gute Werkzeuge.\nOffene Ideen.',
-  intro: 'Eine Sammlung unabhängiger Projekte für Menschen, die mit KI entwickeln. Manche wachsen, andere sind abgeschlossen – jedes hat seine eigene Geschichte.',
+  intro: 'Eine private, nicht kommerzielle Sammlung offener KI-Projekte und Experimente von weisser-dev.',
   explore: 'Projekte entdecken',
   github: 'Zu GitHub',
   heroNote: 'EINE SAMMLUNG / VERSCHIEDENE IDEEN',
@@ -30,7 +30,7 @@ export const collection: Dictionary['collection'] = {
   live: 'Aktuell veröffentlichte Beiträge',
   aboutEyebrow: 'WARUM OPENAGENTIX / 03',
   aboutTitle: 'Für den Alltag gebaut.\nZum Entdecken geteilt.',
-  aboutBody: 'OpenAgentix bringt unabhängige Projekte an einem Ort zusammen. Sieh dir den Quellcode an, prüfe den Status und finde passende Werkzeuge für deine Arbeit.',
+  aboutBody: 'OpenAgentix ist eine private Sammlung von KI- und Agentenprojekten von weisser-dev. Sie wird offen und ohne kommerzielle Vermarktung geteilt. Jedes Projekt ist eigenständig; Lizenz und Status stehen im jeweiligen Repository.',
   aboutLink: 'GitHub entdecken',
   note: 'Die Projekte werden einzeln gepflegt. Lizenz, aktuellen Status und Dokumentation findest du im jeweiligen Repository.',
 };

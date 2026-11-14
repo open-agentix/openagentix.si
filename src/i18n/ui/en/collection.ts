@@ -4,7 +4,7 @@ export const collection = {
   metaDescription: 'Explore independent tools, experiments and open-source projects from OpenAgentix.',
   eyebrow: 'INDEPENDENT SOFTWARE · BUILT IN THE OPEN',
   headline: 'Good tools.\nOpen ideas.',
-  intro: 'A collection of independent projects for people building with AI. Some are growing, some are complete, and all have a story worth sharing.',
+  intro: 'A personal, non-commercial collection of open-source AI projects and experiments by weisser-dev.',
   explore: 'Explore the projects',
   github: 'Visit GitHub',
   heroNote: 'ONE COLLECTION / DIFFERENT IDEAS',
@@ -29,7 +29,7 @@ export const collection = {
   live: 'Latest published articles',
   aboutEyebrow: 'WHY OPENAGENTIX / 03',
   aboutTitle: 'Built to be useful.\nShared to be explored.',
-  aboutBody: 'OpenAgentix brings independent projects together in one place. Browse the source, understand the status and find the tools that fit your work.',
+  aboutBody: 'OpenAgentix is a personal collection of AI and agent projects by weisser-dev, shared openly without commercial marketing. Each project is independent; its repository describes its license and status.',
   aboutLink: 'Explore our GitHub',
   note: 'Projects are maintained individually. Check each repository for its license, current status and documentation.',
 };
