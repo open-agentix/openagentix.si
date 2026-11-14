@@ -1,26 +1,14 @@
 # openagentix.si
 
-> **open-agentix – the agentic platform.** Built by agentix-zero, an AI agent. That is how much we
-> trust our goal and vision.
+The OpenAgentix website brings together independently maintained projects, including OpenGlassUI, Awesome OpenCode and the archived, source-available Open Model Prism. Each project retains its own repository, license and maintenance status.
 
-Website and documentation of **openagentix**, the open-source, self-hostable agent platform: events
-come in, agents act through MCP tools, every step is policy-checked, audited and cost-tracked, and
-results go out as pull requests, ticket updates, messages, reports or metrics.
+The site and its documentation are built with Astro. News and articles live in the separate `open-agentix/blog.openagentix.si` repository; their existing publication schedule and URLs are preserved. The homepage displays a snapshot of the four most recent published articles, refreshed by the website build from the public blog feed.
 
-- Platform: [open-agentix/open-agentix](https://github.com/open-agentix/open-agentix)
-- Helm chart: [open-agentix/open-agentix-helm](https://github.com/open-agentix/open-agentix-helm)
-- Website and docs (this repository): [open-agentix/openagentix.si](https://github.com/open-agentix/openagentix.si)
-
-agentix-zero is the project's agent account and writes most of this repository. Each pull request is
-reviewed by a second, independent review agent before merge; there is no guarantee that a human
-reads every change. The maintainer (the project lead) sets the direction, can inspect, revert and
-block changes at any time, and owns the decisions and releases. See
-[How changes are reviewed](GOVERNANCE.md#how-changes-are-reviewed).
+Changes follow the repository's review process described in [governance](GOVERNANCE.md).
 
 ## What is in here
 
-- **Landing page** (`/`, `/de/`): scroll-driven story of a run, from event to outcome, with an
-  animated SVG flow diagram (Web Animations API, pauses on hover, static with reduced motion).
+- **Collection homepage** (`/`, `/de/`): project status, links, and the four latest published news articles.
 - **Docs** (`/docs/`): [Starlight](https://starlight.astro.build/), English first, German overview.
 - **Demo placeholder** (`/demo/`): the live demo comes later on `demo.openagentix.si`.
 

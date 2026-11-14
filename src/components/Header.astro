@@ -18,11 +18,9 @@ const home = pathFor('home', locale);
 const docs = locale === 'de' ? '/de/docs/' : '/docs/';
 const anchor = (id: string) => (page === 'home' ? `#${id}` : `${home}#${id}`);
 const links = [
-  { href: anchor('how'), label: t.common.nav.howItWorks },
-  { href: anchor('features'), label: t.common.nav.features },
-  { href: anchor('runners'), label: t.common.nav.runners },
-  { href: anchor('trust'), label: t.common.nav.trust },
-  { href: anchor('open-source'), label: t.common.nav.openSource },
+  { href: anchor('products'), label: t.collection.navProjects },
+  { href: anchor('news'), label: t.collection.navNews },
+  { href: anchor('about'), label: t.collection.navAbout },
 ];
 ---
 
@@ -32,7 +30,7 @@ const links = [
       <span class="mark" set:html={logo} />
       <span class="word" aria-hidden="true">
         <span class="name">open<span class="blue">agentix</span><span class="dot" aria-hidden="true">.</span></span>
-        <span class="sub">{t.common.superIntelligence}</span>
+
       </span>
     </a>
 
@@ -40,7 +38,7 @@ const links = [
       <ul>
         {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
         <li><a href={docs}>{t.common.nav.docs}</a></li>
-        <li><a href={BLOG_URL}>{t.common.nav.blog}</a></li>
+        <li><a href={BLOG_URL}>{t.collection.navNews}</a></li>
       </ul>
       <div class="nav-extra">
         <LangSwitch locale={locale} page={page} />

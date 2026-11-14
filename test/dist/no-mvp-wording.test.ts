@@ -18,8 +18,5 @@ describe('status wording', () => {
     expect(hits).toEqual([]);
   });
 
-  it('states the dark software factory recommendation on the landing pages', () => {
-    expect(readPageText('index.html')).toMatch(RECOMMENDATION);
-    expect(readPageText('de/index.html')).toMatch(RECOMMENDATION);
-  });
+
 });

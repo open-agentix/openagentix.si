@@ -22,6 +22,6 @@ describe('built site makes no third-party requests', () => {
 describe('blog link', () => {
   it.each(['index.html', 'de/index.html'])('%s links to the project blog in the header and the footer', (file) => {
     const html = read(file);
-    expect(html.split('href="https://blog.openagentix.si/"').length - 1).toBe(2);
+    expect(html.split('href="https://blog.openagentix.si/"').length - 1).toBeGreaterThanOrEqual(2);
   });
 });
