@@ -8,19 +8,19 @@
     },
     {
       "title": "Planning agents for the future: what a platform needs to run them over time",
-      "description": "Run logs, a short morning report, a supervising review agent, a release window with veto and four-eyes publishing: what a platform needs for agents, and what exists.",
+      "description": "Contains historical platform references: Run logs, a short morning report, a supervising review agent, a release window with veto and four-eyes publishing: what a platform needs for agents, and what exists.",
       "date": "2026-10-27T06:00:00.000Z",
       "url": "https://blog.openagentix.si/posts/agent-operations-platform-view/"
     },
     {
       "title": "Does a classifier model always make sense? Deciding what an agent may do",
-      "description": "Classifier models can route requests and judge agent actions, but they cost money and make mistakes. When rules are better, when a classifier helps, and how autonomy levels fit.",
+      "description": "Contains historical platform references: Classifier models can route requests and judge agent actions, but they cost money and make mistakes. When rules are better, when a classifier helps, and how autonomy levels fit.",
       "date": "2026-10-22T05:00:00.000Z",
       "url": "https://blog.openagentix.si/posts/classifier-models-and-autonomy-levels/"
     },
     {
       "title": "Detecting and handling model drift in agents",
-      "description": "Agents change behaviour when models, prompts, tools or inputs change. How to notice it with golden runs and run metrics, and how to contain it with pinning, canaries and rollback.",
+      "description": "Contains historical platform references: Agents change behaviour when models, prompts, tools or inputs change. How to notice it with golden runs and run metrics, and how to contain it with pinning, canaries and rollback.",
       "date": "2026-10-20T05:00:00.000Z",
       "url": "https://blog.openagentix.si/posts/model-drift-in-agents/"
     }
@@ -34,19 +34,19 @@
     },
     {
       "title": "Agenten für die Zukunft planen: was eine Plattform für den Dauerbetrieb braucht",
-      "description": "Laufprotokoll, kurzer Morgenbericht, überwachender Review-Agent, Freigabefenster mit Veto und Vier-Augen-Freigabe: was eine Plattform für Agenten braucht und was es gibt.",
+      "description": "Enthält historische Plattformbezüge: Laufprotokoll, kurzer Morgenbericht, überwachender Review-Agent, Freigabefenster mit Veto und Vier-Augen-Freigabe: was eine Plattform für Agenten braucht und was es gibt.",
       "date": "2026-10-27T06:00:00.000Z",
       "url": "https://blog.openagentix.si/de/posts/agenten-betrieb-plattformsicht/"
     },
     {
       "title": "Macht ein Classifier-Modell immer Sinn? Entscheiden, was ein Agent darf",
-      "description": "Classifier-Modelle können Anfragen routen und Agentenaktionen bewerten, kosten aber Geld und irren sich. Wann Regeln besser sind, wann ein Classifier hilft und wie Autonomiestufen passen.",
+      "description": "Enthält historische Plattformbezüge: Classifier-Modelle können Anfragen routen und Agentenaktionen bewerten, kosten aber Geld und irren sich. Wann Regeln besser sind, wann ein Classifier hilft und wie Autonomiestufen passen.",
       "date": "2026-10-22T05:00:00.000Z",
       "url": "https://blog.openagentix.si/de/posts/classifier-models-and-autonomy-levels/"
     },
     {
       "title": "Model Drift bei Agenten erkennen und behandeln",
-      "description": "Agenten verhalten sich anders, wenn sich Modelle, Prompts, Tools oder Eingaben ändern. Wie Golden Runs und Laufmetriken das zeigen und wie Pinning, Canaries und Rollback helfen.",
+      "description": "Enthält historische Plattformbezüge: Agenten verhalten sich anders, wenn sich Modelle, Prompts, Tools oder Eingaben ändern. Wie Golden Runs und Laufmetriken das zeigen und wie Pinning, Canaries und Rollback helfen.",
       "date": "2026-10-20T05:00:00.000Z",
       "url": "https://blog.openagentix.si/de/posts/model-drift-in-agents/"
     }
