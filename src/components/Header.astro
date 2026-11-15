@@ -5,7 +5,7 @@ import logo from '../assets/logo-mark.svg?raw';
 import type { Locale } from '../i18n/config';
 import { pathFor, type PageId } from '../i18n/routes';
 import { getDictionary } from '../i18n/translate';
-import { BLOG_URL, GITHUB_ORG } from '../project';
+import { BLOG_URL, GITHUB_PROFILE } from '../project';
 
 interface Props {
   locale: Locale;
@@ -51,7 +51,7 @@ const links = [
         <Icon name="sun" class="i-sun" size={18} />
         <Icon name="moon" class="i-moon" size={18} />
       </button>
-      <a class="icon-btn" href={GITHUB_ORG} aria-label={t.common.nav.github}>
+      <a class="icon-btn" href={GITHUB_PROFILE} aria-label={t.common.nav.github}>
         <Icon name="github" size={18} />
       </a>
       <a class="btn btn--primary docs-btn" href={docs}>{t.common.nav.docs}</a>

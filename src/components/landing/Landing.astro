@@ -3,7 +3,8 @@ import Base from '../../layouts/Base.astro';
 import type { Locale } from '../../i18n/config';
 import { getDictionary } from '../../i18n/translate';
 import fallback from '../../data/news-fallback.json';
-import { BLOG_URL, GITHUB_ORG } from '../../project';
+import { BLOG_URL, GITHUB_PROFILE } from '../../project';
+import { pathFor } from '../../i18n/routes';
 import '../../styles/collection.css';
 
 interface Props { locale: Locale; }
@@ -15,7 +16,8 @@ const date = (value: string) => new Intl.DateTimeFormat(locale === 'de' ? 'de-DE
 const products = [
   { number: '01', name: 'OpenGlassUI', category: t.glassCategory, icon: '◉', description: t.glassDescription, url: 'https://github.com/weisser-dev/openglassui', website: 'https://weisser-dev.github.io/openglassui/', state: t.active, license: t.openSource, className: 'glass' },
   { number: '02', name: 'Awesome OpenCode', category: t.awesomeCategory, icon: '✳', description: t.awesomeDescription, url: 'https://github.com/weisser-dev/awesome-opencode', website: null, state: t.active, license: t.openSource, className: 'awesome' },
-  { number: '03', name: 'Open Model Prism', category: t.prismCategory, icon: '◇', description: t.prismDescription, url: 'https://github.com/weisser-dev/open-model-prism', website: 'https://weisser-dev.github.io/open-model-prism/', state: t.archived, license: t.sourceAvailable, className: 'prism' },
+  { number: '03', name: 'OpenDisplayHub', category: t.displayCategory, icon: '', description: t.displayDescription, url: 'https://github.com/weisser-dev/opendisplayhub', website: pathFor('wearables', locale), state: t.active, license: t.openSource, className: 'display' },
+  { number: '04', name: 'Open Model Prism', category: t.prismCategory, icon: '◇', description: t.prismDescription, url: 'https://github.com/weisser-dev/open-model-prism', website: 'https://weisser-dev.github.io/open-model-prism/', state: t.archived, license: t.sourceAvailable, className: 'prism' },
 ];
 ---
 <Base locale={locale} page="home" title={t.metaTitle} description={t.metaDescription}>
@@ -24,20 +26,20 @@ const products = [
       <p class="collection-label"><span class="status-dot"></span>{t.eyebrow}</p>
       <h1 id="collection-title">{t.headline}</h1>
       <p class="hero-intro">{t.intro}</p>
-      <div class="hero-actions"><a class="collection-button primary" href="#products">{t.explore}<span>↗</span></a><a class="collection-button subtle" href={GITHUB_ORG}>{t.github} <span>↗</span></a></div>
+      <div class="hero-actions"><a class="collection-button primary" href="#products">{t.explore}<span>↗</span></a><a class="collection-button subtle" href={GITHUB_PROFILE}>{t.github} <span>↗</span></a></div>
     </div>
     <div class="hero-visual" aria-hidden="true">
-      <div class="visual-top"><span>OPENAGENTIX / INDEX</span><span>● &nbsp; 003</span></div>
+      <div class="visual-top"><span>OPENAGENTIX / INDEX</span><span>● &nbsp; 004</span></div>
       <div class="visual-core"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><span class="core-symbol">✳</span><span class="orbit-chip chip-glass">◉</span><span class="orbit-chip chip-code">✳</span><span class="orbit-chip chip-prism">◇</span></div>
       <div class="visual-bottom"><span>{t.heroNote}</span><span>↗</span></div>
     </div>
-    <div class="hero-index" aria-hidden="true"><span>01 — OPENGLASSUI</span><span>02 — AWESOME OPENCODE</span><span>03 — OPEN MODEL PRISM</span></div>
+    <div class="hero-index" aria-hidden="true"><span>01 — OPENGLASSUI</span><span>02 — AWESOME OPENCODE</span><span>03 — OPENDISPLAYHUB</span><span>04 — OPEN MODEL PRISM</span></div>
   </section>
   <section class="collection-section container" id="products">
     <div class="section-heading"><div><p class="collection-label">{t.projectsEyebrow}</p><h2>{t.projectsTitle}</h2></div><p>{t.projectsIntro}</p></div>
     <div class="products-grid">
       {products.map((product) => <article class:list={['product-card', product.className]}>
-        <div class="product-top"><span class="product-icon" aria-hidden="true">{product.icon}</span><span class:list={['product-state', { archived: product.state === t.archived }]}><span></span>{product.state}</span></div>
+        <div class="product-top"><span class="product-icon" aria-hidden="true">{product.className === 'display' ? <svg viewBox="0 0 32 32" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="26" height="16" rx="5"/><path d="M8 16h16M16 12v8"/></svg> : product.icon}</span><span class:list={['product-state', { archived: product.state === t.archived }]}><span></span>{product.state}</span></div>
         {product.className === 'glass' && <figure class="product-art"><img src="/images/wearable-agents-cover.jpg" alt="" loading="lazy" width="1672" height="941" /><figcaption>{t.conceptArt}</figcaption></figure>}
         <div class="product-copy"><p class="product-category">{product.category}</p><h3>{product.name}</h3><p>{product.description}</p></div>
         <div class="product-bottom"><span>{product.license}</span><div class="product-links">{product.website && <a href={product.website} aria-label={`${t.website}: ${product.name}`}>{t.website} <span>↗</span></a>}<a href={product.url} aria-label={`${t.code}: ${product.name}`}>{t.code} <span>↗</span></a></div></div>
@@ -52,5 +54,5 @@ const products = [
     </div>
     <a class="collection-button subtle news-more" href={blogLocale === 'de' ? `${BLOG_URL}de/` : BLOG_URL}>{t.allNews} <span>↗</span></a>
   </div></section>
-  <section class="about-section container" id="about"><div><p class="collection-label">{t.aboutEyebrow}</p><h2>{t.aboutTitle}</h2></div><div><p>{t.aboutBody}</p><a class="collection-button primary" href={GITHUB_ORG}>{t.aboutLink}<span>↗</span></a><p class="about-note">{t.note}</p></div></section>
+  <section class="about-section container" id="about"><div><p class="collection-label">{t.aboutEyebrow}</p><h2>{t.aboutTitle}</h2></div><div><p>{t.aboutBody}</p><a class="collection-button primary" href={GITHUB_PROFILE}>{t.aboutLink}<span>↗</span></a><p class="about-note">{t.note}</p></div></section>
 </Base>

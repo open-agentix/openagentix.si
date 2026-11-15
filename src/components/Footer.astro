@@ -3,13 +3,13 @@ import logo from '../assets/logo-mark.svg?raw';
 import type { Locale } from '../i18n/config';
 import { pathFor, type PageId } from '../i18n/routes';
 import { getDictionary } from '../i18n/translate';
-import { BLOG_URL, GITHUB_ORG } from '../project';
+import { BLOG_URL, GITHUB_PROFILE } from '../project';
 interface Props { locale: Locale; page: PageId | null; }
 const { locale } = Astro.props;
 const t = getDictionary(locale).collection;
 const home = pathFor('home', locale);
 ---
-<footer class="collection-footer"><div class="container footer-inner"><a class="footer-brand" href={home}><span set:html={logo} /> openagentix<span class="footer-dot">.</span></a><p>{t.note}</p><nav aria-label={t.navAbout}><a href={`${home}#products`}>{t.navProjects}</a><a href={BLOG_URL}>{t.navNews}</a><a href={GITHUB_ORG}>GitHub ↗</a></nav><small>OPENAGENTIX © {new Date().getUTCFullYear()}</small></div></footer>
+<footer class="collection-footer"><div class="container footer-inner"><a class="footer-brand" href={home}><span set:html={logo} /> openagentix<span class="footer-dot">.</span></a><p>{t.note}</p><nav aria-label={t.navAbout}><a href={`${home}#products`}>{t.navProjects}</a><a href={BLOG_URL}>{t.navNews}</a><a href={GITHUB_PROFILE}>GitHub ↗</a></nav><small>OPENAGENTIX © {new Date().getUTCFullYear()}</small></div></footer>
 <style>
 .collection-footer{border-top:1px solid var(--border);padding:3rem 0;background:var(--bg)}.footer-inner{display:grid;grid-template-columns:1fr auto;gap:1rem 2rem;align-items:center}.footer-brand{display:inline-flex;align-items:center;gap:.55rem;text-decoration:none;font-weight:800;color:var(--text);font-size:1.1rem}.footer-brand :global(svg){width:28px;height:28px}.footer-dot{color:var(--accent);margin-left:-.5rem}.footer-inner p{color:var(--text-faint);font-size:.85rem;max-width:40rem;grid-column:1;grid-row:2}.footer-inner nav{display:flex;gap:1.5rem;grid-column:2;grid-row:1}.footer-inner nav a{color:var(--text-muted);text-decoration:none;font-size:.85rem}.footer-inner small{grid-column:2;color:var(--text-faint);font:10px var(--font-mono);letter-spacing:.1em;text-align:right}@media(max-width:650px){.footer-inner{display:flex;align-items:flex-start;flex-direction:column}.footer-inner nav{flex-wrap:wrap}.footer-inner small{text-align:left}}
 </style>

@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import type { Locale } from '../../i18n/config';
+import { getDictionary } from '../../i18n/translate';
+import { DISPLAY_HUB_URL } from '../../project';
+import '../../styles/collection.css';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = getDictionary(locale).collection;
+---
+<Base locale={locale} page="wearables" title="OpenDisplayHub — OpenAgentix" description={t.wearablesIntro}>
+  <section class="container wearables">
+    <p class="collection-label">{t.wearablesEyebrow}</p>
+    <h1>{t.wearablesTitle}</h1>
+    <p class="intro">{t.wearablesIntro}</p>
+    <div class="actions">
+      <a class="collection-button primary" href={DISPLAY_HUB_URL}>{t.wearablesOpen}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+      <a class="collection-button subtle" href="https://github.com/weisser-dev/opendisplayhub">{t.wearablesSource}<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </div>
+    <div class="details">
+      <article><h2>{t.wearablesAppsTitle}</h2><p>{t.wearablesAppsBody}</p></article>
+      <article><h2>{t.wearablesStorageTitle}</h2><p>{t.wearablesStorageBody}</p></article>
+    </div>
+    <p class="independent">{t.wearablesIndependent}</p>
+  </section>
+</Base>
+<style>
+  .wearables { padding-block: clamp(4rem, 9vw, 8rem); }
+  h1 { max-width: 13ch; font-size: clamp(3.2rem, 7vw, 6.5rem); letter-spacing: -.065em; line-height: 1; margin: 1.5rem 0; }
+  .intro { max-width: 42rem; color: var(--text-muted); font-size: clamp(1rem, 1.5vw, 1.2rem); line-height: 1.7; }
+  .actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+  .details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: clamp(4rem, 8vw, 7rem); }
+  article { padding: 1.6rem; border: 1px solid var(--border); border-radius: .9rem; background: var(--surface); }
+  article h2 { font-size: 1.3rem; margin: 0 0 .8rem; }
+  article p, .independent { color: var(--text-muted); line-height: 1.7; }
+  article p { margin: 0; }
+  .independent { margin-top: 2rem; font-size: .8rem; }
+  @media (max-width: 700px) { .details { grid-template-columns: 1fr; } }
+</style>

@@ -6,6 +6,8 @@ export const BLOG_URL = 'https://blog.openagentix.si/';
 export const OWN_HOSTS = ['openagentix.si', 'www.openagentix.si', 'demo.openagentix.si', 'blog.openagentix.si'] as const;
 /** Public contact address (questions go to GitHub Discussions first). */
 export const CONTACT_EMAIL = 'info@openagentix.si';
+export const GITHUB_PROFILE = 'https://github.com/weisser-dev';
+export const DISPLAY_HUB_URL = 'https://weisser-dev.github.io/opendisplayhub/';
 export const GITHUB_ORG = 'https://github.com/open-agentix';
 
 export const repos = {
