@@ -8,7 +8,7 @@ sidebar:
     variant: caution
 ---
 
-The API is described by [`openapi.yaml`](https://github.com/open-agentix/open-agentix/blob/main/openapi.yaml)
+The API is described by [`openapi.yaml`](https://github.com/weisser-dev/open-agentix/blob/main/openapi.yaml)
 (OpenAPI 3.1) in the platform repository. The API schemas are written with zod and exported as
 OpenAPI 3.1; the file is committed, so the reference can be built here without contacting a server.
 A rendered reference on this site is planned for 1.0.

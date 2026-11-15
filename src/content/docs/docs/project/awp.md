@@ -11,7 +11,7 @@ tool permissions), under which governance (ownership, approvals, data classifica
 audit records it leaves behind. It is a specification, not a platform. It is developed in the open
 by the same project as openagentix, in its own repository and with its own website:
 
-- Specification and repository: [open-agentix/agenticWorkflowProtocol.org](https://github.com/open-agentix/agenticWorkflowProtocol.org)
+- Specification and repository: [weisser-dev/agenticWorkflowProtocol.org](https://github.com/weisser-dev/agenticWorkflowProtocol.org)
 - Website: [agenticworkflowprotocol.org](https://agenticworkflowprotocol.org/)
 
 ## Status

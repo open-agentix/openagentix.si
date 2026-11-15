@@ -9,7 +9,7 @@ import { Aside } from '@astrojs/starlight/components';
 
 The `open-agentix` chart (0.2.1, app version 0.1.0) is designed to install a complete stack with one
 command (bundled PostgreSQL and optional Valkey, generated credentials, demo and air-gapped modes).
-The chart lives in [open-agentix/open-agentix-helm](https://github.com/open-agentix/open-agentix-helm).
+The chart lives in [weisser-dev/open-agentix-helm](https://github.com/weisser-dev/open-agentix-helm).
 Value names may still change before 1.0; the chart's `values.yaml` is authoritative.
 
 <Aside type="caution" title="Status">
@@ -34,7 +34,7 @@ Value names may still change before 1.0; the chart's `values.yaml` is authoritat
 From a checkout of the chart repository:
 
 ```sh
-git clone https://github.com/open-agentix/open-agentix-helm.git
+git clone https://github.com/weisser-dev/open-agentix-helm.git
 cd open-agentix-helm
 helm install oax ./charts/open-agentix -n openagentix --create-namespace
 ```

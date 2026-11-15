@@ -8,7 +8,7 @@ export const OWN_HOSTS = ['openagentix.si', 'www.openagentix.si', 'demo.openagen
 export const CONTACT_EMAIL = 'info@openagentix.si';
 export const GITHUB_PROFILE = 'https://github.com/weisser-dev';
 export const DISPLAY_HUB_URL = 'https://weisser-dev.github.io/opendisplayhub/';
-export const GITHUB_ORG = 'https://github.com/open-agentix';
+export const GITHUB_ORG = GITHUB_PROFILE;
 
 export const repos = {
   platform: { name: 'open-agentix', url: `${GITHUB_ORG}/open-agentix` },
