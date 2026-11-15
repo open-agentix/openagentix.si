@@ -16,7 +16,7 @@ const date = (value: string) => new Intl.DateTimeFormat(locale === 'de' ? 'de-DE
 const products = [
   { number: '01', name: 'OpenGlassUI', category: t.glassCategory, icon: '◉', description: t.glassDescription, url: 'https://github.com/weisser-dev/openglassui', website: 'https://weisser-dev.github.io/openglassui/', state: t.active, license: t.openSource, className: 'glass' },
   { number: '02', name: 'Awesome OpenCode', category: t.awesomeCategory, icon: '✳', description: t.awesomeDescription, url: 'https://github.com/weisser-dev/awesome-opencode', website: null, state: t.active, license: t.openSource, className: 'awesome' },
-  { number: '03', name: 'OpenDisplayHub', category: t.displayCategory, icon: '', description: t.displayDescription, url: 'https://github.com/weisser-dev/opendisplayhub', website: pathFor('wearables', locale), state: t.active, license: t.openSource, className: 'display' },
+  { number: '03', name: 'OpenDisplayHub', category: t.displayCategory, icon: '', description: t.displayDescription, url: 'https://github.com/weisser-dev/opendisplayhub', website: pathFor('wearables', locale), state: t.active, license: t.openSource, className: 'display-hub' },
   { number: '04', name: 'Open Model Prism', category: t.prismCategory, icon: '◇', description: t.prismDescription, url: 'https://github.com/weisser-dev/open-model-prism', website: 'https://weisser-dev.github.io/open-model-prism/', state: t.archived, license: t.sourceAvailable, className: 'prism' },
 ];
 ---
@@ -39,7 +39,7 @@ const products = [
     <div class="section-heading"><div><p class="collection-label">{t.projectsEyebrow}</p><h2>{t.projectsTitle}</h2></div><p>{t.projectsIntro}</p></div>
     <div class="products-grid">
       {products.map((product) => <article class:list={['product-card', product.className]}>
-        <div class="product-top"><span class="product-icon" aria-hidden="true">{product.className === 'display' ? <svg viewBox="0 0 32 32" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="26" height="16" rx="5"/><path d="M8 16h16M16 12v8"/></svg> : product.icon}</span><span class:list={['product-state', { archived: product.state === t.archived }]}><span></span>{product.state}</span></div>
+        <div class="product-top"><span class="product-icon" aria-hidden="true">{product.className === 'display-hub' ? <svg viewBox="0 0 32 32" width="27" height="27" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="26" height="16" rx="5"/><path d="M8 16h16M16 12v8"/></svg> : product.icon}</span><span class:list={['product-state', { archived: product.state === t.archived }]}><span></span>{product.state}</span></div>
         {product.className === 'glass' && <figure class="product-art"><img src="/images/wearable-agents-cover.jpg" alt="" loading="lazy" width="1672" height="941" /><figcaption>{t.conceptArt}</figcaption></figure>}
         <div class="product-copy"><p class="product-category">{product.category}</p><h3>{product.name}</h3><p>{product.description}</p></div>
         <div class="product-bottom"><span>{product.license}</span><div class="product-links">{product.website && <a href={product.website} aria-label={`${t.website}: ${product.name}`}>{t.website} <span>↗</span></a>}<a href={product.url} aria-label={`${t.code}: ${product.name}`}>{t.code} <span>↗</span></a></div></div>
