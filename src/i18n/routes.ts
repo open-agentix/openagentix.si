@@ -1,7 +1,7 @@
 import { defaultLocale, isLiveLocale, liveLocales, localeInfo, type Locale } from './config';
 
 /** Pages that exist in every live locale (the docs are handled by Starlight). */
-export const pageIds = ['home', 'demo', 'docs'] as const;
+export const pageIds = ['home', 'demo', 'docs', 'wearables'] as const;
 export type PageId = (typeof pageIds)[number];
 
 /** Localised slugs. A missing entry falls back to the English slug. */
@@ -9,6 +9,7 @@ const slugs: Record<PageId, Partial<Record<Locale, string>> & { en: string }> = 
   home: { en: '' },
   demo: { en: 'demo' },
   docs: { en: 'docs' },
+  wearables: { en: 'wearables' },
 };
 
 export function slugFor(page: PageId, locale: Locale): string {
