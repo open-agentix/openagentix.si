@@ -1,7 +1,7 @@
 # Governance
 
 This repository follows the governance of the openagentix project, described in
-[`GOVERNANCE.md` of the platform repository](https://github.com/open-agentix/open-agentix/blob/main/GOVERNANCE.md)
+[`GOVERNANCE.md` of the platform repository](https://github.com/weisser-dev/open-agentix/blob/main/GOVERNANCE.md)
 and summarised on the website under [Docs → Project → Governance](https://openagentix.si/docs/project/governance/).
 
 ## Built by an agent

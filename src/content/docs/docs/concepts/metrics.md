@@ -40,5 +40,5 @@ Grafana Tempo, Jaeger, Langfuse and Arize Phoenix are in the guide; statements a
 are vendor behaviour as of October 2026 and can change.
 
 The full reference (span names, attribute table, configuration, air-gapped rules) is
-[`docs/observability.md`](https://github.com/open-agentix/open-agentix/blob/main/docs/observability.md)
+[`docs/observability.md`](https://github.com/weisser-dev/open-agentix/blob/main/docs/observability.md)
 in the repository.

@@ -29,9 +29,9 @@ same across the project.
 
 | Repository | Content |
 | --- | --- |
-| [open-agentix](https://github.com/open-agentix/open-agentix) | platform: API, worker, console, packages |
-| [open-agentix-helm](https://github.com/open-agentix/open-agentix-helm) | Helm chart |
-| [openagentix.si](https://github.com/open-agentix/openagentix.si) | this website and the docs |
+| [open-agentix](https://github.com/weisser-dev/open-agentix) | platform: API, worker, console, packages |
+| [open-agentix-helm](https://github.com/weisser-dev/open-agentix-helm) | Helm chart |
+| [openagentix.si](https://github.com/weisser-dev/openagentix.si) | this website and the docs |
 
 ## Documentation
 

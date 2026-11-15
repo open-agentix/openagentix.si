@@ -2,7 +2,7 @@
 
 The OpenAgentix website brings together independently maintained projects, including OpenGlassUI, Awesome OpenCode and the archived, source-available Open Model Prism. Each project retains its own repository, license and maintenance status.
 
-The site and its documentation are built with Astro. News and articles live in the separate `open-agentix/blog.openagentix.si` repository; their existing publication schedule and URLs are preserved. The homepage displays a snapshot of the four most recent published articles, refreshed by the website build from the public blog feed.
+The site and its documentation are built with Astro. The production site is built from this repository’s `main` branch by the `openagentix-migration` Cloudflare Pages project and served at `openagentix.si` and its configured aliases. GitHub Pages is a separate deployment. News and articles live in the separate `weisser-dev/blog.openagentix.si` repository; their existing publication schedule and URLs are preserved. The homepage displays a snapshot of the four most recent published articles, refreshed by the website build from the public blog feed.
 
 Changes follow the repository's review process described in [governance](GOVERNANCE.md).
 
@@ -45,8 +45,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md): DCO sign-off, Conventional Commits, SemV
 with tests. Please follow the [Code of Conduct](CODE_OF_CONDUCT.md) and report security issues as
 described in [SECURITY.md](SECURITY.md).
 
-Questions and discussion: [GitHub Discussions](https://github.com/open-agentix/openagentix.si/discussions),
-[Issues](https://github.com/open-agentix/openagentix.si/issues) or info@openagentix.si.
+Questions and discussion: [GitHub Discussions](https://github.com/weisser-dev/openagentix.si/discussions),
+[Issues](https://github.com/weisser-dev/openagentix.si/issues) or info@openagentix.si.
 
 ## Licence
 

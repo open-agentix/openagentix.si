@@ -6,7 +6,7 @@ sidebar:
 ---
 
 This is a summary; the full text is `GOVERNANCE.md` in the
-[platform repository](https://github.com/open-agentix/open-agentix).
+[platform repository](https://github.com/weisser-dev/open-agentix).
 
 ## Built by an agent
 
@@ -39,8 +39,8 @@ This is about how the project is developed. The runtime approval of agent action
 in `agents.md`) is a separate product feature and is unchanged.
 
 **How to verify:** the pull request history shows who authored, reviewed and merged each change and
-keeps the review comments; the [ADRs](https://github.com/open-agentix/open-agentix/tree/main/docs/adr)
-record the significant decisions; the [changelog](https://github.com/open-agentix/open-agentix/blob/main/CHANGELOG.md) lists what shipped in each release.
+keeps the review comments; the [ADRs](https://github.com/weisser-dev/open-agentix/tree/main/docs/adr)
+record the significant decisions; the [changelog](https://github.com/weisser-dev/open-agentix/blob/main/CHANGELOG.md) lists what shipped in each release.
 
 ## Roles
 
@@ -66,5 +66,5 @@ Code is licensed under Apache-2.0. The documentation on this site is licensed un
 
 All participants follow the Contributor Covenant 2.1. Security issues are reported privately
 through GitHub's private vulnerability reporting ("Report a vulnerability"), never by e-mail.
-Questions and discussion belong in [GitHub Discussions](https://github.com/open-agentix/open-agentix/discussions)
-and [Issues](https://github.com/open-agentix/open-agentix/issues); the general contact is info@openagentix.si.
+Questions and discussion belong in [GitHub Discussions](https://github.com/weisser-dev/open-agentix/discussions)
+and [Issues](https://github.com/weisser-dev/open-agentix/issues); the general contact is info@openagentix.si.

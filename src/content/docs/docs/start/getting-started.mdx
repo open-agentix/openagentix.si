@@ -19,7 +19,7 @@ from the repository checkout. There is no published release image yet.
 1. Clone the platform repository and install dependencies (Node.js 22 LTS, pnpm):
 
    ```sh
-   git clone https://github.com/open-agentix/open-agentix.git
+   git clone https://github.com/weisser-dev/open-agentix.git
    cd open-agentix
    pnpm install --frozen-lockfile
    pnpm build
@@ -80,7 +80,7 @@ The Compose setup builds and starts PostgreSQL, the API (control node, port 8080
 console (port 3000). There is no `.env.example`; the defaults live in `docker-compose.yml`:
 
 ```sh
-git clone https://github.com/open-agentix/open-agentix.git
+git clone https://github.com/weisser-dev/open-agentix.git
 cd open-agentix
 docker compose up --build -d
 scripts/demo.sh        # seeds the cve-triage example and sends a signed webhook
